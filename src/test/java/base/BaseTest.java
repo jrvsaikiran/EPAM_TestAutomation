@@ -23,15 +23,20 @@ import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
-    public static WebDriver driver;
+
+    public BaseTest(WebDriver driver){
+        this.driver = SingletonPattern.getInstance().method();
+
+    }
+
     public ExtentHtmlReporter htmlReporter;
     public ExtentReports extent;
     public ExtentTest logger;
 
+public  static WebDriver driver = SingletonPattern.getInstance().method();
 
     @BeforeTest
     public void setUp() {
-
         htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Automation.html");
         htmlReporter.config().setEncoding("UTF-8");
         htmlReporter.config().setDocumentTitle("Automation Report");
@@ -47,7 +52,7 @@ public class BaseTest {
     @Parameters({"browserName"})
     public void tearDown(String browser, Method method) {
         logger = extent.createTest(method.getName());
-        getDriver(browser);
+        getDriver("chrome");
         driver.get(Constants.url);
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 

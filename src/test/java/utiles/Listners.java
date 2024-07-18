@@ -1,33 +1,46 @@
 package utiles;
 
 import base.BaseTest;
+import base.SingletonPattern;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.testng.IAnnotationTransformer;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.annotations.ITestAnnotation;
-import org.testng.internal.BaseTestMethod;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Random;
 
-public class Listners implements ITestListener, IAnnotationTransformer {
+
+
+public class Listners extends BaseTest implements ITestListener, IAnnotationTransformer {
+
+
+    public Listners(WebDriver driver) {
+        super(driver);
+    }
 
     public void onTestStart(ITestResult result) {
+        System.out.println("Listners onTestStart");
 
     }
 
     public void onTestSuccess(ITestResult result) {
+        System.out.println("Listners onTestSuccess");
 
     }
     public void onTestFailure(ITestResult result) {
-        File source = ((TakesScreenshot) BaseTest.driver).getScreenshotAs(OutputType.FILE);
-        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator + result.getMethod().getMethodName()+".png";
+        Random random = new Random();
+        int i = random.nextInt();
+        File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator + result.getMethod().getMethodName()+i+".png";
 
         try {
             FileUtils.copyFile(source, new File(destination));
@@ -37,15 +50,20 @@ public class Listners implements ITestListener, IAnnotationTransformer {
 
     }
     public void onTestSkipped(ITestResult result) {
+        System.out.println("Listners onTestSkipped");
 
     }
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
+        System.out.println("Listners onTestFailedButWithinSuccessPercentage");
 
     }
     public void onStart(ITestContext context) {
+        System.out.println("Listners onStart");
+
 
     }
     public void onFinish(ITestContext context) {
+        System.out.println("Listners onFinish");
 
     }
 

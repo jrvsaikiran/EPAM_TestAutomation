@@ -1,26 +1,33 @@
 package utiles;
 
 import base.BaseTest;
+import base.SingletonPattern;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public class ElementFetch {
+public class ElementFetch extends BaseTest {
 
+
+    public ElementFetch(WebDriver driver) {
+        super(driver);
+    }
 
     public WebElement getWebElement(String type, String value) {
+
         switch (type) {
             case "id":
-                return BaseTest.driver.findElement(By.id(value));
+                return driver.findElement(By.id(value));
             case "name":
-                return BaseTest.driver.findElement(By.name(value));
+                return driver.findElement(By.name(value));
             case "link":
-                return BaseTest.driver.findElement(By.linkText(value));
+                return driver.findElement(By.linkText(value));
             case "xpath":
-                return BaseTest.driver.findElement(By.xpath(value));
+                return driver.findElement(By.xpath(value));
             case "css":
-                return BaseTest.driver.findElement(By.cssSelector(value));
+                return driver.findElement(By.cssSelector(value));
             default:
                 return null;
         }
@@ -31,15 +38,15 @@ public class ElementFetch {
     public List<WebElement> getElements(String type, String value) {
         switch (type) {
             case "id":
-                return BaseTest.driver.findElements(By.id(value));
+                return driver.findElements(By.id(value));
             case "name":
-                return BaseTest.driver.findElements(By.name(value));
+                return driver.findElements(By.name(value));
             case "link":
-                return BaseTest.driver.findElements(By.linkText(value));
+                return driver.findElements(By.linkText(value));
             case "xpath":
-                return BaseTest.driver.findElements(By.xpath(value));
+                return driver.findElements(By.xpath(value));
             case "css":
-                return BaseTest.driver.findElements(By.cssSelector(value));
+                return driver.findElements(By.cssSelector(value));
             default:
                 return null;
         }
