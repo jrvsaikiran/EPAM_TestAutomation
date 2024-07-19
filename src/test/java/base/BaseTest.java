@@ -8,23 +8,20 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
 import dataprovider.DataProvide;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
-import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
-import pageobjects.LogInPageEle;
+import pageEvents.LogInPageEvents;
 import utiles.Constants;
 import utiles.ElementFetch;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
@@ -40,7 +37,7 @@ public class BaseTest {
 public  static WebDriver driver;
 
     @BeforeTest
-    public void setUp() {
+    public void beforeTest() {
         htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Automation.html");
         htmlReporter.config().setEncoding("UTF-8");
         htmlReporter.config().setDocumentTitle("Automation Report");
@@ -53,7 +50,7 @@ public  static WebDriver driver;
     }
 
     @BeforeMethod
-    public void tearDown( Method method) {
+    public void beforeMethod(Method method) {
         logger = extent.createTest(method.getName());
         getDriver("chrome");
         driver.get(Constants.url);
@@ -64,7 +61,7 @@ public  static WebDriver driver;
     }
 
     @AfterMethod
-    public void tearDownMethod(ITestResult result) {
+    public void afterMethod(ITestResult result) throws IOException {
         if (result.getStatus() == ITestResult.SUCCESS) {
             String methodName = result.getMethod().getMethodName();
             String logtext = "Test case : " + methodName + " Passed";
@@ -83,15 +80,13 @@ public  static WebDriver driver;
 
 
     @AfterTest
-    public void tearDownClass() {
+    public void afterTest() {
         extent.flush();
 
 
     }
 
     public static WebDriver getDriver(String str) {
-
-
         switch (str.toLowerCase()) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
@@ -123,22 +118,14 @@ public  static WebDriver driver;
     public void facebook(String a, String b) throws IOException {
         System.out.println(a.toString() + " --- " + b.toString());
 
-        ElementFetch fetch = new ElementFetch();
-        fetch.getWebElement("xpath", LogInPageEle.email_xpath,driver).sendKeys(a);
-        fetch.getWebElement("xpath", LogInPageEle.password_xpath,driver).sendKeys(b);
-        String pic = fetch.takeScreenShot(driver);
-        System.out.println(pic);
+        LogInPageEvents login = new LogInPageEvents();
+        login.enter();
+
+        String pic = new ElementFetch().takeScreenShot(driver);
 
         logger.info("Image ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
+        logger.log(Status.PASS,"yes ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
 
-        Assert.assertEquals(3,2);
-
-        for (String[] strings : DataProvide.getList) {
-            for (String string : strings) {
-                System.out.println(string);
-            }
-
-        }
     }
 
 

@@ -1,6 +1,7 @@
 package pageEvents;
 
 import base.BaseTest;
+import dataprovider.DataProvide;
 import pageobjects.LogInPageEle;
 import utiles.ElementFetch;
 
@@ -12,8 +13,12 @@ public class LogInPageEvents extends BaseTest {
     }
 
     public void enter() {
-//        ElementFetch fetch = new ElementFetch();
-//        fetch.getWebElement("xpath", LogInPageEle.email_xpath).sendKeys("sai@edd");
-//        fetch.getWebElement("xpath", LogInPageEle.password_xpath).sendKeys("dfewfefrf");
+        ElementFetch fetch = new ElementFetch();
+        for (String[] strings : DataProvide.getList) {
+            fetch.getWebElement("xpath", LogInPageEle.email_xpath, driver).sendKeys(strings[0]);
+            fetch.getWebElement("xpath", LogInPageEle.password_xpath, driver).sendKeys(strings[1]);
+        }
+
+
     }
 }
