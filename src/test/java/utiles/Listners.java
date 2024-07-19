@@ -1,6 +1,9 @@
 package utiles;
 
 import base.BaseTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.Markup;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -15,16 +18,14 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Base64;
 import java.util.Random;
 
+import static base.BaseTest.driver;
+import static base.BaseTest.logger;
 
 
-public class Listners extends BaseTest implements ITestListener, IAnnotationTransformer {
-
-
-    public Listners(WebDriver driver) {
-        super();
-    }
+public class Listners implements ITestListener, IAnnotationTransformer {
 
     public void onTestStart(ITestResult result) {
         System.out.println("Listners onTestStart");
@@ -38,13 +39,12 @@ public class Listners extends BaseTest implements ITestListener, IAnnotationTran
     public void onTestFailure(ITestResult result) {
         Random random = new Random();
         int i = random.nextInt();
-        File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator + result.getMethod().getMethodName()+i+".png";
-
+        ElementFetch fetch = new ElementFetch();
+        String pic = fetch.takeScreenShot(driver);
         try {
-            FileUtils.copyFile(source, new File(destination));
+            logger.info(result.getMethod().getMethodName()+" Failed case ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
         } catch (IOException e) {
-            throw new RuntimeException("Unable to take screen shot"+ e.getLocalizedMessage());
+            throw new RuntimeException(e);
         }
 
     }

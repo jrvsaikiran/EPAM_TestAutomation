@@ -32,9 +32,9 @@ public class BaseTest {
     public BaseTest(){
           }
 
-    public ExtentHtmlReporter htmlReporter;
-    public ExtentReports extent;
-    public ExtentTest logger;
+    public static ExtentHtmlReporter htmlReporter;
+    public static ExtentReports extent;
+    public static ExtentTest logger;
     public ITestResult result;
 
 public  static WebDriver driver;
@@ -129,14 +129,9 @@ public  static WebDriver driver;
         String pic = fetch.takeScreenShot(driver);
         System.out.println(pic);
 
-        logger.info(pic,MediaEntityBuilder.createScreenCaptureFromPath(pic).build());
-//         logger.log(Status.PASS, "face", MediaEntityBuilder.createScreenCaptureFromPath(pic, "efefre").build());
+        logger.info("Image ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
 
-        byte[] bytes = FileUtils.readFileToByteArray(new File(pic));
-        String bytePic = Base64.getEncoder().encodeToString(bytes);
-        logger.info("Image ",MediaEntityBuilder.createScreenCaptureFromBase64String(bytePic).build());
-
-
+        Assert.assertEquals(3,2);
 
         for (String[] strings : DataProvide.getList) {
             for (String string : strings) {

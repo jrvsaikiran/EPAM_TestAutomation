@@ -7,6 +7,7 @@ import org.testng.ITestResult;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 
@@ -40,14 +41,17 @@ public class ElementFetch extends BaseTest {
         Random random = new Random();
         int i = random.nextInt();
         File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator + i+".png";
+        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator + i + ".png";
 
+        String bytePic;
         try {
-            FileUtils.copyFile(source, new File(destination));
+            FileUtils.copyFile(source, new File(destination));  //take screnshot and stored
+            byte[] bytes = FileUtils.readFileToByteArray(new File(destination));    //convert to base64
+            bytePic = Base64.getEncoder().encodeToString(bytes);
         } catch (IOException e) {
-            throw new RuntimeException("Unable to take screen shot"+ e.getLocalizedMessage());
+            throw new RuntimeException("Unable to take screen shot" + e.getLocalizedMessage());
         }
-        return destination;
+        return bytePic;
     }
 
 
