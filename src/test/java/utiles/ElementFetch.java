@@ -1,21 +1,23 @@
 package utiles;
 
 import base.BaseTest;
-import base.SingletonPattern;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
+import org.testng.ITestResult;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 public class ElementFetch extends BaseTest {
 
 
-    public ElementFetch(WebDriver driver) {
-        super(driver);
+    public ElementFetch() {
+        super();
     }
 
-    public WebElement getWebElement(String type, String value) {
+    public WebElement getWebElement(String type, String value, WebDriver driver) {
 
         switch (type) {
             case "id":
@@ -33,6 +35,22 @@ public class ElementFetch extends BaseTest {
         }
 
     }
+
+    public String takeScreenShot(WebDriver driver) {
+        Random random = new Random();
+        int i = random.nextInt();
+        File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator + i+".png";
+
+        try {
+            FileUtils.copyFile(source, new File(destination));
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to take screen shot"+ e.getLocalizedMessage());
+        }
+        return destination;
+    }
+
+
 
 
     public List<WebElement> getElements(String type, String value) {

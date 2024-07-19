@@ -1,39 +1,43 @@
 package base;
 
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.*;
 import com.aventstack.extentreports.markuputils.ExtentColor;
 import com.aventstack.extentreports.markuputils.Markup;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
+import dataprovider.DataProvide;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.testng.Assert;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import pageobjects.LogInPageEle;
 import utiles.Constants;
+import utiles.ElementFetch;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
 
-    public BaseTest(WebDriver driver){
-        this.driver = SingletonPattern.getInstance().method();
-
-    }
+    public BaseTest(){
+          }
 
     public ExtentHtmlReporter htmlReporter;
     public ExtentReports extent;
     public ExtentTest logger;
+    public ITestResult result;
 
-public  static WebDriver driver = SingletonPattern.getInstance().method();
+public  static WebDriver driver;
 
     @BeforeTest
     public void setUp() {
@@ -49,8 +53,7 @@ public  static WebDriver driver = SingletonPattern.getInstance().method();
     }
 
     @BeforeMethod
-    @Parameters({"browserName"})
-    public void tearDown(String browser, Method method) {
+    public void tearDown( Method method) {
         logger = extent.createTest(method.getName());
         getDriver("chrome");
         driver.get(Constants.url);
@@ -93,22 +96,54 @@ public  static WebDriver driver = SingletonPattern.getInstance().method();
             case "chrome":
                 WebDriverManager.chromedriver().setup();
                 driver = new ChromeDriver();
+                driver.manage().window().maximize();
                 return driver;
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver();
+                driver.manage().window().maximize();
                 return driver;
             case "ie":
                 WebDriverManager.iedriver().setup();
                 driver = new InternetExplorerDriver();
+                driver.manage().window().maximize();
                 return driver;
             case "safari":
                 WebDriverManager.safaridriver().setup();
                 driver = new SafariDriver();
+                driver.manage().window().maximize();
                 return driver;
         }
-        driver.manage().window().maximize();
+
         return driver;
+    }
+
+
+    @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class,invocationCount = 1)
+    public void facebook(String a, String b) throws IOException {
+        System.out.println(a.toString() + " --- " + b.toString());
+
+        ElementFetch fetch = new ElementFetch();
+        fetch.getWebElement("xpath", LogInPageEle.email_xpath,driver).sendKeys(a);
+        fetch.getWebElement("xpath", LogInPageEle.password_xpath,driver).sendKeys(b);
+        String pic = fetch.takeScreenShot(driver);
+        System.out.println(pic);
+
+        logger.info(pic,MediaEntityBuilder.createScreenCaptureFromPath(pic).build());
+//         logger.log(Status.PASS, "face", MediaEntityBuilder.createScreenCaptureFromPath(pic, "efefre").build());
+
+        byte[] bytes = FileUtils.readFileToByteArray(new File(pic));
+        String bytePic = Base64.getEncoder().encodeToString(bytes);
+        logger.info("Image ",MediaEntityBuilder.createScreenCaptureFromBase64String(bytePic).build());
+
+
+
+        for (String[] strings : DataProvide.getList) {
+            for (String string : strings) {
+                System.out.println(string);
+            }
+
+        }
     }
 
 

@@ -1,7 +1,6 @@
 package utiles;
 
 import base.BaseTest;
-import base.SingletonPattern;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -24,7 +23,7 @@ public class Listners extends BaseTest implements ITestListener, IAnnotationTran
 
 
     public Listners(WebDriver driver) {
-        super(driver);
+        super();
     }
 
     public void onTestStart(ITestResult result) {
