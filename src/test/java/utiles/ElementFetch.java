@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 import java.util.Random;
+import static base.BaseTest.driver;
+import static base.BaseTest.logger;
 
 public class ElementFetch extends BaseTest {
 
@@ -18,19 +20,19 @@ public class ElementFetch extends BaseTest {
         super();
     }
 
-    public WebElement getWebElement(String type, String value, WebDriver driver) {
+    public WebElement getWebElement(String type, String value) {
 
         switch (type) {
             case "id":
-                return driver.findElement(By.id(value));
+                return BaseTest.driver.findElement(By.id(value));
             case "name":
-                return driver.findElement(By.name(value));
+                return BaseTest.driver.findElement(By.name(value));
             case "link":
-                return driver.findElement(By.linkText(value));
+                return BaseTest.driver.findElement(By.linkText(value));
             case "xpath":
-                return driver.findElement(By.xpath(value));
+                return BaseTest.driver.findElement(By.xpath(value));
             case "css":
-                return driver.findElement(By.cssSelector(value));
+                return BaseTest.driver.findElement(By.cssSelector(value));
             default:
                 return null;
         }
