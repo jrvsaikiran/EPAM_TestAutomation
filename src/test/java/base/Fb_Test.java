@@ -23,4 +23,16 @@ public class Fb_Test extends BaseTest{
         logger.log(Status.PASS,"yes ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
 
     }
+    @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class,invocationCount = 1)
+    public static void tryFB2(String a,String b) throws IOException {
+        System.out.println(a.toString() + " --- " + b.toString());
+
+        LogInPageEvents login = new LogInPageEvents();
+        login.enter(a,b);
+
+        String pic = new ElementFetch().takeScreenShot();
+        logger.info("Image ", MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
+        logger.log(Status.PASS,"yes ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
+
+    }
 }
