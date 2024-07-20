@@ -69,7 +69,7 @@ public class BaseTest {
             logger.log(Status.FAIL, m);
         }
 
-        driver.quit();
+        SingletonPattern.quit();
 
     }
 
@@ -81,26 +81,10 @@ public class BaseTest {
 
     }
 
-    public static WebDriver getDriver(String str) {
-        switch (str.toLowerCase()) {
-            case "chrome":
-                WebDriverManager.chromedriver().setup();
-                driver = new ChromeDriver();
-                driver.manage().window().maximize();
-                return driver;
-            case "firefox":
-                WebDriverManager.firefoxdriver().setup();
-                driver = new FirefoxDriver();
-                driver.manage().window().maximize();
-                return driver;
-            case "ie":
-                WebDriverManager.iedriver().setup();
-                driver = new InternetExplorerDriver();
-                driver.manage().window().maximize();
-                return driver;
-            case "safari":
-                WebDriverManager.safaridriver().setup();
-                driver = new SafariDriver();
+    public static WebDriver getDriver(String browser) {
+        switch (browser.toLowerCase()) {
+            case "chrome", "firefox", "ie", "safari":
+                 driver = SingletonPattern.getInstance(browser).driver();
                 driver.manage().window().maximize();
                 return driver;
         }
