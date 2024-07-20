@@ -10,6 +10,7 @@
             <class name="base.Fb_Test">
                 <methods>
                     <include name="tryFB"/>
+                    <include name="tryFB2"/>
                 </methods>
             </class>
         </classes>
