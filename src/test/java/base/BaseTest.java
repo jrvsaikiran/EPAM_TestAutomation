@@ -26,15 +26,11 @@ import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
 
-    public BaseTest(){
-          }
-
     public static ExtentHtmlReporter htmlReporter;
     public static ExtentReports extent;
     public static ExtentTest logger;
-    public ITestResult result;
 
-public  static WebDriver driver;
+     public static WebDriver driver;
 
     @BeforeTest
     public void beforeTest() {
@@ -57,7 +53,6 @@ public  static WebDriver driver;
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
 
-
     }
 
     @AfterMethod
@@ -66,12 +61,12 @@ public  static WebDriver driver;
             String methodName = result.getMethod().getMethodName();
             String logtext = "Test case : " + methodName + " Passed";
             Markup m = MarkupHelper.createLabel(logtext, ExtentColor.GREEN);
-            logger.log(Status.PASS,m);
-        }else {
+            logger.log(Status.PASS, m);
+        } else {
             String methodName = result.getMethod().getMethodName();
             String logtext = "Test case : " + methodName + " Failed";
             Markup m = MarkupHelper.createLabel(logtext, ExtentColor.RED);
-            logger.log(Status.FAIL,m);
+            logger.log(Status.FAIL, m);
         }
 
         driver.quit();
@@ -114,17 +109,17 @@ public  static WebDriver driver;
     }
 
 
-    @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class,invocationCount = 1)
+    @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class, invocationCount = 1)
     public void facebook(String a, String b) throws IOException {
         System.out.println(a.toString() + " --- " + b.toString());
 
         LogInPageEvents login = new LogInPageEvents();
-        login.enter();
+        login.enter(a, b);
 
-        String pic = new ElementFetch().takeScreenShot(driver);
+        String pic = new ElementFetch().takeScreenShot();
 
-        logger.info("Image ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
-        logger.log(Status.PASS,"yes ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
+        logger.info("Image ", MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
+        logger.log(Status.PASS, "yes ", MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
 
     }
 

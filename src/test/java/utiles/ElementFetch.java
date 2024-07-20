@@ -1,9 +1,7 @@
 package utiles;
 
-import base.BaseTest;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-import org.testng.ITestResult;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,39 +9,33 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 import static base.BaseTest.driver;
-import static base.BaseTest.logger;
 
-public class ElementFetch extends BaseTest {
+public class ElementFetch  {
 
-
-    public ElementFetch() {
-        super();
-    }
-
-    public WebElement getWebElement(String type, String value) {
+    public static WebElement getWebElement(String type, String value) {
 
         switch (type) {
             case "id":
-                return BaseTest.driver.findElement(By.id(value));
+                return driver.findElement(By.id(value));
             case "name":
-                return BaseTest.driver.findElement(By.name(value));
+                return driver.findElement(By.name(value));
             case "link":
-                return BaseTest.driver.findElement(By.linkText(value));
+                return driver.findElement(By.linkText(value));
             case "xpath":
-                return BaseTest.driver.findElement(By.xpath(value));
+                return driver.findElement(By.xpath(value));
             case "css":
-                return BaseTest.driver.findElement(By.cssSelector(value));
+                return driver.findElement(By.cssSelector(value));
             default:
                 return null;
         }
 
     }
 
-    public String takeScreenShot(WebDriver driver) {
+    public String takeScreenShot() {
         Random random = new Random();
         int i = random.nextInt();
         File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator + i + ".png";
+        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator + i + ".jpeg";
 
         String bytePic;
         try {

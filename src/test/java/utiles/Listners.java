@@ -1,24 +1,15 @@
 package utiles;
 
-import base.BaseTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
-import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.markuputils.Markup;
-import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
 import org.testng.IAnnotationTransformer;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.annotations.ITestAnnotation;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.Base64;
 import java.util.Random;
 
 import static base.BaseTest.driver;
@@ -37,10 +28,8 @@ public class Listners implements ITestListener, IAnnotationTransformer {
 
     }
     public void onTestFailure(ITestResult result) {
-        Random random = new Random();
-        int i = random.nextInt();
         ElementFetch fetch = new ElementFetch();
-        String pic = fetch.takeScreenShot(driver);
+        String pic = fetch.takeScreenShot();
         try {
             logger.info(result.getMethod().getMethodName()+" Failed case ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
         } catch (IOException e) {

@@ -5,20 +5,13 @@ import dataprovider.DataProvide;
 import pageobjects.LogInPageEle;
 import utiles.ElementFetch;
 
-public class LogInPageEvents extends BaseTest {
+public class LogInPageEvents  {
 
-
-    public LogInPageEvents() {
-        super();
-    }
-
-    public void enter() {
+    public static void enter(String a, String b) {
         ElementFetch fetch = new ElementFetch();
-        for (String[] strings : DataProvide.getList) {
-            fetch.getWebElement("xpath", LogInPageEle.email_xpath).sendKeys(strings[0]);
-            fetch.getWebElement("xpath", LogInPageEle.password_xpath).sendKeys(strings[1]);
-        }
-
+            fetch.getWebElement("xpath", LogInPageEle.email_xpath).sendKeys(a);
+            fetch.getWebElement("xpath", LogInPageEle.password_xpath).sendKeys(b);
 
     }
+
 }

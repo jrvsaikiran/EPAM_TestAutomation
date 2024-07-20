@@ -9,21 +9,16 @@ import utiles.ElementFetch;
 
 import java.io.IOException;
 
-import static base.BaseTest.driver;
-import static base.BaseTest.logger;
-
-public class Fb_Test {
+public class Fb_Test extends BaseTest{
 
     @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class,invocationCount = 1)
-    public void tryFB(String a,String b) throws IOException {
+    public static void tryFB(String a,String b) throws IOException {
         System.out.println(a.toString() + " --- " + b.toString());
 
         LogInPageEvents login = new LogInPageEvents();
-        login.enter();
+        login.enter(a,b);
 
-        String pic = new ElementFetch().takeScreenShot(driver);
-        System.out.println(pic);
-
+        String pic = new ElementFetch().takeScreenShot();
         logger.info("Image ", MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
         logger.log(Status.PASS,"yes ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
 
