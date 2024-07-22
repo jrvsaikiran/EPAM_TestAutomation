@@ -47,18 +47,16 @@ public class BaseTest {
     }
 
     @Parameters("browserName")
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void beforeMethod(String browserName,Method method) {
         logger = extent.createTest(method.getName());
          nameOfBrowser = browserName;
         getDriver(browserName);
         driver.get(Constants.url);
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
-
-
     }
 
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void afterMethod(ITestResult result) throws IOException {
         if (result.getStatus() == ITestResult.SUCCESS) {
             String methodName = result.getMethod().getMethodName();
