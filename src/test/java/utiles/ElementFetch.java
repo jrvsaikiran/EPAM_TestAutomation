@@ -6,6 +6,7 @@ import org.openqa.selenium.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import static base.BaseTest.driver;
@@ -33,10 +34,10 @@ public class ElementFetch  {
     }
 
     public String takeScreenShot() {
-        Random random = new Random();
-        int i = random.nextInt();
+        Date date  = new Date();
+        long time = date.getTime();
         File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator +nameOfBrowser+ i + ".jpeg";
+        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator +nameOfBrowser+ time + ".jpeg";
 
         String bytePic;
         try {

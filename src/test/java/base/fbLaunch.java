@@ -11,8 +11,6 @@ import java.io.IOException;
 
 public class fbLaunch extends BaseTest{
 
-    //private static final ITestResult result = null;
-
     @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class)
     public static void fb_log(String a, String b) throws IOException, InterruptedException {
         System.out.println(a.toString() + " --- " + b.toString());
