@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite" parallel="methods" thread-count="3">
+    <listeners>
+        <listener class-name="utiles.Listners"></listener>
+    </listeners>
+    <test verbose="2" preserve-order="true"
+          name="C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/base/fbLaunch.java">
+        <parameter name="browserName" value="edge"></parameter>
+        <classes>
+            <class name="base.fbLaunch">
+                <methods>
+                    <include name="fb_log1"/>
+                    <include name="fb_log2"/>
+                    <include name="fb_log3"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

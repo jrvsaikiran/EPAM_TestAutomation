@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite"  >
+    <listeners>
+        <listener class-name="utiles.Listners"></listener>
+    </listeners>
+
+    <test name="chrome" >
+        <parameter name="browserName" value="chrome"></parameter>
+        <classes>
+            <class name="base.fbLaunch">
+                <methods>
+                    <include name="fb_log1"></include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="firefox">
+        <parameter name="browserName" value="firefox"></parameter>
+        <classes>
+            <class name="base.fbLaunch">
+                <methods>
+                   <include name="fb_log2"></include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+    <test name="edge">
+        <parameter name="browserName" value="edge"></parameter>
+        <classes>
+            <class name="base.fbLaunch">
+                <methods>
+                    <include name="fb_log3"></include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>
