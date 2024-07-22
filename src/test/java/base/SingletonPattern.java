@@ -3,9 +3,13 @@ package base;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 
 public class SingletonPattern {
@@ -40,19 +44,14 @@ public class SingletonPattern {
                 tlDriver.set(new ChromeDriver());
                 break;
             case "firefox":
-                WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions options = new FirefoxOptions();
-//                options.setHeadless(true);
-//                options.addArguments("--disable-gpu");
-//                options.addArguments("--disable-dev-shm-usage");
-//                options.addArguments("--no-sandbox");
-//                options.addArguments("--headless");
-//                options.setAcceptInsecureCerts(true);
+                options.setBrowserVersion("128");
                 tlDriver.set(new FirefoxDriver(options));
                 break;
-            case "ie":
-                WebDriverManager.iedriver().setup();
-                tlDriver.set(new InternetExplorerDriver());
+            case "edge":
+                EdgeOptions edgeOptions= new EdgeOptions();
+                edgeOptions.setBrowserVersion("126");
+                tlDriver.set(new EdgeDriver(edgeOptions));
                 break;
             case "safari":
                 WebDriverManager.safaridriver().setup();

@@ -9,6 +9,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 import static base.BaseTest.driver;
+import static base.BaseTest.nameOfBrowser;
 
 public class ElementFetch  {
 
@@ -35,7 +36,7 @@ public class ElementFetch  {
         Random random = new Random();
         int i = random.nextInt();
         File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator + i + ".jpeg";
+        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator +nameOfBrowser+ i + ".jpeg";
 
         String bytePic;
         try {

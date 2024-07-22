@@ -10,7 +10,7 @@
 <!--          name="C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/base/Fb_Test.java">-->
 <!--        <parameter name="browserName" value="chrome"></parameter>-->
 <!--        <classes>-->
-<!--            <class name="base.Fb_Test">-->
+<!--            <class name="base.fbLaunch">-->
 <!--                <methods>-->
 <!--                    <include name="tryFB"/>-->
 <!--                </methods>-->
@@ -22,7 +22,7 @@
           name="C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/base/Fb_Test1.java">
         <parameter name="browserName" value="firefox"></parameter>
         <classes>
-            <class name="base.Fb_Test">
+            <class name="base.fbLaunch">
                 <methods>
                     <include name="tryFB"/>
                 </methods>

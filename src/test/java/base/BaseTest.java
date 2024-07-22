@@ -31,6 +31,7 @@ public class BaseTest {
     public static ExtentTest logger;
 
      public static WebDriver driver;
+   public static String nameOfBrowser;
 
     @BeforeTest
     public void beforeTest() {
@@ -44,10 +45,12 @@ public class BaseTest {
         extent.setSystemInfo("Automation Tester", "Jrv Sai Kiran");
 
     }
-        @Parameters("browserName")
+
+    @Parameters("browserName")
     @BeforeMethod
     public void beforeMethod(String browserName,Method method) {
         logger = extent.createTest(method.getName());
+         nameOfBrowser = browserName;
         getDriver(browserName);
         driver.get(Constants.url);
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
@@ -83,7 +86,7 @@ public class BaseTest {
 
     public static WebDriver getDriver(String browser) {
         switch (browser.toLowerCase()) {
-            case "chrome", "firefox", "ie", "safari":
+            case "chrome", "firefox", "edge", "safari":
                  driver = SingletonPattern.getInstance(browser).driver();
                 driver.manage().window().maximize();
                 return driver;
@@ -93,7 +96,7 @@ public class BaseTest {
     }
 
 
-    @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class, invocationCount = 1)
+   // @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class, invocationCount = 1)
     public void facebook(String a, String b) throws IOException {
         System.out.println(a.toString() + " --- " + b.toString());
 
