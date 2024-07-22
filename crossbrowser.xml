@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite"  parallel="methods">
+    <listeners>
+        <listener class-name="utiles.Listners"></listener>
+    </listeners>
+
+
+<!--    <test verbose="2" preserve-order="true"  thread-count="3"-->
+<!--          name="C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/base/Fb_Test.java">-->
+<!--        <parameter name="browserName" value="chrome"></parameter>-->
+<!--        <classes>-->
+<!--            <class name="base.Fb_Test">-->
+<!--                <methods>-->
+<!--                    <include name="tryFB"/>-->
+<!--                </methods>-->
+<!--            </class>-->
+<!--        </classes>-->
+<!--    </test>-->
+
+    <test verbose="2" preserve-order="true"  thread-count="3"
+          name="C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/base/Fb_Test1.java">
+        <parameter name="browserName" value="firefox"></parameter>
+        <classes>
+            <class name="base.Fb_Test">
+                <methods>
+                    <include name="tryFB"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

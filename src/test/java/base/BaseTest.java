@@ -44,11 +44,11 @@ public class BaseTest {
         extent.setSystemInfo("Automation Tester", "Jrv Sai Kiran");
 
     }
-
+        @Parameters("browserName")
     @BeforeMethod
-    public void beforeMethod(Method method) {
+    public void beforeMethod(String browserName,Method method) {
         logger = extent.createTest(method.getName());
-        getDriver("chrome");
+        getDriver(browserName);
         driver.get(Constants.url);
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 

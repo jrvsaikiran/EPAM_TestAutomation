@@ -9,19 +9,19 @@ import utiles.ElementFetch;
 
 import java.io.IOException;
 
-public class Fb_Test extends BaseTest{
+public class Fb_Test2 extends BaseTest{
+
 
     @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class)
-    public static void chrome(String a, String b) throws IOException {
+    public static void firefox(String a, String b) throws IOException {
         System.out.println(a.toString() + " --- " + b.toString());
 
         LogInPageEvents login = new LogInPageEvents();
         login.enter(a,b);
 
         String pic = new ElementFetch().takeScreenShot();
-        logger.info("chrome ", MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
-        logger.log(Status.PASS,"chrome ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
+        logger.info("firefox ", MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
+        logger.log(Status.PASS,"fire ",MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
 
     }
-
 }
