@@ -9,6 +9,7 @@ import com.aventstack.extentreports.reporter.configuration.Theme;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
+import org.testng.log.TextFormatter;
 import pageEvents.LogInPageEvents;
 import utiles.Constants;
 import utiles.ElementFetch;
@@ -17,18 +18,29 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class BaseTest {
 
     public static ExtentHtmlReporter htmlReporter;
     public static ExtentReports extent;
-    public static ExtentTest logger;
-
-     public static WebDriver driver;
-   public static String nameOfBrowser;
+    public static ExtentTest extentLogs;
+    public static Logger logger;
+    public static FileHandler fileHandler;
+    public static WebDriver driver;
+    public static String nameOfBrowser;
 
     @BeforeTest
-    public void beforeTest() {
+    public void beforeTest() throws IOException {
+
+        fileHandler = new FileHandler("src/main/java/log.file");
+        logger= Logger.getLogger("java");
+        fileHandler.setFormatter(new TextFormatter());
+        logger.addHandler(fileHandler);
+        logger.info("BeforeTest is started");
+
         htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Automation.html");
         htmlReporter.config().setEncoding("UTF-8");
         htmlReporter.config().setDocumentTitle("Automation Report");
@@ -43,7 +55,8 @@ public class BaseTest {
     @Parameters("browserName")
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod(String browserName,Method method) {
-        logger = extent.createTest(method.getName());
+        logger.info("BeforeMethod is started");
+        extentLogs = extent.createTest(method.getName());
         nameOfBrowser = browserName;
         driver = SingletonPattern.getInstance(browserName).driver();
         driver.manage().window().maximize();
@@ -53,42 +66,29 @@ public class BaseTest {
 
     @AfterMethod(alwaysRun = true)
     public void afterMethod(ITestResult result) throws IOException {
+        logger.info("AfterMethod is started");
+        ITestResult iTestResult = result;
         if (result.getStatus() == ITestResult.SUCCESS) {
             String methodName = result.getMethod().getMethodName();
             String logtext = "Test case : " + methodName + " Passed";
             Markup m = MarkupHelper.createLabel(logtext, ExtentColor.GREEN);
-            logger.log(Status.PASS, m);
+            extentLogs.log(Status.PASS, m);
         } else {
             String methodName = result.getMethod().getMethodName();
             String logtext = "Test case : " + methodName + " Failed";
             Markup m = MarkupHelper.createLabel(logtext, ExtentColor.RED);
-            logger.log(Status.FAIL, m);
+            extentLogs.log(Status.FAIL, m);
         }
-
         SingletonPattern.quit();
-
     }
 
 
     @AfterTest
     public void afterTest() {
+        logger.info("AfterTest is started");
+        fileHandler.flush();
         extent.flush();
-    }
-
-
-    // @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class, invocationCount = 1)
-    public void facebook(String a, String b) throws Exception {
-        System.out.println(a.toString() + " --- " + b.toString());
-
-        LogInPageEvents login = new LogInPageEvents();
-        login.enter(a, b);
-
-        String pic = new ElementFetch().takeScreenShot();
-
-        logger.info("Image ", MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
-        logger.log(Status.PASS, "yes ", MediaEntityBuilder.createScreenCaptureFromBase64String(pic).build());
 
     }
-
 
 }

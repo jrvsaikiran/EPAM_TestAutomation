@@ -1,5 +1,6 @@
 package dataprovider;
 
+import base.BaseTest;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -10,7 +11,7 @@ import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.List;
 
-public class DataProvide {
+public class DataProvide extends BaseTest {
 
     public static List<String[]> getList;
 
@@ -41,6 +42,7 @@ public class DataProvide {
         }
         getList = Arrays.stream(testdata).toList();
 //        System.out.println("List " + list.get(1));
+        logger.info("Test Data is successfully read");
         return testdata;
     }
 
