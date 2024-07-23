@@ -14,7 +14,7 @@ import static base.BaseTest.nameOfBrowser;
 
 public class ElementFetch  {
 
-    public static WebElement getWebElement(String type, String value) {
+    public static WebElement getWebElement(String type, String value) throws Exception {
 
         switch (type) {
             case "id":
@@ -28,7 +28,7 @@ public class ElementFetch  {
             case "css":
                 return driver.findElement(By.cssSelector(value));
             default:
-                return null;
+                throw new Exception("Inavlid type:---> " + type);
         }
 
     }
@@ -53,7 +53,7 @@ public class ElementFetch  {
 
 
 
-    public List<WebElement> getElements(String type, String value) {
+    public List<WebElement> getElements(String type, String value) throws Exception {
         switch (type) {
             case "id":
                 return driver.findElements(By.id(value));
@@ -66,7 +66,7 @@ public class ElementFetch  {
             case "css":
                 return driver.findElements(By.cssSelector(value));
             default:
-                return null;
+                throw new Exception("Inavlid type: " + type);
         }
     }
 

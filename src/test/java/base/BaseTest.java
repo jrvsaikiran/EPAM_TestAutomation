@@ -6,13 +6,7 @@ import com.aventstack.extentreports.markuputils.Markup;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
-import dataprovider.DataProvide;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
-import org.openqa.selenium.safari.SafariDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import pageEvents.LogInPageEvents;
@@ -50,8 +44,9 @@ public class BaseTest {
     @BeforeMethod(alwaysRun = true)
     public void beforeMethod(String browserName,Method method) {
         logger = extent.createTest(method.getName());
-         nameOfBrowser = browserName;
-        getDriver(browserName);
+        nameOfBrowser = browserName;
+        driver = SingletonPattern.getInstance(browserName).driver();
+        driver.manage().window().maximize();
         driver.get(Constants.url);
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
     }
@@ -78,24 +73,11 @@ public class BaseTest {
     @AfterTest
     public void afterTest() {
         extent.flush();
-
-
-    }
-
-    public static WebDriver getDriver(String browser) {
-        switch (browser.toLowerCase()) {
-            case "chrome", "firefox", "edge", "safari":
-                 driver = SingletonPattern.getInstance(browser).driver();
-                driver.manage().window().maximize();
-                return driver;
-        }
-
-        return driver;
     }
 
 
-   // @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class, invocationCount = 1)
-    public void facebook(String a, String b) throws IOException {
+    // @Test(dataProvider = "facebook", dataProviderClass = DataProvide.class, invocationCount = 1)
+    public void facebook(String a, String b) throws Exception {
         System.out.println(a.toString() + " --- " + b.toString());
 
         LogInPageEvents login = new LogInPageEvents();
