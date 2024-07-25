@@ -7,7 +7,7 @@
 
     <test verbose="2" preserve-order="true"
           name="C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/base/fbLaunch.java">
-        <parameter name="browserName" value="chrome"></parameter>
+        <parameter name="browserName" value="firefox"></parameter>
         <classes>
             <class name="base.fbLaunch">
                 <methods>
