@@ -9,72 +9,58 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.safari.SafariDriver;
 
-public class SingletonPattern extends BaseTest{
+public class SingletonPattern {
 
+    private static  ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
 
-    private static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
+    private static WebDriver driver;
 
-    private static volatile SingletonPattern patern;
-
-    private SingletonPattern() {
-    }
-
-    public static SingletonPattern getInstance(String browser) {
-        if (patern == null) {
+    public static WebDriver getInstance(String browser) {
+        if (tlDriver.get() == null) {
             synchronized (SingletonPattern.class) {
-                if (patern == null) {
-                    patern = new SingletonPattern();
-                    logger.info("Initializing Singleton Pattern");
+                if (tlDriver.get() == null) {
+                     driver = getDriver(browser);
+                    BaseTest.extentLogs.info("Driver created");
                 }
             }
         }
-
-        if (tlDriver.get() == null) {
-            patern.getDriver(browser);
-            logger.info("Driver created");
-        }
-
-        return patern;
+        return driver;
     }
 
-    private void getDriver(String browser) {
+    private static WebDriver getDriver(String browser) {
         switch (browser) {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
                 tlDriver.set(new ChromeDriver());
-                logger.info("Chrome driver set");
-                break;
+                BaseTest.extentLogs.info("Chrome driver set");
+                return tlDriver.get();
             case "firefox":
                 FirefoxOptions options = new FirefoxOptions();
                 options.setBrowserVersion("128");
                 tlDriver.set(new FirefoxDriver(options));
-                logger.info("Firefox driver set");
-                break;
+                BaseTest.extentLogs.info("Firefox driver set");
+                return tlDriver.get();
             case "edge":
-                EdgeOptions edgeOptions= new EdgeOptions();
-                edgeOptions.setBrowserVersion("126");
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.setBrowserVersion("127");
                 tlDriver.set(new EdgeDriver(edgeOptions));
-                logger.info("Edge driver set");
-                break;
+                BaseTest.extentLogs.info("Edge driver set");
+                return tlDriver.get();
             case "safari":
                 WebDriverManager.safaridriver().setup();
                 tlDriver.set(new SafariDriver());
-                logger.info("Safari driver set");
-                break;
+                BaseTest.extentLogs.info("Safari driver set");
+                return tlDriver.get();
+            default:
+                throw new RuntimeException("Unsupported browser---> " + browser);
         }
-
-    }
-
-    public WebDriver driver() {
-        WebDriver driver = tlDriver.get();
-        return driver;
     }
 
     public static void quit() {
         if (tlDriver.get() != null) {
             tlDriver.get().quit();
             tlDriver.remove();
-            logger.info("driver quit");
+            BaseTest.extentLogs.info("driver quit");
 
         }
     }

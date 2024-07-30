@@ -58,7 +58,7 @@ public class BaseTest {
         logger.info("BeforeMethod is started");
         extentLogs = extent.createTest(method.getName());
         nameOfBrowser = browserName;
-        driver = SingletonPattern.getInstance(browserName).driver();
+        driver = SingletonPattern.getInstance(browserName);
         driver.manage().window().maximize();
         driver.get(Constants.url);
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
