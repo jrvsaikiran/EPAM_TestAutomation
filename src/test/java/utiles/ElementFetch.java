@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
-import static base.BaseTest.driver;
-import static base.BaseTest.nameOfBrowser;
 
 public class ElementFetch extends BaseTest {
 

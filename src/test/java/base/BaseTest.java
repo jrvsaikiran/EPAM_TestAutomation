@@ -6,6 +6,7 @@ import com.aventstack.extentreports.markuputils.Markup;
 import com.aventstack.extentreports.markuputils.MarkupHelper;
 import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 import com.aventstack.extentreports.reporter.configuration.Theme;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
@@ -58,7 +59,8 @@ public class BaseTest {
         logger.info("BeforeMethod is started");
         extentLogs = extent.createTest(method.getName());
         nameOfBrowser = browserName;
-        driver = SingletonPattern.getInstance(browserName).driver();
+        driver = SingletonPattern.getInstance(browserName);
+
         driver.manage().window().maximize();
         driver.get(Constants.url);
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
