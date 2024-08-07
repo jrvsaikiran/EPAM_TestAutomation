@@ -12,8 +12,8 @@
             <class name="base.fbLaunch">
                 <methods>
                     <include name="fb_log1"/>
-                    <include name="fb_log2"/>
-                    <include name="fb_log3"/>
+                    <exclude name="fb_log2"/>
+                    <exclude name="fb_log3"/>
                 </methods>
             </class>
         </classes>

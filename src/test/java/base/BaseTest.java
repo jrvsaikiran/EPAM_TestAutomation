@@ -10,17 +10,16 @@ import org.openqa.selenium.WebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.*;
 import org.testng.log.TextFormatter;
-import pageEvents.LogInPageEvents;
 import utiles.Constants;
-import utiles.ElementFetch;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class BaseTest {
 
@@ -35,7 +34,7 @@ public class BaseTest {
     @BeforeTest
     public void beforeTest() throws IOException {
 
-        fileHandler = new FileHandler("src/main/java/logger.file");
+        fileHandler = new FileHandler("src/main/java/logger.txt");
         logger= Logger.getLogger("java");
         fileHandler.setFormatter(new TextFormatter());
         logger.addHandler(fileHandler);
@@ -86,10 +85,22 @@ public class BaseTest {
 
     @AfterTest
     public void afterTest() {
-        logger.info("AfterTest is started");
         fileHandler.flush();
+        logger.info("AfterTest is started");
+        attachLogfileToHtmlReport();
         extent.flush();
-
     }
 
+    public void attachLogfileToHtmlReport() {
+        String filePath = System.getProperty("user.dir") + File.separator + "src/main/java/logger.txt";
+        try {
+            String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
+            String fileContentHtml = "<pre>" + fileContent + "</pre>";
+//            String  fileContentHtml = "<a href='" + fileContent + "'>Download File</a>";
+            extentLogs.log(Status.INFO, fileContentHtml);
+        } catch (IOException e) {
+            e.printStackTrace();
+            extentLogs.log(Status.ERROR, "Failed to read file content");
+        }
+    }
 }

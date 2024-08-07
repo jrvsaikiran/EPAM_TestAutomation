@@ -1,0 +1,20 @@
+BeforeTest is started
+Test Data is successfully read
+BeforeMethod is started
+Listners onTestStart
+kiran@f11 --- test1
+xpath: //input[@type='text']
+xpath: //input[@type='password']
+Screenshot taken: C:\Users\rajavenkatasaikiran_\IdeaProjects\TestAutomation\target\screenshots\chrome1723035502652.jpeg
+Listners onTestSuccess
+AfterMethod is started
+BeforeMethod is started
+Listners onTestStart
+kiran@f12 --- test2
+xpath: //input[@type='text']
+xpath: //input[@type='password']
+Screenshot taken: C:\Users\rajavenkatasaikiran_\IdeaProjects\TestAutomation\target\screenshots\chrome1723035506223.jpeg
+Listners onTestSuccess
+AfterMethod is started
+AfterTest is started
+Listners onFinish
