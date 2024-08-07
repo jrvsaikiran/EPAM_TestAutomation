@@ -82,17 +82,25 @@ public class BaseTest {
         SingletonPattern.quit();
     }
 
-
     @AfterTest
     public void afterTest() {
         fileHandler.flush();
         logger.info("AfterTest is started");
         attachLogfileToHtmlReport();
+        repotinglog();
         extent.flush();
     }
 
+    public void repotinglog(){
+        String filePath = System.getProperty("user.dir") + File.separator + "src"+File.separator+"main"+File.separator+"java"+File.separator+"logger.txt";
+            String  fileContentHtml = """
+                    <a href= 'Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/main/java/logger.txt'>log file</a>""";
+        extentLogs.info(filePath);
+        extentLogs.log(Status.INFO, fileContentHtml);
+    }
+
     public void attachLogfileToHtmlReport() {
-        String filePath = System.getProperty("user.dir") + File.separator + "src/main/java/logger.txt";
+        String filePath = System.getProperty("user.dir") + File.separator + "src"+File.separator+"main"+File.separator+"java"+File.separator+"logger.txt";
         try {
             String fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
             String fileContentHtml = "<pre>" + fileContent + "</pre>";

@@ -54,6 +54,7 @@ public class ElementFetch extends BaseTest {
         } catch (IOException e) {
             throw new RuntimeException("Unable to take screen shot" + e.getLocalizedMessage());
         }
+        extentLogs.info("Screenshot taken: " + destination);
         logger.info("Screenshot taken: " + destination);
         return bytePic;
     }
