@@ -35,13 +35,14 @@ public class BaseTest {
     @BeforeTest
     public void beforeTest() throws IOException {
 
-        fileHandler = new FileHandler("src/main/java/log.file");
+        fileHandler = new FileHandler("src/main/java/logger.file");
         logger= Logger.getLogger("java");
         fileHandler.setFormatter(new TextFormatter());
         logger.addHandler(fileHandler);
         logger.info("BeforeTest is started");
 
-        htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") + File.separator + "reports" + File.separator + "Automation.html");
+        htmlReporter = new ExtentHtmlReporter(System.getProperty("user.dir") +File.separator+"target"+ File.separator + "reports" + File.separator + "Automation.html");
+        System.out.println(System.getProperty("user.dir"));
         htmlReporter.config().setEncoding("UTF-8");
         htmlReporter.config().setDocumentTitle("Automation Report");
         htmlReporter.config().setReportName("Automation Test Results");

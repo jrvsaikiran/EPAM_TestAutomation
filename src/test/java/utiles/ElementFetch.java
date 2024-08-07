@@ -44,7 +44,7 @@ public class ElementFetch extends BaseTest {
         Date date  = new Date();
         long time = date.getTime();
         File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-        String destination = System.getProperty("user.dir") + File.separator + "screenshots" + File.separator +nameOfBrowser+ time + ".jpeg";
+        String destination = System.getProperty("user.dir") +File.separator+"target"+ File.separator + "screenshots" + File.separator +nameOfBrowser+ time + ".jpeg";
 
         String bytePic;
         try {
