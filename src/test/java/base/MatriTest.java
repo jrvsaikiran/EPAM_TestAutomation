@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.Set;
 
 public class MatriTest extends BaseTest {
@@ -60,13 +61,18 @@ public class MatriTest extends BaseTest {
     @FindBy(xpath = "//span[normalize-space()='Self Created Matches']")
     WebElement selfCreatedMatches_Tab;
 
+    @FindBy(xpath = "//span[normalize-space()='Matches That Have Photos']")
+    WebElement matches_ThatHavePhotos_Tab;
+
     @FindBy(xpath = "//ion-button[normalize-space()='More']")
     WebElement more_Tab;
 
     @FindBy(xpath = "//span[normalize-space()='Mutual Matches']")
     WebElement mutualMatches_Tab;
 
-    public void clickTab(String ele) {
+
+    public void clickTab(String ele) throws Exception {
+        Actions action = new Actions(driver);
         switch (ele) {
             case "All Matches":
                 allMatches_Tab.click();
@@ -78,7 +84,11 @@ public class MatriTest extends BaseTest {
                 nearbyMatches_Tab.click();
                 break;
             case "Viewed You":
-                viewedYou_Tab.click();
+                try {
+                    viewedYou_Tab.click();
+                } catch (WebDriverException e) {
+                    viewedYou_Tab.click();
+                }
                 break;
             case "Viewed By You":
                 viewedByYou_Tab.click();
@@ -86,10 +96,18 @@ public class MatriTest extends BaseTest {
             case "Self Created Matches":
                 more_Tab.click();
                 waitProperty(mutualMatches_Tab);
-                Actions action = new Actions(driver);
                 action.moveToElement(selfCreatedMatches_Tab).build().perform();
                 selfCreatedMatches_Tab.click();
                 break;
+            case "Matches That Have Photos":
+                more_Tab.click();
+                waitProperty(mutualMatches_Tab);
+                action.moveToElement(matches_ThatHavePhotos_Tab).build().perform();
+                matches_ThatHavePhotos_Tab.click();
+                break;
+            default:
+                throw new Exception("error with ---------->"+ele);
+
         }
     }
 
@@ -106,13 +124,23 @@ public class MatriTest extends BaseTest {
         while (flag);
         login.click();
         waitProperty(matches);
+
+
+//======================
+
+
+        List<WebElement> elements = driver.findElements(By.xpath("//ion-img[@alt='profile pic']/.."));
+        for (WebElement element : elements) {
+            String href = element.getAttribute("href");
+            System.out.println(href);
+        }
     }
 
-    public void checkImages() {
+    public void checkImages() throws Exception {
         waitProperty(matches);
         matches.click();
         waitProperty(newlyJoined_Tab);
-        clickTab("Self Created Matches");
+        clickTab("Viewed You");
 
         waitProperty(clickFirstPic);
         clickFirstPic.click();
@@ -137,7 +165,32 @@ public class MatriTest extends BaseTest {
                 System.out.println(currentUrl);
                 break;
             }
-            clickFirstPic.click();
+
+            try {
+                clickFirstPic.click();
+            } catch (ElementNotInteractableException ex) {
+                clickFirstPic.click();
+
+            }
+
+            int i=0;
+            Set<String> win2 = driver.getWindowHandles();
+            for (String windowHandle : win2) {
+
+                if(i==2){
+                    driver.switchTo().window(windowHandle);
+                    String currentUrl = driver.getTitle();
+                    System.out.println(currentUrl);
+                }
+                i++;
+
+            }
+            try {
+                waitProperty(nextButton);
+            } catch (TimeoutException ex) {
+                waitProperty(nextButton);
+            }
+            nextButton.click();
         }
 
         boolean flag = false;
