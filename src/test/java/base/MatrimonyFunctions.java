@@ -38,7 +38,7 @@ public class MatrimonyFunctions extends BaseTest {
     WebElement login;
 
     @FindBy(xpath = "(//a[@class='remove-underline']//ion-img)[1]")
-    WebElement clickFirstPic;
+    WebElement firstPic;
 
     @FindBy(xpath = "//ion-button[@size='small']")
     WebElement nextButton;
@@ -79,8 +79,8 @@ public class MatrimonyFunctions extends BaseTest {
     @FindBy(xpath = "//span[normalize-space()='Looking For You']")
     WebElement lookForYou_Tab;
 
-    @FindBy(xpath = "//span[@class='ng-star-inserted']//span[contains(text(),' 1/')]")
-    WebElement recordCount_Tab;
+    @FindBy(xpath = "//span[@class='ng-star-inserted']//span[contains(text(),'/')]")
+    WebElement recordCount;
 
     public void loginFunction() {
         username.sendKeys("9440741024");
@@ -95,48 +95,103 @@ public class MatrimonyFunctions extends BaseTest {
         while (flag);
         click(login);
         wait(matches);
-        primeSelected(true);
     }
 
     public void checkImages(String tabNumber) throws Exception {
         selectTab(tabNumber);
-        wait(clickFirstPic);
-        click(clickFirstPic);
+        wait(firstPic);
+        selectingPic(1);
         windowHandle(2);
         driver.navigate().refresh();
-        getRecords();
+
         try {
             wait(nextButton);
             click(nextButton);
-        } catch (Throwable e) {
-            windowHandle(1);
-            try {
-                click(clickFirstPic);
-            } catch (ElementNotInteractableException ex) {
-                click(clickFirstPic);
+        } catch (WebDriverException e1) {
+            int j = 3;
+            for (int i=2; i<10; i++) {
+//                if(!nextButton2.isDisplayed()){
+                    windowHandle(1);
+                    selectingPic(i);
+                    windowHandle(j);
+                    wait(nextButton2);
+                    click(nextButton2);
+                    j++;
+//                }
+
+
             }
-            windowHandle(3);
-            try {
-                wait(nextButton);
-            } catch (WebDriverException ex) {
-                wait(nextButton);
-            }
-            nextButton.click();
+//            try {
+//                windowHandle(1);
+//                selectingPic(2);
+//                windowHandle(3);
+//                wait(nextButton2);
+//                click(nextButton2);
+//            } catch (WebDriverException e2) {
+//                try {
+//                    windowHandle(1);
+//                    selectingPic(3);
+//                    windowHandle(4);
+//                    wait(nextButton2);
+//                    click(nextButton2);
+//                }catch (WebDriverException e3){
+//                    try {
+//                        windowHandle(1);
+//                        selectingPic(4);
+//                        windowHandle(5);
+//                        wait(nextButton2);
+//                        click(nextButton2);
+//                    }catch (WebDriverException e4){
+//                        try {
+//                            windowHandle(1);
+//                            selectingPic(5);
+//                            windowHandle(6);
+//                            wait(nextButton2);
+//                            click(nextButton2);
+//                        }catch (WebDriverException e5){
+//                            throw new Exception("next button unavailable----->"+e5.getMessage());
+//                        }
+//                    }
+//                }
+//            }
         }
+        getRecordCount(recordCount);
         fixedLoopToClickNextBtn();
+        getRecordCount(recordCount);
     }
 
-    private void getRecords() {
+    private void selectingPic(int i)  {
+        try {
+            WebElement element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)["+i+"]"));
+            moveToEle(element);
+            element.click();
+        } catch (WebDriverException e) {
+            WebElement element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)["+i+"]"));
+            moveToEle(element);
+            element.click();
+        }
+    }
+
+    private void getRecordCount(WebElement element) {
         String text;
         try {
-            text = recordCount_Tab.getText();
-        } catch (WebDriverException e) {
-            text = recordCount_Tab.getText();
+            wait(element);
+            text = element.getText();
+        } catch (NoSuchElementException e) {
+            driver.navigate().refresh();
+            wait(element);
+            text = element.getText();
+        }catch (TimeoutException e){
+            driver.navigate().refresh();
+            wait(element);
+            text = element.getText();
         }
         String[] split = text.split("/");
          totalRecords = split[1];
         System.out.println(" totalRecords :-"+totalRecords+" & recordCount_Tab :- "+text);
     }
+
+
 
     private void clickTab(String ele) throws Exception {
         switch (ele) {
@@ -195,7 +250,7 @@ public class MatrimonyFunctions extends BaseTest {
         }
     }
 
-    private void primeSelected(boolean b) {
+    public void primeSelected(boolean b) {
         if (b) {
             click(primeMatches_btn);
             wait(popupExplorePrime_btn);
@@ -225,22 +280,27 @@ public class MatrimonyFunctions extends BaseTest {
     }
 
     private void fixedLoopToClickNextBtn() {
-        boolean flag = false;
-        do {
-            int i = 0;
-            do {
-                try {
-                    wait(nextButton2);
-                    click(nextButton2);
-                    i++;
-                    wait(nextButton2);
-                    wait(nextButton2);
-                    flag = true;
-                } catch (StaleElementReferenceException e) {
-                    System.out.println("StaleElement occured " + e.getLocalizedMessage());
-                }
-            } while (i < 5);
-        } while (flag);
+
+       int l=2;
+        int allRec = Integer.parseInt(totalRecords);
+
+        try {
+            do{
+                wait(nextButton2);
+                wait(nextButton2);
+                click(nextButton2);
+                l++;
+            }while (allRec>l);
+        } catch (WebDriverException e) {
+           driver.navigate().refresh();
+            do{
+                wait(nextButton2);
+                wait(nextButton2);
+                click(nextButton2);
+                l++;
+            }while (allRec>l);
+        }
+        System.out.println("Completed the task----->");
     }
 
     private void windowHandle(int stop) {
