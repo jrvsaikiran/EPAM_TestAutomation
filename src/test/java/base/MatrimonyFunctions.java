@@ -12,6 +12,7 @@ import java.util.Set;
 
 public class MatrimonyFunctions extends BaseTest {
     WebDriver driver;
+    private String totalRecords;
 
     public MatrimonyFunctions(WebDriver driver) {
         this.driver = driver;
@@ -78,6 +79,9 @@ public class MatrimonyFunctions extends BaseTest {
     @FindBy(xpath = "//span[normalize-space()='Looking For You']")
     WebElement lookForYou_Tab;
 
+    @FindBy(xpath = "//span[@class='ng-star-inserted']//span[contains(text(),' 1/')]")
+    WebElement recordCount_Tab;
+
     public void loginFunction() {
         username.sendKeys("9440741024");
         boolean flag = true;
@@ -94,12 +98,13 @@ public class MatrimonyFunctions extends BaseTest {
         primeSelected(true);
     }
 
-    public void checkImages() throws Exception {
-        selectTab("9");
+    public void checkImages(String tabNumber) throws Exception {
+        selectTab(tabNumber);
         wait(clickFirstPic);
         click(clickFirstPic);
         windowHandle(2);
         driver.navigate().refresh();
+        getRecords();
         try {
             wait(nextButton);
             click(nextButton);
@@ -119,6 +124,18 @@ public class MatrimonyFunctions extends BaseTest {
             nextButton.click();
         }
         fixedLoopToClickNextBtn();
+    }
+
+    private void getRecords() {
+        String text;
+        try {
+            text = recordCount_Tab.getText();
+        } catch (WebDriverException e) {
+            text = recordCount_Tab.getText();
+        }
+        String[] split = text.split("/");
+         totalRecords = split[1];
+        System.out.println(" totalRecords :-"+totalRecords+" & recordCount_Tab :- "+text);
     }
 
     private void clickTab(String ele) throws Exception {
