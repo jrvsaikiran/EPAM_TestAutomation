@@ -1,4 +1,4 @@
-package base;
+package BharathMatrimony;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -14,7 +14,7 @@ public class MatrimonyTesting {
         driver.get("https://www.bharatmatrimony.com/login/login.php");
         MatrimonyFunctions m = new MatrimonyFunctions(driver);
         m.loginFunction();
-        m.primeSelected(false);
+        m.primeSelected(true);
         m.checkImages("1");
         driver.quit();
 

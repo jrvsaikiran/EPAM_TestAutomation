@@ -1,4 +1,4 @@
-package base;
+package BharathMatrimony;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -84,7 +84,12 @@ public class MatrimonyFunctions  {
     WebElement recordCount;
 
     public void loginFunction() {
-        username.sendKeys("9440741024");
+        try {
+            username.sendKeys("9440741024");
+        } catch (WebDriverException e) {
+            driver.navigate().refresh();
+            username.sendKeys("9440741024");
+        }
         boolean flag = true;
         do {
             try {
