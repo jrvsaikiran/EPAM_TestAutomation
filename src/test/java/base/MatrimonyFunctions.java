@@ -5,6 +5,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -108,65 +109,37 @@ public class MatrimonyFunctions extends BaseTest {
             wait(nextButton);
             click(nextButton);
         } catch (WebDriverException e1) {
-            int j = 3;
-            for (int i=2; i<10; i++) {
-//                if(!nextButton2.isDisplayed()){
-                    windowHandle(1);
-                    selectingPic(i);
-                    windowHandle(j);
-                    wait(nextButton2);
-                    click(nextButton2);
-                    j++;
-//                }
+            extracted();
 
-
-            }
-//            try {
-//                windowHandle(1);
-//                selectingPic(2);
-//                windowHandle(3);
-//                wait(nextButton2);
-//                click(nextButton2);
-//            } catch (WebDriverException e2) {
-//                try {
-//                    windowHandle(1);
-//                    selectingPic(3);
-//                    windowHandle(4);
-//                    wait(nextButton2);
-//                    click(nextButton2);
-//                }catch (WebDriverException e3){
-//                    try {
-//                        windowHandle(1);
-//                        selectingPic(4);
-//                        windowHandle(5);
-//                        wait(nextButton2);
-//                        click(nextButton2);
-//                    }catch (WebDriverException e4){
-//                        try {
-//                            windowHandle(1);
-//                            selectingPic(5);
-//                            windowHandle(6);
-//                            wait(nextButton2);
-//                            click(nextButton2);
-//                        }catch (WebDriverException e5){
-//                            throw new Exception("next button unavailable----->"+e5.getMessage());
-//                        }
-//                    }
-//                }
-//            }
         }
         getRecordCount(recordCount);
         fixedLoopToClickNextBtn();
         getRecordCount(recordCount);
     }
 
-    private void selectingPic(int i)  {
+    private static int pic = 2;
+
+    private void extracted() {
         try {
-            WebElement element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)["+i+"]"));
+            driver.close();
+            windowHandle(1);
+            selectingPic(pic);
+            pic++;
+            windowHandle(2);
+            wait(nextButton2);
+            nextButton2.isDisplayed();
+        } catch (WebDriverException e2) {
+            extracted();
+        }
+    }
+
+    private void selectingPic(int i) {
+        try {
+            WebElement element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)[" + i + "]"));
             moveToEle(element);
             element.click();
         } catch (WebDriverException e) {
-            WebElement element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)["+i+"]"));
+            WebElement element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)[" + i + "]"));
             moveToEle(element);
             element.click();
         }
@@ -181,16 +154,15 @@ public class MatrimonyFunctions extends BaseTest {
             driver.navigate().refresh();
             wait(element);
             text = element.getText();
-        }catch (TimeoutException e){
+        } catch (WebDriverException e) {
             driver.navigate().refresh();
             wait(element);
             text = element.getText();
         }
         String[] split = text.split("/");
-         totalRecords = split[1];
-        System.out.println(" totalRecords :-"+totalRecords+" & recordCount_Tab :- "+text);
+        totalRecords = split[1];
+        System.out.println(" total Records :-" + totalRecords + " & record list :- " + text);
     }
-
 
 
     private void clickTab(String ele) throws Exception {
@@ -279,28 +251,28 @@ public class MatrimonyFunctions extends BaseTest {
         }
     }
 
+    private static int nextRec = 2;
+
+
     private void fixedLoopToClickNextBtn() {
-
-       int l=2;
-        int allRec = Integer.parseInt(totalRecords);
-
+        final int allRec = Integer.parseInt(totalRecords);
         try {
-            do{
+            do {
                 wait(nextButton2);
                 wait(nextButton2);
                 click(nextButton2);
-                l++;
-            }while (allRec>l);
+                pageLoad();
+                nextRec++;
+            } while (allRec > nextRec);
         } catch (WebDriverException e) {
-           driver.navigate().refresh();
-            do{
-                wait(nextButton2);
-                wait(nextButton2);
-                click(nextButton2);
-                l++;
-            }while (allRec>l);
+            driver.navigate().refresh();
+            fixedLoopToClickNextBtn();
         }
         System.out.println("Completed the task----->");
+    }
+
+    private void pageLoad() {
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
     }
 
     private void windowHandle(int stop) {
@@ -322,12 +294,13 @@ public class MatrimonyFunctions extends BaseTest {
 
     private void wait(WebElement element) {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.elementToBeClickable(element));
+            FluentWait<WebDriver> fluentWait = new FluentWait<>(driver);
+            fluentWait.ignoring(WebDriverException.class )
+                    .pollingEvery(Duration.ofSeconds(1))
+                    .withTimeout(Duration.ofSeconds(9))
+                    .until(ExpectedConditions.elementToBeClickable(element));
         } catch (WebDriverException e) {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.elementToBeClickable(element));
-        } catch (Exception e) {
+            driver.navigate().refresh();
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.elementToBeClickable(element));
         }
