@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Set;
 
-public class MatrimonyFunctions extends BaseTest {
+public class MatrimonyFunctions  {
     WebDriver driver;
     private String totalRecords;
 
@@ -109,7 +109,7 @@ public class MatrimonyFunctions extends BaseTest {
             wait(nextButton);
             click(nextButton);
         } catch (WebDriverException e1) {
-            extracted();
+            handleCheckImages();
 
         }
         getRecordCount(recordCount);
@@ -119,7 +119,7 @@ public class MatrimonyFunctions extends BaseTest {
 
     private static int pic = 2;
 
-    private void extracted() {
+    private void handleCheckImages() {
         try {
             driver.close();
             windowHandle(1);
@@ -129,7 +129,7 @@ public class MatrimonyFunctions extends BaseTest {
             wait(nextButton2);
             nextButton2.isDisplayed();
         } catch (WebDriverException e2) {
-            extracted();
+            handleCheckImages();
         }
     }
 
@@ -206,6 +206,12 @@ public class MatrimonyFunctions extends BaseTest {
                 moveToEle(lookForYou_Tab);
                 click(lookForYou_Tab);
                 break;
+            case "10":
+                click(more_Tab);
+                wait(mutualMatches_Tab);
+                moveToEle(mutualMatches_Tab);
+                click(mutualMatches_Tab);
+                break;
             default:
                 throw new Exception("error with ---------->" + ele);
         }
@@ -252,8 +258,6 @@ public class MatrimonyFunctions extends BaseTest {
     }
 
     private static int nextRec = 2;
-
-
     private void fixedLoopToClickNextBtn() {
         final int allRec = Integer.parseInt(totalRecords);
         try {
