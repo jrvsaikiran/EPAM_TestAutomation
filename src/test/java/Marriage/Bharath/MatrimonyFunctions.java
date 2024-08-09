@@ -1,4 +1,4 @@
-package BharathMatrimony;
+package Marriage.Bharath;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
