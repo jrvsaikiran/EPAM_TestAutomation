@@ -14,14 +14,14 @@ public class YadavTest {
         WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--disable-notifications");
-//        chromeOptions.setAcceptInsecureCerts(true);
-//        chromeOptions.addArguments("--disable-web-security");
-//        chromeOptions.addArguments("--ignore-urlfetcher-cert-requests");
-//        chromeOptions.addArguments("--disable-renderer-backgrounding");
-//        chromeOptions.addArguments("--disable-infobars");
+        chromeOptions.setAcceptInsecureCerts(true);
+        chromeOptions.addArguments("--disable-web-security");
+        chromeOptions.addArguments("--ignore-urlfetcher-cert-requests");
+        chromeOptions.addArguments("--disable-renderer-backgrounding");
+        chromeOptions.addArguments("--disable-infobars");
 //        chromeOptions.addArguments("--headless");
-//        chromeOptions.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
-//        chromeOptions.addArguments("--no-sandbox"); // Bypass 0S security model
+        chromeOptions.addArguments("--disable-dev-shm-usage"); // overcome limited resource problems
+        chromeOptions.addArguments("--no-sandbox"); // Bypass 0S security model
 //        chromeOptions.addArguments("window-size=1200,800");
 //        chromeOptions.addArguments("force-device-scale-factor=0.85");
 //        chromeOptions.addArguments("high-dpi-support=0.85");
@@ -30,6 +30,8 @@ public class YadavTest {
         driver.get("https://www.yadavmatrimony.com/login/logout.php");
         YadavFumctions test = new YadavFumctions(driver);
         test.loginFunction();
+        test.switchToSpecificTab();
+        test.firstPicClick();
         test.selectTab();
 
 //        driver.quit();

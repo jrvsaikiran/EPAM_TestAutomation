@@ -1,6 +1,8 @@
 package Marriage.Yadav;
 
+import com.beust.ah.A;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -12,9 +14,10 @@ import java.util.Set;
 
 public class YadavFumctions {
     private WebDriver driver;
+
     public YadavFumctions(WebDriver driver) {
-        this.driver=driver;
-        PageFactory.initElements(driver,this);
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     @FindBy(xpath = "//input[@id='idEmail']")
@@ -44,10 +47,22 @@ public class YadavFumctions {
     @FindBy(xpath = "//button[@id='nxtlink']")
     WebElement bottomPageNext_btn;
 
+    @FindBy(xpath = "//button[@id='nxtproflink']")
+    WebElement SecondPg_next_Btn;
+
+    @FindBy(xpath = "//a[normalize-space()='My Home']/..")
+    WebElement home_tab;
+
+    @FindBy(xpath = "//a[starts-with(text(),'Profiles viewed & not contacted')]")
+    WebElement mouseOver_click_on_profileViewed;
+
+    @FindBy(xpath = "//a[starts-with(text(),'Mutual Matches')]")
+    WebElement mutualMatches;
+
     public void loginFunction() {
         pageLoad();
-        send(username,"9440741024");
-        send(password,"9440741024");
+        send(username, "9440741024");
+        send(password, "9440741024");
         click(login_btn);
         pageLoad();
         click(account_btn);
@@ -57,46 +72,103 @@ public class YadavFumctions {
         } catch (TimeoutException e) {
             windowHandle(1);
         }
+    }
+
+    public void switchToSpecificTab() {
+        driver.navigate().refresh();
+
+        pageLoad();
+        Actions actions = new Actions(driver);
+        try {
+            Thread.sleep(10000);
+            actions.moveToElement(home_tab).build().perform();
+            Thread.sleep(10000);
+            pageLoad();
+            pageLoad();
+        } catch (Exception e) {
+            switchToSpecificTab();
+        }
+
+        click(mouseOver_click_on_profileViewed);
+        pageLoad();
+    }
+
+    public void firstPicClick() {
         pageLoad();
         click(firstPhoto);
         windowHandle(2);
+    }
+
+    static int iterations = 1;
+
+    public void selectTab() {
+        firstPageIteration();
+
+        click(bottomPageNext_btn);
+        System.out.println("Moved to next page " + iterations++);
 
     }
-    public void selectTab() {
 
-        click(next_btn);
+    private void firstPageIteration() {
+//        click(next_btn);
         pageLoad();
         pageLoad();
         nextIteration(1);
-        click(bottomPageNext_btn);
+//        click(bottomPageNext_btn);
+        if (bottomPageNext_btn.isDisplayed()) {
+            click(bottomPageNext_btn);
+            pageLoad();
+            System.out.println(++iterations + " :-completed and moved to next page:- " + iterations++);
+        }
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            pageLoad();
+        }
         pageLoad();
         pageLoad();
-        selectTab();
-
+        firstPageIteration();
     }
-
 
 
     //=========================================================================================================================
 
-//    private static int i=1;
+
     private void nextIteration(int i) {
+        int j = 1;
         do {
             loop(i);
+
+            System.out.println("click count:-" + j++);
             i++;
         } while (!bottomPageNext_btn.isDisplayed());
+        System.out.println("No Of iterations is " + i);
     }
 
     private void loop(int i) {
-        WebElement nextBtn;
+
+        Actions actions = new Actions(driver);
         try {
             pageLoad();
             pageLoad();
             pageLoad();
-            nextBtn = driver.findElement(By.xpath("(//span[@ng-if='infmemberalldetails.showNextImage']//img)["+i+"]/.."));
-            click(nextBtn);
+            try {
+                WebElement nextBtn = driver.findElement(By.xpath("(//button[@id='nxtproflink'])[" + i + "]"));
+                actions.moveToElement(nextBtn).build().perform();
+                click(nextBtn);
+            } catch (WebDriverException e) {
+                loop(i);
+            } catch (Error ee) {
+                loop(i);
+            } catch (Exception e3) {
+                loop(i);
+            }
+
+            pageLoad();
             Thread.sleep(5000);
-        } catch (WebDriverException | InterruptedException e) {
+        } catch (WebDriverException e) {
+            loop(i);
+        } catch (InterruptedException e) {
             loop(i);
         }
     }
@@ -114,12 +186,15 @@ public class YadavFumctions {
 
 
     private void click(WebElement element) {
+        Actions action = new Actions(driver);
         try {
+
             FluentWait<WebDriver> fluentWait = new FluentWait<>(driver);
-            fluentWait.ignoring(WebDriverException.class )
+            fluentWait.ignoring(WebDriverException.class)
                     .pollingEvery(Duration.ofSeconds(1))
                     .withTimeout(Duration.ofSeconds(9))
                     .until(ExpectedConditions.elementToBeClickable(element)).click();
+
         } catch (WebDriverException e) {
             driver.navigate().refresh();
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -128,14 +203,20 @@ public class YadavFumctions {
             element.click();
         }
     }
+
     private void pageLoad() {
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+        try {
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(9));
+            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+        } catch (Exception e) {
+            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+        }
     }
 
     private void wait(WebElement element) {
         try {
             FluentWait<WebDriver> fluentWait = new FluentWait<>(driver);
-            fluentWait.ignoring(WebDriverException.class )
+            fluentWait.ignoring(WebDriverException.class)
                     .pollingEvery(Duration.ofSeconds(1))
                     .withTimeout(Duration.ofSeconds(9))
                     .until(ExpectedConditions.elementToBeClickable(element));
@@ -146,10 +227,10 @@ public class YadavFumctions {
         }
     }
 
-    private void send(WebElement element,String str) {
+    private void send(WebElement element, String str) {
         try {
             FluentWait<WebDriver> fluentWait = new FluentWait<>(driver);
-            fluentWait.ignoring(WebDriverException.class )
+            fluentWait.ignoring(WebDriverException.class)
                     .pollingEvery(Duration.ofSeconds(1))
                     .withTimeout(Duration.ofSeconds(9))
                     .until(ExpectedConditions.elementToBeClickable(element)).sendKeys(str);

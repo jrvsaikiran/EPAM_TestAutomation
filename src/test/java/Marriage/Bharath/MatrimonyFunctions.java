@@ -263,6 +263,7 @@ public class MatrimonyFunctions  {
     }
 
     private static int nextRec = 2;
+    private static int cliclCount = 2;
     private void fixedLoopToClickNextBtn() {
         final int allRec = Integer.parseInt(totalRecords);
         try {
@@ -272,10 +273,13 @@ public class MatrimonyFunctions  {
                 click(nextButton2);
                 pageLoad();
                 nextRec++;
+                cliclCount++;
+                System.out.println("click count "+cliclCount);
             } while (allRec > nextRec);
         } catch (WebDriverException e) {
             driver.navigate().refresh();
             fixedLoopToClickNextBtn();
+
         }
         System.out.println("Completed the task----->");
     }
