@@ -58,6 +58,9 @@ public class YadavFumctions {
     @FindBy(xpath = "//a[starts-with(text(),'Who viewed my profile ')]")
     WebElement viewedMyProfile;
 
+    @FindBy(xpath = "//div[@id='pagination']//span[@class='nextactive']")
+    WebElement topNext_btn;
+
     public void loginFunction() {
         pageLoad();
         send(username, "9440741024");
@@ -98,26 +101,17 @@ public class YadavFumctions {
         windowHandle(2);
     }
 
-    static int iterations = 1;
+   private static int iterations = 1;
 
-    public void selectTab() throws Exception {
-        firstPageIteration();
-
-        click(bottomPageNext_btn);
-        System.out.println("Moved to next page " + iterations++);
-
-    }
-
-    private void firstPageIteration() throws Exception {
-//        click(next_btn);
+    public void pageIterations() throws Exception {
         pageLoad();
         pageLoad();
         nextIteration(1);
-//        click(bottomPageNext_btn);
         if (bottomPageNext_btn.isDisplayed()) {
             click(bottomPageNext_btn);
             pageLoad();
-            System.out.println(++iterations + " :-completed and moved to next page:- " + iterations++);
+            System.out.println(" clicked bottom NEXT button:- "+iterations);
+            iterations++;
         }
         try {
             Thread.sleep(10000);
@@ -126,24 +120,23 @@ public class YadavFumctions {
         }
         pageLoad();
         pageLoad();
-        firstPageIteration();
+        pageIterations();
     }
 
 
     //=========================================================================================================================
 
-
+  private static   int j = 1;
     private void nextIteration(int i) throws Exception {
-        int j = 1;
+
         do {
             loop(i);
-
             System.out.println("click count:-" + j++);
             i++;
         } while (!bottomPageNext_btn.isDisplayed());
-        System.out.println("No Of iterations is " + i);
     }
 
+   private static int topNext=1;
     private void loop(int i) throws Exception {
         Actions actions = new Actions(driver);
         WebElement nextBtn = null;
@@ -163,12 +156,16 @@ public class YadavFumctions {
             try {
                 if(!nextBtn.isDisplayed()){
                     throw new Exception("Next button not displayed "+nextBtn);
-                }else {
-                    loop(i);
                 }
             } catch (NullPointerException n){
                 driver.close();
-                throw new Exception("Next button not displayed >>>> "+nextBtn);
+                windowHandle(1);
+                click(topNext_btn);
+                System.out.println("Clicked top NEXT button:- "+topNext);
+                topNext++;
+                pageLoad();
+                firstPicClick();
+                pageIterations();
             }
             loop(i);
         } catch (Error ee) {
