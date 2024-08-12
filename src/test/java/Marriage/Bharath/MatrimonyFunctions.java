@@ -262,7 +262,7 @@ public class MatrimonyFunctions  {
         }
     }
 
-    private static int nextRec = 2;
+    private static int nextRec = pic;
     private static int cliclCount = 2;
     private void fixedLoopToClickNextBtn() {
         final int allRec = Integer.parseInt(totalRecords);

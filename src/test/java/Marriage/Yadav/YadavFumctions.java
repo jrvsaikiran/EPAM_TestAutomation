@@ -1,6 +1,5 @@
 package Marriage.Yadav;
 
-import com.beust.ah.A;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -56,8 +55,8 @@ public class YadavFumctions {
     @FindBy(xpath = "//a[starts-with(text(),'Profiles viewed & not contacted')]")
     WebElement mouseOver_click_on_profileViewed;
 
-    @FindBy(xpath = "//a[starts-with(text(),'Mutual Matches')]")
-    WebElement mutualMatches;
+    @FindBy(xpath = "//a[starts-with(text(),'Who viewed my profile ')]")
+    WebElement viewedMyProfile;
 
     public void loginFunction() {
         pageLoad();
@@ -84,12 +83,12 @@ public class YadavFumctions {
             actions.moveToElement(home_tab).build().perform();
             Thread.sleep(10000);
             pageLoad();
+            actions.moveToElement(home_tab).build().perform();
             pageLoad();
         } catch (Exception e) {
             switchToSpecificTab();
         }
-
-        click(mouseOver_click_on_profileViewed);
+        click(viewedMyProfile);
         pageLoad();
     }
 
@@ -101,7 +100,7 @@ public class YadavFumctions {
 
     static int iterations = 1;
 
-    public void selectTab() {
+    public void selectTab() throws Exception {
         firstPageIteration();
 
         click(bottomPageNext_btn);
@@ -109,7 +108,7 @@ public class YadavFumctions {
 
     }
 
-    private void firstPageIteration() {
+    private void firstPageIteration() throws Exception {
 //        click(next_btn);
         pageLoad();
         pageLoad();
@@ -134,7 +133,7 @@ public class YadavFumctions {
     //=========================================================================================================================
 
 
-    private void nextIteration(int i) {
+    private void nextIteration(int i) throws Exception {
         int j = 1;
         do {
             loop(i);
@@ -145,43 +144,39 @@ public class YadavFumctions {
         System.out.println("No Of iterations is " + i);
     }
 
-    private void loop(int i) {
-
+    private void loop(int i) throws Exception {
         Actions actions = new Actions(driver);
+        WebElement nextBtn = null;
+        pageLoad();
+        pageLoad();
+        pageLoad();
         try {
-            pageLoad();
-            pageLoad();
-            pageLoad();
-            try {
-                WebElement nextBtn = driver.findElement(By.xpath("(//button[@id='nxtproflink'])[" + i + "]"));
-                actions.moveToElement(nextBtn).build().perform();
+             nextBtn = driver.findElement(By.xpath("(//button[@id='nxtproflink'])[" + i + "]"));
+            if(nextBtn.isDisplayed()){
+                actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
                 click(nextBtn);
-            } catch (WebDriverException e) {
-                loop(i);
-            } catch (Error ee) {
-                loop(i);
-            } catch (Exception e3) {
-                loop(i);
+                Thread.sleep(5000);
             }
 
-            pageLoad();
-            Thread.sleep(5000);
-        } catch (WebDriverException e) {
+        }
+        catch (WebDriverException e) {
+            try {
+                if(!nextBtn.isDisplayed()){
+                    throw new Exception("Next button not displayed "+nextBtn);
+                }else {
+                    loop(i);
+                }
+            } catch (NullPointerException n){
+                driver.close();
+                throw new Exception("Next button not displayed >>>> "+nextBtn);
+            }
             loop(i);
-        } catch (InterruptedException e) {
+        } catch (Error ee) {
+            loop(i);
+        } catch (Exception e3) {
             loop(i);
         }
-    }
 
-    private void clickByJs(WebElement element) {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-
-        try {
-            js.executeScript("arguments[0].click();", element);
-        } catch (Exception e) {
-//            js.executeScript("document.getElementByID('username').click();");
-            js.executeScript("arguments[0].click();", element);
-        }
     }
 
 
@@ -209,7 +204,7 @@ public class YadavFumctions {
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(9));
             driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         } catch (Exception e) {
-            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+            pageLoad();
         }
     }
 
