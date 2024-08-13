@@ -13,6 +13,7 @@ import java.util.Set;
 
 public class YadavFumctions {
     private WebDriver driver;
+    private String switchingTab;
 
     public YadavFumctions(WebDriver driver) {
         this.driver = driver;
@@ -83,6 +84,7 @@ public class YadavFumctions {
         driver.navigate().refresh();
         pageLoad();
         Actions actions = new Actions(driver);
+         switchingTab = str;
         switch (str){
             case "1":
                 try {
@@ -109,9 +111,19 @@ public class YadavFumctions {
     }
 
     public void firstPicClick() {
-        pageLoad();
-        click(firstPhoto);
-        windowHandle(2);
+        switch (switchingTab){
+            case "1":
+                pageLoad();
+                click(firstPhoto);
+                windowHandle(2);
+                break;
+            case "2":
+                pageLoad();
+                click(firstPhoto);
+                windowHandle(3);
+                break;
+        }
+
     }
 
    private static int iterations = 1;
@@ -123,7 +135,7 @@ public class YadavFumctions {
         if (isBottomPageNextBtnDisplayed()) {
             click(bottomPageNext_btn);
             pageLoad();
-            System.out.println(" clicked bottom NEXT button:- "+iterations);
+            System.out.println(" clicked BOTTOM NEXT button:- "+iterations);
             iterations++;
         }
         try {
@@ -180,12 +192,8 @@ public class YadavFumctions {
                 if(!nextBtn.isDisplayed()){
                     throw new Exception("Next button not displayed "+nextBtn);
                 }
-            } catch (NullPointerException n){
-                driver.close();
-                windowHandle(1);
-                click(topNext_btn);
-                System.out.println("Clicked top NEXT button:- "+topNext);
-                topNext++;
+            } catch (NullPointerException | WebDriverException n){
+                handleTopNextBtn();
                 pageLoad();
                 firstPicClick();
                 pageIterations();
@@ -197,6 +205,22 @@ public class YadavFumctions {
             loop(i);
         }
 
+    }
+
+    private void handleTopNextBtn() {
+        driver.close();
+        switch (switchingTab){
+            case "1":
+                windowHandle(1);
+                break;
+            case "2":
+                windowHandle(2);
+                break;
+        }
+
+        click(topNext_btn);
+        System.out.println("Clicked TOP NEXT button:- "+topNext);
+        topNext++;
     }
 
 
