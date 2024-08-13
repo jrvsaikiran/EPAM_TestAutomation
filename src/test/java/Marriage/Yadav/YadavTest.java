@@ -18,7 +18,7 @@ public class YadavTest {
         driver.get("https://www.yadavmatrimony.com/login/logout.php");
         YadavFumctions test = new YadavFumctions(driver);
         test.loginFunction();
-        test.switchToSpecificTab();
+        test.switchToSpecificTab("2");
         test.firstPicClick();
         test.pageIterations();
         driver.quit();
@@ -26,6 +26,7 @@ public class YadavTest {
 
     private static ChromeOptions getChromeOptions() {
         ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setBrowserVersion("127");
         chromeOptions.addArguments("--disable-notifications");
         chromeOptions.setAcceptInsecureCerts(true);
         chromeOptions.addArguments("--disable-web-security");

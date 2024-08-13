@@ -58,6 +58,9 @@ public class YadavFumctions {
     @FindBy(xpath = "//a[starts-with(text(),'Who viewed my profile ')]")
     WebElement viewedMyProfile;
 
+    @FindBy(xpath = "//span[normalize-space()='viewed your profile']")
+    WebElement viewedYourProfile;
+
     @FindBy(xpath = "//div[@id='pagination']//span[@class='nextactive']")
     WebElement topNext_btn;
 
@@ -76,23 +79,33 @@ public class YadavFumctions {
         }
     }
 
-    public void switchToSpecificTab() {
+    public void switchToSpecificTab(String str) {
         driver.navigate().refresh();
-
         pageLoad();
         Actions actions = new Actions(driver);
-        try {
-            Thread.sleep(10000);
-            actions.moveToElement(home_tab).build().perform();
-            Thread.sleep(10000);
-            pageLoad();
-            actions.moveToElement(home_tab).build().perform();
-            pageLoad();
-        } catch (Exception e) {
-            switchToSpecificTab();
+        switch (str){
+            case "1":
+                try {
+                    Thread.sleep(10000);
+                    actions.moveToElement(home_tab).build().perform();
+                    Thread.sleep(10000);
+                    pageLoad();
+                    actions.moveToElement(home_tab).build().perform();
+                    pageLoad();
+                } catch (Exception e) {
+                    switchToSpecificTab(str);
+                }
+                click(viewedMyProfile);
+                pageLoad();
+                break;
+            case "2":
+                pageLoad();
+                moveToEle(viewedYourProfile);
+                click(viewedYourProfile);
+                windowHandle(2);
+                pageLoad();
         }
-        click(viewedMyProfile);
-        pageLoad();
+
     }
 
     public void firstPicClick() {
@@ -107,7 +120,7 @@ public class YadavFumctions {
         pageLoad();
         pageLoad();
         nextIteration(1);
-        if (bottomPageNext_btn.isDisplayed()) {
+        if (isBottomPageNextBtnDisplayed()) {
             click(bottomPageNext_btn);
             pageLoad();
             System.out.println(" clicked bottom NEXT button:- "+iterations);
@@ -133,10 +146,20 @@ public class YadavFumctions {
             loop(i);
             System.out.println("click count:-" + j++);
             i++;
-        } while (!bottomPageNext_btn.isDisplayed());
+        } while (!isBottomPageNextBtnDisplayed());
     }
 
-   private static int topNext=1;
+    private boolean isBottomPageNextBtnDisplayed() {
+        boolean displayed = false;
+        try {
+             displayed = bottomPageNext_btn.isDisplayed();
+        } catch (Exception e) {
+            isBottomPageNextBtnDisplayed();
+        }
+        return displayed;
+    }
+
+    private static int topNext=1;
     private void loop(int i) throws Exception {
         Actions actions = new Actions(driver);
         WebElement nextBtn = null;
@@ -250,5 +273,15 @@ public class YadavFumctions {
         }
     }
 
+    private void moveToEle(WebElement ele) {
+        Actions action = new Actions(driver);
+        try {
+            action.moveToElement(ele).build().perform();
+        } catch (WebDriverException e) {
+            action.moveToElement(ele).build().perform();
+        } catch (Exception e) {
+            action.moveToElement(ele).build().perform();
+        }
+    }
 
 }
