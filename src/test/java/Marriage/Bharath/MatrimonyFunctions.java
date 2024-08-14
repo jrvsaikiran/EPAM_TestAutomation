@@ -47,6 +47,9 @@ public class MatrimonyFunctions  {
     @FindBy(xpath = "//ion-button[@size='small']//following-sibling::ion-button")
     WebElement nextButton2;
 
+    @FindBy(xpath = "//li[@class='pagination-next']//a")
+    WebElement bottomNext_btn;
+
     @FindBy(xpath = "//ion-button[normalize-space()='All Matches']")
     WebElement allMatches_Tab;
 
@@ -102,12 +105,15 @@ public class MatrimonyFunctions  {
         click(login);
         wait(matches);
     }
-
-    public void checkImages(String tabNumber) throws Exception {
+    public void tabSelection(String tabNumber) throws Exception {
         selectTab(tabNumber);
+    }
+
+    public void checkImages() {
+
         wait(firstPic);
         selectingPic(1);
-        windowHandle(2);
+        selectWindow(2);
         driver.navigate().refresh();
 
         try {
@@ -122,15 +128,17 @@ public class MatrimonyFunctions  {
         getRecordCount(recordCount);
     }
 
+
+
     private static int pic = 2;
 
     private void handleCheckImages() {
         try {
             driver.close();
-            windowHandle(1);
+            selectWindow(1);
             selectingPic(pic);
             pic++;
-            windowHandle(2);
+            selectWindow(2);
             wait(nextButton2);
             nextButton2.isDisplayed();
         } catch (WebDriverException e2) {
@@ -271,6 +279,7 @@ public class MatrimonyFunctions  {
                 wait(nextButton2);
                 wait(nextButton2);
                 click(nextButton2);
+
                 pageLoad();
                 nextRec++;
                 cliclCount++;
@@ -278,17 +287,47 @@ public class MatrimonyFunctions  {
             } while (allRec > nextRec);
         } catch (WebDriverException e) {
             driver.navigate().refresh();
+
+//            if(allMatches_Tab.isDisplayed()){
+//                pageLoad();
+//                closeWindow(2);
+//                selectWindow(1);
+//                pageLoad();
+//                pageLoad();
+//                moveToEle(bottomNext_btn);
+//                click(bottomNext_btn);
+//                checkImages();
+//            }
             fixedLoopToClickNextBtn();
 
         }
         System.out.println("Completed the task----->");
     }
 
+    private void closeWindow(int closeWin) {
+        try {
+            int i = 1;
+            Set<String> win = driver.getWindowHandles();
+            for (String windowHandle : win) {
+                if (closeWin == i) {
+                    driver.switchTo().window(windowHandle);
+                    String currentUrl = driver.getTitle();
+                    System.out.println(currentUrl);
+                    driver.close();
+                    System.out.println("Window number closed :- "+closeWin);
+                }
+                i++;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("unable to handle window " + e.getLocalizedMessage());
+        }
+    }
+
     private void pageLoad() {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
     }
 
-    private void windowHandle(int stop) {
+    private void selectWindow(int stop) {
         try {
             int i = 1;
             Set<String> win = driver.getWindowHandles();
