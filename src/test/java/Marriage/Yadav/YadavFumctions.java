@@ -62,6 +62,9 @@ public class YadavFumctions {
     @FindBy(xpath = "//span[normalize-space()='viewed your profile']")
     WebElement viewedYourProfile;
 
+    @FindBy(xpath = "//a[normalize-space()='Members who might like you']")
+    WebElement membersWhoMightLikeYou;
+
     @FindBy(xpath = "//div[@id='pagination']//span[@class='nextactive']")
     WebElement topNext_btn;
 
@@ -106,6 +109,22 @@ public class YadavFumctions {
                 click(viewedYourProfile);
                 windowHandle(2);
                 pageLoad();
+                break;
+            case "3":
+                pageLoad();
+                try {
+                    Thread.sleep(10000);
+                    actions.moveToElement(home_tab).build().perform();
+                    Thread.sleep(10000);
+                    pageLoad();
+                    actions.moveToElement(membersWhoMightLikeYou).build().perform();
+                    pageLoad();
+                } catch (Exception e) {
+                    switchToSpecificTab(str);
+                }
+                click(membersWhoMightLikeYou);
+
+
         }
 
     }
@@ -121,6 +140,11 @@ public class YadavFumctions {
                 pageLoad();
                 click(firstPhoto);
                 windowHandle(3);
+                break;
+            case "3":
+                pageLoad();
+                click(firstPhoto);
+                windowHandle(2);
                 break;
         }
 

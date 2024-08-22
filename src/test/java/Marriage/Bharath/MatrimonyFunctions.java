@@ -340,7 +340,8 @@ public class MatrimonyFunctions  {
                 i++;
             }
         } catch (Exception e) {
-            throw new RuntimeException("unable to handle window " + e.getLocalizedMessage());
+            selectWindow(stop);
+//            throw new RuntimeException("unable to handle window " + e.getLocalizedMessage());
         }
     }
 
