@@ -288,16 +288,16 @@ public class MatrimonyFunctions  {
         } catch (WebDriverException e) {
             driver.navigate().refresh();
 
-//            if(allMatches_Tab.isDisplayed()){
-//                pageLoad();
-//                closeWindow(2);
-//                selectWindow(1);
-//                pageLoad();
-//                pageLoad();
-//                moveToEle(bottomNext_btn);
-//                click(bottomNext_btn);
-//                checkImages();
-//            }
+            while(allMatches_Tab.isDisplayed()){
+                pageLoad();
+                closeWindow(2);
+                selectWindow(1);
+                pageLoad();
+                pageLoad();
+                moveToEle(bottomNext_btn);
+                click(bottomNext_btn);
+                checkImages();
+            }
             fixedLoopToClickNextBtn();
 
         }
