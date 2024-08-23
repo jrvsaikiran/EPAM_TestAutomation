@@ -144,12 +144,14 @@ public class MatrimonyFunctions  {
     }
 //    ===============================================================================================
     private static int pic = 2;
+    private static int handlePics;
     private void handleCheckImages() {
         try {
             driver.close();
             selectWindow(1);
             selectingPic(pic);
             pic++;
+            handlePics = pic;
             selectWindow(2);
             wait(nextButton2);
             nextButton2.isDisplayed();
@@ -269,7 +271,7 @@ public class MatrimonyFunctions  {
 
 
 
-    private static int nextRec = pic;
+    private static int nextRec = handlePics;
     private static int cliclCount = 2;
     private void fixedLoopToClickNextBtn() {
         final int allRec = Integer.parseInt(totalRecords);
@@ -285,8 +287,8 @@ public class MatrimonyFunctions  {
             } while (allRec > nextRec);
         } catch (WebDriverException e) {
             driver.navigate().refresh();
-            try {
-                while(allMatches_Tab.isDisplayed()){
+            /*try {
+                while(primeMatches_btn.isDisplayed()){
                     pageLoad();
                     closeWindow(2);
                     selectWindow(1);
@@ -298,8 +300,9 @@ public class MatrimonyFunctions  {
                 }
             } catch (Exception ex) {
                 fixedLoopToClickNextBtn();
-            }
+            }*/
 
+            fixedLoopToClickNextBtn();
 
         }
         System.out.println("Completed the task----->");

@@ -68,6 +68,12 @@ public class YadavFumctions {
     @FindBy(xpath = "//div[@id='pagination']//span[@class='nextactive']")
     WebElement topNext_btn;
 
+    @FindBy(xpath = "//span[@class='nextactive']")
+    WebElement bottomNext_btn;
+
+    @FindBy(xpath = "//div[@id='prime_div']//span[@id='prime']")
+    WebElement prime_btn;
+
     public void loginFunction() {
         pageLoad();
         send(username, "9440741024");
@@ -81,10 +87,24 @@ public class YadavFumctions {
         } catch (TimeoutException e) {
             windowHandle(1);
         }
+        driver.navigate().refresh();
+    }
+    public void selectPrime(boolean prime) {
+        Actions action = new Actions(driver);
+        try {
+            if (prime) {
+                pageLoad();
+                action.doubleClick(prime_btn).build().perform();
+                click(prime_btn);
+                pageLoad();
+                System.out.println("Switched to PRIME mode");
+            }
+        } catch (Exception e) {
+            selectPrime(prime);
+        }
     }
 
     public void switchToSpecificTab(String str) {
-        driver.navigate().refresh();
         pageLoad();
         Actions actions = new Actions(driver);
          switchingTab = str;
@@ -195,7 +215,6 @@ public class YadavFumctions {
         return displayed;
     }
 
-    private static int topNext=1;
     private void loop(int i) throws Exception {
         Actions actions = new Actions(driver);
         WebElement nextBtn = null;
@@ -205,9 +224,9 @@ public class YadavFumctions {
         try {
              nextBtn = driver.findElement(By.xpath("(//button[@id='nxtproflink'])[" + i + "]"));
             if(nextBtn.isDisplayed()){
+                wait(nextBtn);
                 actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
                 click(nextBtn);
-                Thread.sleep(5000);
             }
 
         }
@@ -231,25 +250,51 @@ public class YadavFumctions {
 
     }
 
-    private void handleTopNextBtn() {
+
+    private static int topNext=1;
+    private void handleTopNextBtn() throws Exception {
         driver.close();
         switch (switchingTab){
             case "1":
                 windowHandle(1);
-                break;
+                try {
+                    if (topNext_btn.isDisplayed()) {
+                        click(topNext_btn);
+                        System.out.println("Clicked TOP NEXT button:- "+topNext);
+                        break;
+                    }
+                } catch (Exception e) {
+                    handleTopNextBtn();
+                }
             case "2":
                 windowHandle(2);
-                break;
+                try {
+                    if (topNext_btn.isDisplayed()) {
+                        click(topNext_btn);
+                        System.out.println("Clicked TOP NEXT button:- "+topNext);
+                        break;
+                    }
+                } catch (Exception e) {
+                    handleTopNextBtn();
+                }
+            case "3":
+                windowHandle(1);
+                try {
+                    if (bottomNext_btn.isDisplayed()) {
+                        click(bottomNext_btn);
+                        System.out.println("Clicked Bottom NEXT button:- "+topNext);
+                        break;
+                    }
+                } catch (Exception e) {
+                    handleTopNextBtn();
+                }
         }
-
-        click(topNext_btn);
-        System.out.println("Clicked TOP NEXT button:- "+topNext);
         topNext++;
     }
 
 
     private void click(WebElement element) {
-        Actions action = new Actions(driver);
+
         try {
 
             FluentWait<WebDriver> fluentWait = new FluentWait<>(driver);
@@ -331,5 +376,6 @@ public class YadavFumctions {
             action.moveToElement(ele).build().perform();
         }
     }
+
 
 }
