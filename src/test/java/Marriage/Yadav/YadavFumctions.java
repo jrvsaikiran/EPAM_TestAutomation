@@ -35,26 +35,20 @@ public class YadavFumctions {
     @FindBy(xpath = "//a[starts-with(text(),'Skip')]")
     WebElement skip_btn;
 
-    @FindBy(xpath = "//a[starts-with(@style,'cursor') and @class='popupclose']//img")
-    WebElement addsClose_btn;
-
     @FindBy(xpath = "(//div[@id='hide_no_result'])[1]")
     WebElement firstPhoto;
-
-    @FindBy(xpath = "//span[@ng-if='FirstNavImage']//img")
-    WebElement next_btn;
 
     @FindBy(xpath = "//button[@id='nxtlink']")
     WebElement bottomPageNext_btn;
 
-    @FindBy(xpath = "//button[@id='nxtproflink']")
-    WebElement SecondPg_next_Btn;
-
     @FindBy(xpath = "//a[normalize-space()='My Home']/..")
     WebElement home_tab;
 
+    @FindBy(xpath = "//a[normalize-space()='Matches']/..")
+    WebElement matches_tab;
+
     @FindBy(xpath = "//a[starts-with(text(),'Profiles viewed & not contacted')]")
-    WebElement mouseOver_click_on_profileViewed;
+    WebElement profileViewed_NotContacted;
 
     @FindBy(xpath = "//a[starts-with(text(),'Who viewed my profile ')]")
     WebElement viewedMyProfile;
@@ -74,6 +68,9 @@ public class YadavFumctions {
     @FindBy(xpath = "//div[@id='prime_div']//span[@id='prime']")
     WebElement prime_btn;
 
+    @FindBy(xpath = "//div[@id='prime_div']//span[@id='regular']")
+    WebElement regular_btn;
+
     public void loginFunction() {
         pageLoad();
         send(username, "9440741024");
@@ -88,6 +85,7 @@ public class YadavFumctions {
             windowHandle(1);
         }
         driver.navigate().refresh();
+//        click(regular_btn);
     }
     public void selectPrime(boolean prime) {
         Actions action = new Actions(driver);
@@ -100,7 +98,7 @@ public class YadavFumctions {
                 System.out.println("Switched to PRIME mode");
             }
         } catch (Exception e) {
-            selectPrime(prime);
+
         }
     }
 
@@ -111,10 +109,8 @@ public class YadavFumctions {
         switch (str){
             case "1":
                 try {
-                    Thread.sleep(10000);
+                    Thread.sleep(2000);
                     actions.moveToElement(home_tab).build().perform();
-                    Thread.sleep(10000);
-                    pageLoad();
                     actions.moveToElement(home_tab).build().perform();
                     pageLoad();
                 } catch (Exception e) {
@@ -123,6 +119,7 @@ public class YadavFumctions {
                 click(viewedMyProfile);
                 pageLoad();
                 break;
+
             case "2":
                 pageLoad();
                 moveToEle(viewedYourProfile);
@@ -133,16 +130,28 @@ public class YadavFumctions {
             case "3":
                 pageLoad();
                 try {
-                    Thread.sleep(10000);
-                    actions.moveToElement(home_tab).build().perform();
-                    Thread.sleep(10000);
-                    pageLoad();
-                    actions.moveToElement(membersWhoMightLikeYou).build().perform();
+                    Thread.sleep(2000);
+                    actions.moveToElement(matches_tab).build().perform();
+                    actions.moveToElement(matches_tab).build().perform();
                     pageLoad();
                 } catch (Exception e) {
                     switchToSpecificTab(str);
                 }
                 click(membersWhoMightLikeYou);
+                break;
+            case "4":
+                try {
+                    Thread.sleep(3000);
+                    actions.moveToElement(home_tab).build().perform();
+                    actions.moveToElement(home_tab).build().perform();
+                    pageLoad();
+                } catch (Exception e) {
+                    switchToSpecificTab(str);
+                }
+                click(profileViewed_NotContacted);
+                pageLoad();
+                break;
+
 
 
         }
@@ -151,7 +160,7 @@ public class YadavFumctions {
 
     public void firstPicClick() {
         switch (switchingTab){
-            case "1":
+            case "1", "4", "3":
                 pageLoad();
                 click(firstPhoto);
                 windowHandle(2);
@@ -160,11 +169,6 @@ public class YadavFumctions {
                 pageLoad();
                 click(firstPhoto);
                 windowHandle(3);
-                break;
-            case "3":
-                pageLoad();
-                click(firstPhoto);
-                windowHandle(2);
                 break;
         }
 
@@ -266,6 +270,7 @@ public class YadavFumctions {
                 } catch (Exception e) {
                     handleTopNextBtn();
                 }
+                break;
             case "2":
                 windowHandle(2);
                 try {
@@ -277,6 +282,7 @@ public class YadavFumctions {
                 } catch (Exception e) {
                     handleTopNextBtn();
                 }
+                break;
             case "3":
                 windowHandle(1);
                 try {
@@ -288,6 +294,19 @@ public class YadavFumctions {
                 } catch (Exception e) {
                     handleTopNextBtn();
                 }
+                break;
+            case "4":
+                windowHandle(1);
+                try {
+                    if (bottomNext_btn.isDisplayed()) {
+                        click(bottomNext_btn);
+                        System.out.println("Clicked Bottom NEXT button:- "+topNext);
+                        break;
+                    }
+                } catch (Exception e) {
+                    handleTopNextBtn();
+                }
+                break;
         }
         topNext++;
     }
