@@ -17,7 +17,7 @@ public class MatrimonyTesting {
         MatrimonyFunctions m = new MatrimonyFunctions(driver);
         m.loginFunction();
         m.primeSelected(true);
-        m.tabSelection("9");
+        m.selectTab("5");
         m.checkImages();
         driver.quit();
 

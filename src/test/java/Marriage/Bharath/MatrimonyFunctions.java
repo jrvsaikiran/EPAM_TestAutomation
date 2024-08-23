@@ -105,8 +105,23 @@ public class MatrimonyFunctions  {
         click(login);
         wait(matches);
     }
-    public void tabSelection(String tabNumber) throws Exception {
-        selectTab(tabNumber);
+
+    public void primeSelected(boolean b) {
+        if (b) {
+            click(primeMatches_btn);
+            wait(popupExplorePrime_btn);
+            click(popupExplorePrime_btn);
+        }
+    }
+    public void selectTab(String tab) throws Exception {
+        wait(matches);
+        click(matches);
+        wait(newlyJoined_Tab);
+        try {
+            clickTab(tab);
+        } catch (WebDriverException e) {
+            clickTab(tab);
+        }
     }
 
     public void checkImages() {
@@ -127,11 +142,8 @@ public class MatrimonyFunctions  {
         fixedLoopToClickNextBtn();
         getRecordCount(recordCount);
     }
-
-
-
+//    ===============================================================================================
     private static int pic = 2;
-
     private void handleCheckImages() {
         try {
             driver.close();
@@ -241,13 +253,9 @@ public class MatrimonyFunctions  {
         }
     }
 
-    public void primeSelected(boolean b) {
-        if (b) {
-            click(primeMatches_btn);
-            wait(popupExplorePrime_btn);
-            click(popupExplorePrime_btn);
-        }
-    }
+
+
+
 
     private void click(WebElement element) {
         try {
@@ -259,16 +267,7 @@ public class MatrimonyFunctions  {
         }
     }
 
-    private void selectTab(String tab) throws Exception {
-        wait(matches);
-        click(matches);
-        wait(newlyJoined_Tab);
-        try {
-            clickTab(tab);
-        } catch (WebDriverException e) {
-            clickTab(tab);
-        }
-    }
+
 
     private static int nextRec = pic;
     private static int cliclCount = 2;
@@ -279,7 +278,6 @@ public class MatrimonyFunctions  {
                 wait(nextButton2);
                 wait(nextButton2);
                 click(nextButton2);
-
                 pageLoad();
                 nextRec++;
                 cliclCount++;
@@ -287,18 +285,21 @@ public class MatrimonyFunctions  {
             } while (allRec > nextRec);
         } catch (WebDriverException e) {
             driver.navigate().refresh();
-
-            while(allMatches_Tab.isDisplayed()){
-                pageLoad();
-                closeWindow(2);
-                selectWindow(1);
-                pageLoad();
-                pageLoad();
-                moveToEle(bottomNext_btn);
-                click(bottomNext_btn);
-                checkImages();
+            try {
+                while(allMatches_Tab.isDisplayed()){
+                    pageLoad();
+                    closeWindow(2);
+                    selectWindow(1);
+                    pageLoad();
+                    pageLoad();
+                    moveToEle(bottomNext_btn);
+                    click(bottomNext_btn);
+                    checkImages();
+                }
+            } catch (Exception ex) {
+                fixedLoopToClickNextBtn();
             }
-            fixedLoopToClickNextBtn();
+
 
         }
         System.out.println("Completed the task----->");
