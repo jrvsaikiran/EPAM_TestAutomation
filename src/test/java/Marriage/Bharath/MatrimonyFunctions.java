@@ -26,7 +26,10 @@ public class MatrimonyFunctions  {
     @FindBy(xpath = "//div[normalize-space()='Existing Member? Login']/..//form[@name='Login']//input[@id='PASSWORD2']")
     WebElement password;
 
-    @FindBy(xpath = "//ion-button[starts-with(@class,'prime-button md')]")
+    @FindBy(xpath = "//a[starts-with(text(),'Skip')]")
+    WebElement skiptoMyHome;
+
+    @FindBy(xpath = "//ion-button[starts-with(@class,'prime-button')]")
     WebElement primeMatches_btn;
 
     @FindBy(xpath = "//ion-button[normalize-space()='Explore Prime']")
@@ -102,21 +105,24 @@ public class MatrimonyFunctions  {
             }
         }
         while (flag);
-        click(login);
-        wait(matches);
+        clickProperty(login);
+        if(skiptoMyHome.isDisplayed()){
+            clickProperty(skiptoMyHome);
+        }
+        waitProperty(matches);
     }
 
     public void primeSelected(boolean b) {
         if (b) {
-            click(primeMatches_btn);
-            wait(popupExplorePrime_btn);
-            click(popupExplorePrime_btn);
+            clickProperty(primeMatches_btn);
+            waitProperty(popupExplorePrime_btn);
+            clickProperty(popupExplorePrime_btn);
         }
     }
     public void selectTab(String tab) throws Exception {
-        wait(matches);
-        click(matches);
-        wait(newlyJoined_Tab);
+        waitProperty(matches);
+        clickProperty(matches);
+        waitProperty(newlyJoined_Tab);
         try {
             clickTab(tab);
         } catch (WebDriverException e) {
@@ -124,36 +130,43 @@ public class MatrimonyFunctions  {
         }
     }
 
-    public void checkImages() {
+    public void checkImages() throws Exception {
 
-        wait(firstPic);
+        waitProperty(firstPic);
         selectingPic(1);
         selectWindow(2);
         driver.navigate().refresh();
 
         try {
-            wait(nextButton);
-            click(nextButton);
-        } catch (WebDriverException e1) {
+            try{
+                clickProperty(nextButton2);
+            } catch (Exception e) {
+                try {
+                    clickProperty(nextButton);
+                } catch (Throwable ex) {
+                    handleCheckImages();
+                }
+            }
+        } catch (Exception e1) {
             handleCheckImages();
 
         }
         getRecordCount(recordCount);
         fixedLoopToClickNextBtn();
-        getRecordCount(recordCount);
+//        getRecordCount(recordCount);
     }
 //    ===============================================================================================
     private static int pic = 2;
-    private static int handlePics;
+    private static int handlePics=pic;
     private void handleCheckImages() {
         try {
             driver.close();
             selectWindow(1);
             selectingPic(pic);
             pic++;
-            handlePics = pic;
+//            handlePics = pic;
             selectWindow(2);
-            wait(nextButton2);
+            waitProperty(nextButton2);
             nextButton2.isDisplayed();
         } catch (WebDriverException e2) {
             handleCheckImages();
@@ -175,15 +188,15 @@ public class MatrimonyFunctions  {
     private void getRecordCount(WebElement element) {
         String text;
         try {
-            wait(element);
+            waitProperty(element);
             text = element.getText();
         } catch (NoSuchElementException e) {
             driver.navigate().refresh();
-            wait(element);
+            waitProperty(element);
             text = element.getText();
         } catch (WebDriverException e) {
             driver.navigate().refresh();
-            wait(element);
+            waitProperty(element);
             text = element.getText();
         }
         String[] split = text.split("/");
@@ -195,49 +208,49 @@ public class MatrimonyFunctions  {
     private void clickTab(String ele) throws Exception {
         switch (ele) {
             case "1":
-                click(allMatches_Tab);
+                clickProperty(allMatches_Tab);
                 break;
             case "2":
-                click(newlyJoined_Tab);
+                clickProperty(newlyJoined_Tab);
                 break;
             case "3":
-                click(nearbyMatches_Tab);
+                clickProperty(nearbyMatches_Tab);
                 break;
             case "4":
-                click(viewedYou_Tab);
+                clickProperty(viewedYou_Tab);
                 break;
             case "5":
-                click(viewedByYou_Tab);
+                clickProperty(viewedByYou_Tab);
                 break;
             case "6":
-                click(more_Tab);
-                wait(mutualMatches_Tab);
+                clickProperty(more_Tab);
+                waitProperty(mutualMatches_Tab);
                 moveToEle(selfCreatedMatches_Tab);
-                click(selfCreatedMatches_Tab);
+                clickProperty(selfCreatedMatches_Tab);
                 break;
             case "7":
-                click(more_Tab);
-                wait(mutualMatches_Tab);
+                clickProperty(more_Tab);
+                waitProperty(mutualMatches_Tab);
                 moveToEle(matches_ThatHavePhotos_Tab);
-                click(matches_ThatHavePhotos_Tab);
+                clickProperty(matches_ThatHavePhotos_Tab);
                 break;
             case "8":
-                click(more_Tab);
-                wait(mutualMatches_Tab);
+                clickProperty(more_Tab);
+                waitProperty(mutualMatches_Tab);
                 moveToEle(parentCreatedMatches_Tab);
-                click(parentCreatedMatches_Tab);
+                clickProperty(parentCreatedMatches_Tab);
                 break;
             case "9":
-                click(more_Tab);
-                wait(mutualMatches_Tab);
+                clickProperty(more_Tab);
+                waitProperty(mutualMatches_Tab);
                 moveToEle(lookForYou_Tab);
-                click(lookForYou_Tab);
+                clickProperty(lookForYou_Tab);
                 break;
             case "10":
-                click(more_Tab);
-                wait(mutualMatches_Tab);
+                clickProperty(more_Tab);
+                waitProperty(mutualMatches_Tab);
                 moveToEle(mutualMatches_Tab);
-                click(mutualMatches_Tab);
+                clickProperty(mutualMatches_Tab);
                 break;
             default:
                 throw new Exception("error with ---------->" + ele);
@@ -255,15 +268,17 @@ public class MatrimonyFunctions  {
         }
     }
 
-
-
-
-
-    private void click(WebElement element) {
+    private void clickProperty(WebElement element) {
         try {
-            element.click();
+            FluentWait<WebDriver> fluentWait = new FluentWait<>(driver);
+            fluentWait.ignoring(WebDriverException.class)
+                    .pollingEvery(Duration.ofSeconds(1))
+                    .withTimeout(Duration.ofSeconds(9))
+                    .until(ExpectedConditions.elementToBeClickable(element)).click();
         } catch (WebDriverException e) {
-            element.click();
+            driver.navigate().refresh();
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
         } catch (Throwable e) {
             element.click();
         }
@@ -273,36 +288,44 @@ public class MatrimonyFunctions  {
 
     private static int nextRec = handlePics;
     private static int cliclCount = 2;
-    private void fixedLoopToClickNextBtn() {
+    private void fixedLoopToClickNextBtn() throws Exception {
         final int allRec = Integer.parseInt(totalRecords);
         try {
             do {
-                wait(nextButton2);
-                wait(nextButton2);
-                click(nextButton2);
+                waitProperty(nextButton2);
+                waitProperty(nextButton2);
+                clickProperty(nextButton2);
                 pageLoad();
                 nextRec++;
                 cliclCount++;
-                System.out.println("click count "+cliclCount);
-            } while (allRec > nextRec);
-        } catch (WebDriverException e) {
+                System.out.println("click count " + cliclCount);
+            } while (nextButton2.isDisplayed());
+        }
+        catch (WebDriverException e) {
             driver.navigate().refresh();
-            /*try {
+            try {
                 while(primeMatches_btn.isDisplayed()){
                     pageLoad();
                     closeWindow(2);
                     selectWindow(1);
                     pageLoad();
                     pageLoad();
-                    moveToEle(bottomNext_btn);
-                    click(bottomNext_btn);
+
+                    if(bottomNext_btn.isEnabled()){
+                        moveToEle(bottomNext_btn);
+                        clickProperty(bottomNext_btn);
+                        System.out.println("clicked bottom next button");
+                    }
+                    else {
+                       throw new Exception("---->>>>> next button is not displayed");
+                    }
                     checkImages();
                 }
-            } catch (Exception ex) {
+            } catch (NoSuchElementException ex) {
                 fixedLoopToClickNextBtn();
-            }*/
+            }
 
-            fixedLoopToClickNextBtn();
+//            fixedLoopToClickNextBtn();
 
         }
         System.out.println("Completed the task----->");
@@ -318,6 +341,7 @@ public class MatrimonyFunctions  {
                     String currentUrl = driver.getTitle();
                     System.out.println(currentUrl);
                     driver.close();
+                    pageLoad();
                     System.out.println("Window number closed :- "+closeWin);
                 }
                 i++;
@@ -338,6 +362,8 @@ public class MatrimonyFunctions  {
             for (String windowHandle : win) {
                 if (stop == i) {
                     driver.switchTo().window(windowHandle);
+                    pageLoad();
+                    pageLoad();
                     String currentUrl = driver.getTitle();
                     System.out.println(currentUrl);
                 }
@@ -349,7 +375,7 @@ public class MatrimonyFunctions  {
         }
     }
 
-    private void wait(WebElement element) {
+    private void waitProperty(WebElement element) {
         try {
             FluentWait<WebDriver> fluentWait = new FluentWait<>(driver);
             fluentWait.ignoring(WebDriverException.class )
@@ -357,7 +383,6 @@ public class MatrimonyFunctions  {
                     .withTimeout(Duration.ofSeconds(9))
                     .until(ExpectedConditions.elementToBeClickable(element));
         } catch (WebDriverException e) {
-            driver.navigate().refresh();
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.elementToBeClickable(element));
         }
