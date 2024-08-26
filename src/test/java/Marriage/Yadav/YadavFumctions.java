@@ -412,6 +412,7 @@ public class YadavFumctions {
             refreshProperty();
             pageLoad();
             action.moveToElement(ele).build().perform();
+            moveToEle(ele);
         }
         catch (WebDriverException e) {
             action.moveToElement(ele).build().perform();

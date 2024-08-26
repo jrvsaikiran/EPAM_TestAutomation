@@ -18,8 +18,8 @@ public class YadavTest {
         driver.get("https://www.yadavmatrimony.com/login/logout.php");
         YadavFumctions test = new YadavFumctions(driver);
         test.loginFunction();
-        test.selectPrime(false);
-        test.switchToSpecificTab("6");
+        test.selectPrime(true);
+        test.switchToSpecificTab("1");
         test.firstPicClick();
         test.pageIterations();
         driver.quit();
