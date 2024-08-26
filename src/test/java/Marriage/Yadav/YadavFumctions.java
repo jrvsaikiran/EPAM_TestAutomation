@@ -13,7 +13,6 @@ import java.util.Set;
 
 public class YadavFumctions {
     private WebDriver driver;
-    private String switchingTab;
 
     public YadavFumctions(WebDriver driver) {
         this.driver = driver;
@@ -53,11 +52,17 @@ public class YadavFumctions {
     @FindBy(xpath = "//a[starts-with(text(),'Who viewed my profile ')]")
     WebElement viewedMyProfile;
 
-    @FindBy(xpath = "//span[normalize-space()='viewed your profile']")
-    WebElement viewedYourProfile;
-
     @FindBy(xpath = "//a[normalize-space()='Members who might like you']")
     WebElement membersWhoMightLikeYou;
+
+    @FindBy(xpath = "//a[starts-with(text(),'Latest Matches')]")
+    WebElement latestMatches;
+
+    @FindBy(xpath = "//a[starts-with(text(),'Yet to be viewed ')]")
+    WebElement yetToBeViewed;
+
+    @FindBy(xpath = "//a[starts-with(text(),'Mutual Matches')]")
+    WebElement mutualMatches;
 
     @FindBy(xpath = "//div[@id='pagination']//span[@class='nextactive']")
     WebElement topNext_btn;
@@ -68,10 +73,7 @@ public class YadavFumctions {
     @FindBy(xpath = "//div[@id='prime_div']//span[@id='prime']")
     WebElement prime_btn;
 
-    @FindBy(xpath = "//div[@id='prime_div']//span[@id='regular']")
-    WebElement regular_btn;
-
-    public void loginFunction() {
+    public void loginFunction() throws Exception {
         pageLoad();
         send(username, "9440741024");
         send(password, "9440741024");
@@ -84,11 +86,11 @@ public class YadavFumctions {
         } catch (TimeoutException e) {
             windowHandle(1);
         }
-        driver.navigate().refresh();
-//        click(regular_btn);
     }
+
     public void selectPrime(boolean prime) {
         Actions action = new Actions(driver);
+        driver.navigate().refresh();
         try {
             if (prime) {
                 pageLoad();
@@ -102,76 +104,52 @@ public class YadavFumctions {
         }
     }
 
-    public void switchToSpecificTab(String str) {
+    public void switchToSpecificTab(String str) throws Exception {
         pageLoad();
         Actions actions = new Actions(driver);
-         switchingTab = str;
+        if(Integer.parseInt(str)<=2){
+             pageLoad();
+             actions.moveToElement(home_tab).build().perform();
+             actions.moveToElement(home_tab).build().perform();
+             pageLoad();
+         }else{
+             pageLoad();
+             actions.moveToElement(matches_tab).build().perform();
+             actions.moveToElement(matches_tab).build().perform();
+             pageLoad();
+         }
         switch (str){
             case "1":
-                try {
-                    Thread.sleep(2000);
-                    actions.moveToElement(home_tab).build().perform();
-                    actions.moveToElement(home_tab).build().perform();
-                    pageLoad();
-                } catch (Exception e) {
-                    switchToSpecificTab(str);
-                }
                 click(viewedMyProfile);
                 pageLoad();
                 break;
-
             case "2":
-                pageLoad();
-                moveToEle(viewedYourProfile);
-                click(viewedYourProfile);
-                windowHandle(2);
-                pageLoad();
-                break;
-            case "3":
-                pageLoad();
-                try {
-                    Thread.sleep(2000);
-                    actions.moveToElement(matches_tab).build().perform();
-                    actions.moveToElement(matches_tab).build().perform();
-                    pageLoad();
-                } catch (Exception e) {
-                    switchToSpecificTab(str);
-                }
-                click(membersWhoMightLikeYou);
-                break;
-            case "4":
-                try {
-                    Thread.sleep(3000);
-                    actions.moveToElement(home_tab).build().perform();
-                    actions.moveToElement(home_tab).build().perform();
-                    pageLoad();
-                } catch (Exception e) {
-                    switchToSpecificTab(str);
-                }
                 click(profileViewed_NotContacted);
                 pageLoad();
                 break;
-
-
+            case "3":
+                click(membersWhoMightLikeYou);
+                break;
+            case "4":
+                click(latestMatches);
+                break;
+            case "5":
+                click(yetToBeViewed);
+                break;
+            case "6":
+                click(mutualMatches);
+                break;
+            default:
+                throw new Exception("mention proper tab number---->>>");
 
         }
 
     }
 
-    public void firstPicClick() {
-        switch (switchingTab){
-            case "1", "4", "3":
-                pageLoad();
-                click(firstPhoto);
-                windowHandle(2);
-                break;
-            case "2":
-                pageLoad();
-                click(firstPhoto);
-                windowHandle(3);
-                break;
-        }
-
+    public void firstPicClick() throws Exception {
+        pageLoad();
+        click(firstPhoto);
+        windowHandle(2);
     }
 
    private static int iterations = 1;
@@ -230,7 +208,14 @@ public class YadavFumctions {
             if(nextBtn.isDisplayed()){
                 wait(nextBtn);
                 actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
+                pageLoad();
+                Thread.sleep(1000);
+                actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
+                Thread.sleep(1000);
                 click(nextBtn);
+                pageLoad();
+                pageLoad();
+
             }
 
         }
@@ -240,7 +225,8 @@ public class YadavFumctions {
                     throw new Exception("Next button not displayed "+nextBtn);
                 }
             } catch (NullPointerException | WebDriverException n){
-                handleTopNextBtn();
+                handleBottomNextBtn();
+                pageLoad();
                 pageLoad();
                 firstPicClick();
                 pageIterations();
@@ -255,60 +241,25 @@ public class YadavFumctions {
     }
 
 
-    private static int topNext=1;
-    private void handleTopNextBtn() throws Exception {
+    private static int nextBtn_inPages = 1;
+
+    private void handleBottomNextBtn() throws Exception {
         driver.close();
-        switch (switchingTab){
-            case "1":
-                windowHandle(1);
-                try {
-                    if (topNext_btn.isDisplayed()) {
-                        click(topNext_btn);
-                        System.out.println("Clicked TOP NEXT button:- "+topNext);
-                        break;
-                    }
-                } catch (Exception e) {
-                    handleTopNextBtn();
-                }
-                break;
-            case "2":
-                windowHandle(2);
-                try {
-                    if (topNext_btn.isDisplayed()) {
-                        click(topNext_btn);
-                        System.out.println("Clicked TOP NEXT button:- "+topNext);
-                        break;
-                    }
-                } catch (Exception e) {
-                    handleTopNextBtn();
-                }
-                break;
-            case "3":
-                windowHandle(1);
-                try {
-                    if (bottomNext_btn.isDisplayed()) {
-                        click(bottomNext_btn);
-                        System.out.println("Clicked Bottom NEXT button:- "+topNext);
-                        break;
-                    }
-                } catch (Exception e) {
-                    handleTopNextBtn();
-                }
-                break;
-            case "4":
-                windowHandle(1);
-                try {
-                    if (bottomNext_btn.isDisplayed()) {
-                        click(bottomNext_btn);
-                        System.out.println("Clicked Bottom NEXT button:- "+topNext);
-                        break;
-                    }
-                } catch (Exception e) {
-                    handleTopNextBtn();
-                }
-                break;
+        windowHandle(1);
+        moveToEle(bottomNext_btn);
+        try {
+            if (bottomNext_btn.isDisplayed()) {
+                moveToEle(bottomNext_btn);
+                click(bottomNext_btn);
+                System.out.println("Clicked Bottom NEXT button:- " + nextBtn_inPages);
+            }
+        } catch (NoSuchElementException e){
+            throw new Exception("Next button is not displayed");
         }
-        topNext++;
+        catch (Exception e) {
+            handleBottomNextBtn();
+        }
+        nextBtn_inPages++;
     }
 
 
@@ -368,7 +319,7 @@ public class YadavFumctions {
         }
     }
 
-    private void windowHandle(int stop) {
+    private void windowHandle(int stop) throws Exception {
         try {
             int i = 1;
             Set<String> win = driver.getWindowHandles();
@@ -381,7 +332,7 @@ public class YadavFumctions {
                 i++;
             }
         } catch (Exception e) {
-            windowHandle(stop);
+            throw new Exception("unable to handle window");
         }
     }
 
