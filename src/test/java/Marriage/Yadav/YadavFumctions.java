@@ -107,18 +107,18 @@ public class YadavFumctions {
     public void switchToSpecificTab(String str) throws Exception {
         pageLoad();
         Actions actions = new Actions(driver);
-        if(Integer.parseInt(str)<=2){
-             pageLoad();
-             actions.moveToElement(home_tab).build().perform();
-             actions.moveToElement(home_tab).build().perform();
-             pageLoad();
-         }else{
-             pageLoad();
-             actions.moveToElement(matches_tab).build().perform();
-             actions.moveToElement(matches_tab).build().perform();
-             pageLoad();
-         }
-        switch (str){
+        if (Integer.parseInt(str) <= 2) {
+            pageLoad();
+            actions.moveToElement(home_tab).build().perform();
+            actions.moveToElement(home_tab).build().perform();
+            pageLoad();
+        } else {
+            pageLoad();
+            actions.moveToElement(matches_tab).build().perform();
+            actions.moveToElement(matches_tab).build().perform();
+            pageLoad();
+        }
+        switch (str) {
             case "1":
                 click(viewedMyProfile);
                 pageLoad();
@@ -152,18 +152,13 @@ public class YadavFumctions {
         windowHandle(2);
     }
 
-   private static int iterations = 1;
+    private static int iterations = 1;
 
     public void pageIterations() throws Exception {
         pageLoad();
         pageLoad();
         nextIteration(1);
-        if (isBottomPageNextBtnDisplayed()) {
-            click(bottomPageNext_btn);
-            pageLoad();
-            System.out.println(" clicked BOTTOM NEXT button:- "+iterations);
-            iterations++;
-        }
+        bottomNextButton();
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
@@ -177,7 +172,21 @@ public class YadavFumctions {
 
     //=========================================================================================================================
 
-  private static   int j = 1;
+    private void bottomNextButton() {
+        try {
+            if (isBottomPageNextBtnDisplayed()) {
+                click(bottomPageNext_btn);
+                pageLoad();
+                System.out.println(" clicked BOTTOM NEXT button:- " + iterations);
+                iterations++;
+            }
+        } catch (Exception e) {
+            bottomNextButton();
+        }
+    }
+
+    private static int j = 1;
+
     private void nextIteration(int i) throws Exception {
 
         do {
@@ -190,7 +199,7 @@ public class YadavFumctions {
     private boolean isBottomPageNextBtnDisplayed() {
         boolean displayed = false;
         try {
-             displayed = bottomPageNext_btn.isDisplayed();
+            displayed = bottomPageNext_btn.isDisplayed();
         } catch (Exception e) {
             isBottomPageNextBtnDisplayed();
         }
@@ -204,8 +213,8 @@ public class YadavFumctions {
         pageLoad();
         pageLoad();
         try {
-             nextBtn = driver.findElement(By.xpath("(//button[@id='nxtproflink'])[" + i + "]"));
-            if(nextBtn.isDisplayed()){
+            nextBtn = driver.findElement(By.xpath("(//button[@id='nxtproflink'])[" + i + "]"));
+            if (nextBtn.isDisplayed()) {
                 wait(nextBtn);
                 actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
                 pageLoad();
@@ -218,13 +227,12 @@ public class YadavFumctions {
 
             }
 
-        }
-        catch (WebDriverException e) {
+        } catch (WebDriverException e) {
             try {
-                if(!nextBtn.isDisplayed()){
-                    throw new Exception("Next button not displayed "+nextBtn);
+                if (!nextBtn.isDisplayed()) {
+                    throw new Exception("Next button not displayed " + nextBtn);
                 }
-            } catch (NullPointerException | WebDriverException n){
+            } catch (NullPointerException | WebDriverException n) {
                 handleBottomNextBtn();
                 pageLoad();
                 pageLoad();
@@ -253,10 +261,9 @@ public class YadavFumctions {
                 click(bottomNext_btn);
                 System.out.println("Clicked Bottom NEXT button:- " + nextBtn_inPages);
             }
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             throw new Exception("Next button is not displayed");
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             handleBottomNextBtn();
         }
         nextBtn_inPages++;
@@ -326,8 +333,7 @@ public class YadavFumctions {
             for (String windowHandle : win) {
                 if (stop == i) {
                     driver.switchTo().window(windowHandle);
-                    String currentUrl = driver.getTitle();
-                    System.out.println(currentUrl);
+                    System.out.println("driver switched to >>" + stop + "<< window of title " + driver.getTitle());
                 }
                 i++;
             }
