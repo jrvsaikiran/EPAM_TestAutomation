@@ -106,8 +106,12 @@ public class MatrimonyFunctions  {
         }
         while (flag);
         clickProperty(login);
-        if(skiptoMyHome.isDisplayed()){
-            clickProperty(skiptoMyHome);
+        try {
+            if(skiptoMyHome.isDisplayed()){
+                clickProperty(skiptoMyHome);
+            }
+        } catch (Exception e) {
+            pageLoad();
         }
         waitProperty(matches);
     }
@@ -157,14 +161,12 @@ public class MatrimonyFunctions  {
     }
 //    ===============================================================================================
     private static int pic = 2;
-    private static int handlePics=pic;
     private void handleCheckImages() {
         try {
-            driver.close();
+            closeWindow(2);
             selectWindow(1);
             selectingPic(pic);
             pic++;
-//            handlePics = pic;
             selectWindow(2);
             waitProperty(nextButton2);
             nextButton2.isDisplayed();
@@ -284,9 +286,7 @@ public class MatrimonyFunctions  {
         }
     }
 
-
-
-    private static int nextRec = handlePics;
+    private static int nextRec = pic;
     private static int cliclCount = 2;
     private void fixedLoopToClickNextBtn() throws Exception {
         final int allRec = Integer.parseInt(totalRecords);
@@ -296,13 +296,18 @@ public class MatrimonyFunctions  {
                 waitProperty(nextButton2);
                 clickProperty(nextButton2);
                 pageLoad();
-                nextRec++;
                 cliclCount++;
+                nextRec++;
                 System.out.println("click count " + cliclCount);
-            } while (nextButton2.isDisplayed());
+            } while (allRec>nextRec);
         }
         catch (WebDriverException e) {
-            driver.navigate().refresh();
+            try {
+                driver.navigate().refresh();
+            } catch (Exception ex) {
+               pageLoad();
+               pageLoad();
+            }
             try {
                 while(primeMatches_btn.isDisplayed()){
                     pageLoad();
@@ -324,9 +329,6 @@ public class MatrimonyFunctions  {
             } catch (NoSuchElementException ex) {
                 fixedLoopToClickNextBtn();
             }
-
-//            fixedLoopToClickNextBtn();
-
         }
         System.out.println("Completed the task----->");
     }
@@ -339,10 +341,10 @@ public class MatrimonyFunctions  {
                 if (closeWin == i) {
                     driver.switchTo().window(windowHandle);
                     String currentUrl = driver.getTitle();
-                    System.out.println(currentUrl);
                     driver.close();
                     pageLoad();
-                    System.out.println("Window number closed :- "+closeWin);
+                    System.out.println("driver closed >>" + closeWin + "<< window title is:- "+currentUrl);
+
                 }
                 i++;
             }
@@ -364,8 +366,7 @@ public class MatrimonyFunctions  {
                     driver.switchTo().window(windowHandle);
                     pageLoad();
                     pageLoad();
-                    String currentUrl = driver.getTitle();
-                    System.out.println(currentUrl);
+                    System.out.println("driver switched to >>" + stop + "<< window title is:- " + driver.getTitle());
                 }
                 i++;
             }

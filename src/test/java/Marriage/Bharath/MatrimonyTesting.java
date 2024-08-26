@@ -16,7 +16,7 @@ public class MatrimonyTesting {
         driver.get("https://www.bharatmatrimony.com/login/login.php");
         MatrimonyFunctions m = new MatrimonyFunctions(driver);
         m.loginFunction();
-        m.primeSelected(true);
+        m.primeSelected(false);
         m.selectTab("1");
         m.checkImages();
         driver.quit();

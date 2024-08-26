@@ -2,6 +2,7 @@ package Marriage.Yadav;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.json.JsonException;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -77,12 +78,12 @@ public class YadavFumctions {
         pageLoad();
         send(username, "9440741024");
         send(password, "9440741024");
-        click(login_btn);
+        clickProperty(login_btn);
         pageLoad();
-        click(account_btn);
+        clickProperty(account_btn);
         pageLoad();
         try {
-            click(skip_btn);
+            clickProperty(skip_btn);
         } catch (TimeoutException e) {
             windowHandle(1);
         }
@@ -90,12 +91,12 @@ public class YadavFumctions {
 
     public void selectPrime(boolean prime) {
         Actions action = new Actions(driver);
-        driver.navigate().refresh();
+        refreshProperty();
         try {
             if (prime) {
                 pageLoad();
                 action.doubleClick(prime_btn).build().perform();
-                click(prime_btn);
+                clickProperty(prime_btn);
                 pageLoad();
                 System.out.println("Switched to PRIME mode");
             }
@@ -104,40 +105,40 @@ public class YadavFumctions {
         }
     }
 
+
+
     public void switchToSpecificTab(String str) throws Exception {
         pageLoad();
         Actions actions = new Actions(driver);
         if (Integer.parseInt(str) <= 2) {
             pageLoad();
-            actions.moveToElement(home_tab).build().perform();
-            actions.moveToElement(home_tab).build().perform();
+            moveToEle(home_tab);
             pageLoad();
         } else {
             pageLoad();
-            actions.moveToElement(matches_tab).build().perform();
-            actions.moveToElement(matches_tab).build().perform();
+            moveToEle(matches_tab);
             pageLoad();
         }
         switch (str) {
             case "1":
-                click(viewedMyProfile);
+                clickProperty(viewedMyProfile);
                 pageLoad();
                 break;
             case "2":
-                click(profileViewed_NotContacted);
+                clickProperty(profileViewed_NotContacted);
                 pageLoad();
                 break;
             case "3":
-                click(membersWhoMightLikeYou);
+                clickProperty(membersWhoMightLikeYou);
                 break;
             case "4":
-                click(latestMatches);
+                clickProperty(latestMatches);
                 break;
             case "5":
-                click(yetToBeViewed);
+                clickProperty(yetToBeViewed);
                 break;
             case "6":
-                click(mutualMatches);
+                clickProperty(mutualMatches);
                 break;
             default:
                 throw new Exception("mention proper tab number---->>>");
@@ -148,7 +149,7 @@ public class YadavFumctions {
 
     public void firstPicClick() throws Exception {
         pageLoad();
-        click(firstPhoto);
+        clickProperty(firstPhoto);
         windowHandle(2);
     }
 
@@ -172,10 +173,17 @@ public class YadavFumctions {
 
     //=========================================================================================================================
 
+    private void refreshProperty() {
+        try {
+            driver.navigate().refresh();
+        } catch (Exception e) {
+            refreshProperty();
+        }
+    }
     private void bottomNextButton() {
         try {
             if (isBottomPageNextBtnDisplayed()) {
-                click(bottomPageNext_btn);
+                clickProperty(bottomPageNext_btn);
                 pageLoad();
                 System.out.println(" clicked BOTTOM NEXT button:- " + iterations);
                 iterations++;
@@ -221,7 +229,7 @@ public class YadavFumctions {
                 Thread.sleep(1000);
                 actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
                 Thread.sleep(1000);
-                click(nextBtn);
+                clickProperty(nextBtn);
                 pageLoad();
                 pageLoad();
 
@@ -258,7 +266,7 @@ public class YadavFumctions {
         try {
             if (bottomNext_btn.isDisplayed()) {
                 moveToEle(bottomNext_btn);
-                click(bottomNext_btn);
+                clickProperty(bottomNext_btn);
                 System.out.println("Clicked Bottom NEXT button:- " + nextBtn_inPages);
             }
         } catch (NoSuchElementException e) {
@@ -270,7 +278,7 @@ public class YadavFumctions {
     }
 
 
-    private void click(WebElement element) {
+    private void clickProperty(WebElement element) {
 
         try {
 
@@ -281,7 +289,7 @@ public class YadavFumctions {
                     .until(ExpectedConditions.elementToBeClickable(element)).click();
 
         } catch (WebDriverException e) {
-            driver.navigate().refresh();
+            refreshProperty();
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
         } catch (Throwable e) {
@@ -306,7 +314,7 @@ public class YadavFumctions {
                     .withTimeout(Duration.ofSeconds(9))
                     .until(ExpectedConditions.elementToBeClickable(element));
         } catch (WebDriverException e) {
-            driver.navigate().refresh();
+            refreshProperty();
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.elementToBeClickable(element));
         }
@@ -320,7 +328,7 @@ public class YadavFumctions {
                     .withTimeout(Duration.ofSeconds(9))
                     .until(ExpectedConditions.elementToBeClickable(element)).sendKeys(str);
         } catch (WebDriverException e) {
-            driver.navigate().refresh();
+            refreshProperty();
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.elementToBeClickable(element)).sendKeys(str);
         }
@@ -346,9 +354,15 @@ public class YadavFumctions {
         Actions action = new Actions(driver);
         try {
             action.moveToElement(ele).build().perform();
-        } catch (WebDriverException e) {
+        } catch (JsonException e2){
+            refreshProperty();
+            pageLoad();
             action.moveToElement(ele).build().perform();
-        } catch (Exception e) {
+        }
+        catch (WebDriverException e) {
+            action.moveToElement(ele).build().perform();
+        }
+        catch (Exception e) {
             action.moveToElement(ele).build().perform();
         }
     }
