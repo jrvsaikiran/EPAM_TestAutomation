@@ -1,5 +1,6 @@
 package Marriage.Yadav;
 
+import Marriage.DP.DP_Excel;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.json.JsonException;
@@ -10,6 +11,9 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 public class YadavFumctions {
@@ -109,13 +113,16 @@ public class YadavFumctions {
 
     public void switchToSpecificTab(String str) throws Exception {
         pageLoad();
-        Actions actions = new Actions(driver);
         if (Integer.parseInt(str) <= 2) {
             pageLoad();
+            moveToEle(home_tab);
+            moveToEle(home_tab);
             moveToEle(home_tab);
             pageLoad();
         } else {
             pageLoad();
+            moveToEle(matches_tab);
+            moveToEle(matches_tab);
             moveToEle(matches_tab);
             pageLoad();
         }
@@ -229,6 +236,7 @@ public class YadavFumctions {
                 Thread.sleep(1000);
                 actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
                 Thread.sleep(1000);
+                getDataToExcel(i);
                 clickProperty(nextBtn);
                 pageLoad();
                 pageLoad();
@@ -254,6 +262,52 @@ public class YadavFumctions {
             loop(i);
         }
 
+    }
+
+    private void getDataToExcel(int i) {
+
+        try {
+            WebElement name = driver.findElement(By.xpath("(//span[starts-with(@id,'dispname')])["+i+"]"));
+            String nameTxt = getEleTest(name);
+
+            WebElement age = driver.findElement(By.xpath("(//span[starts-with(@id,'dispname')])["+i+"]/..//following-sibling::div[starts-with(@class,'pro-detail')]"));
+            String ageTxt = getEleTest(age);
+
+            WebElement education = driver.findElement(By.xpath("(//span[starts-with(@id,'dispname')])["+i+"]/..//following-sibling::div[starts-with(@class,'edu')]"));
+            String educationTxt = getEleTest(education);
+
+            WebElement loaction = driver.findElement(By.xpath("(//span[starts-with(@id,'dispname')])["+i+"]/..//following-sibling::div[starts-with(@class,'location')]"));
+            String locationTxt = getEleTest(loaction);
+
+            WebElement activity = driver.findElement(By.xpath("(//span[starts-with(@id,'dispname')])["+i+"]/..//following-sibling::div[starts-with(@class,'activity')]"));
+            String activityTxt = getEleTest(activity);
+
+            List<CustomerData> list = new ArrayList<>();
+            list.add(new CustomerData(nameTxt,ageTxt,educationTxt,locationTxt,activityTxt));
+
+            LinkedHashMap<Integer,List<CustomerData>> map = new LinkedHashMap<>();
+            map.put(i,list);
+            System.out.println(map);
+            List<CustomerData> customerData = map.get(i);
+            CustomerData customerData1 = customerData.get(0);
+            System.out.println(customerData1);
+            System.out.println(customerData1.getAge());
+            DP_Excel dp = new DP_Excel();
+            dp.readData(map,i);
+
+        } catch (Exception e) {
+            getDataToExcel(i);
+        }
+    }
+
+    private String getEleTest(WebElement ele){
+        String text = "";
+        try {
+             text = ele.getText();
+        } catch (Exception e) {
+            getEleTest(ele);
+        }
+        return text;
     }
 
 
@@ -289,7 +343,7 @@ public class YadavFumctions {
                     .until(ExpectedConditions.elementToBeClickable(element)).click();
 
         } catch (WebDriverException e) {
-            refreshProperty();
+//            refreshProperty();
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
         } catch (Throwable e) {
