@@ -19,7 +19,7 @@ public class YadavTest {
         YadavFumctions test = new YadavFumctions(driver);
         test.loginFunction();
         test.selectPrime(true);
-        test.switchToSpecificTab("1");
+        test.switchToSpecificTab("3");
         test.firstPicClick();
         test.pageIterations();
         driver.quit();

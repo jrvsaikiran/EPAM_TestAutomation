@@ -233,9 +233,9 @@ public class YadavFumctions {
                 wait(nextBtn);
                 actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
                 pageLoad();
-                Thread.sleep(1000);
+
                 actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
-                Thread.sleep(1000);
+
                 getDataToExcel(i);
                 clickProperty(nextBtn);
                 pageLoad();
@@ -279,7 +279,7 @@ public class YadavFumctions {
             WebElement loaction = driver.findElement(By.xpath("(//span[starts-with(@id,'dispname')])["+i+"]/..//following-sibling::div[starts-with(@class,'location')]"));
             String locationTxt = getEleTest(loaction);
 
-            WebElement activity = driver.findElement(By.xpath("(//span[starts-with(@id,'dispname')])["+i+"]/..//following-sibling::div[starts-with(@class,'activity')]"));
+            WebElement activity = driver.findElement(By.xpath("(//span[starts-with(@id,'dispname')])["+i+"]/..//following-sibling::div[contains(@ng-if,'Online now')]"));
             String activityTxt = getEleTest(activity);
 
             List<CustomerData> list = new ArrayList<>();
@@ -300,12 +300,13 @@ public class YadavFumctions {
         }
     }
 
+   private String text;
     private String getEleTest(WebElement ele){
-        String text = "";
+
         try {
              text = ele.getText();
         } catch (Exception e) {
-            getEleTest(ele);
+            text = ele.getText();
         }
         return text;
     }

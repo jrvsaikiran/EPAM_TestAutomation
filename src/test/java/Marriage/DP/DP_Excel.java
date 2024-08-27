@@ -15,6 +15,7 @@ public class DP_Excel {
 
     private static XSSFWorkbook wb;
     private static XSSFSheet sheet;
+    private static int rowCount = 1;
 
     public void readData(LinkedHashMap<Integer, List<CustomerData>> map, int i) {
 
@@ -35,7 +36,8 @@ public class DP_Excel {
             CustomerData data = customerData.get(0);
 
             //create row data
-            XSSFRow row = sheet.createRow(i);
+            XSSFRow row = sheet.createRow(rowCount);
+            rowCount++;
             row.createCell(0).setCellValue(data.getName());
             row.createCell(1).setCellValue(data.getAge());
             row.createCell(2).setCellValue(data.getEducation());
