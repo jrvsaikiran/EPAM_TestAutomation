@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class MatrimonyFunctions  {
@@ -89,11 +91,29 @@ public class MatrimonyFunctions  {
     @FindBy(xpath = "//span[@class='ng-star-inserted']//span[contains(text(),'/')]")
     WebElement recordCount;
 
+    @FindBy(xpath = "//ion-col[starts-with(@class,'profile-name')]")
+    WebElement name;
+
+    @FindBy(xpath = "((//ion-col[starts-with(@class,'profile-name')]/../..//ion-row)[3]/ion-col)[1]")
+    WebElement age;
+
+    @FindBy(xpath = "((//ion-col[starts-with(@class,'profile-name')]/../..//ion-row)[3]/ion-col)[2]")
+    WebElement cast;
+
+    @FindBy(xpath = "((//ion-col[starts-with(@class,'profile-name')]/../..//ion-row)[3]/ion-col)[3]")
+    WebElement education;
+
+    @FindBy(xpath = "((//ion-col[starts-with(@class,'profile-name')]/../..//ion-row)[3]/ion-col)[4]")
+    WebElement location;
+
+    @FindBy(xpath = "//ion-col[starts-with(@class,'matriid-lastlogin')]")
+    WebElement activity;
+
     public void loginFunction() {
         try {
             username.sendKeys("9440741024");
         } catch (WebDriverException e) {
-            driver.navigate().refresh();
+            refreshProperty();
             username.sendKeys("9440741024");
         }
         boolean flag = true;
@@ -114,6 +134,15 @@ public class MatrimonyFunctions  {
             pageLoad();
         }
         waitProperty(matches);
+    }
+
+    private void refreshProperty() {
+        try {
+            driver.navigate().refresh();
+        } catch (Exception e) {
+            pageLoad();
+            pageLoad();
+        }
     }
 
     public void primeSelected(boolean b) {
@@ -139,7 +168,7 @@ public class MatrimonyFunctions  {
         waitProperty(firstPic);
         selectingPic(1);
         selectWindow(2);
-        driver.navigate().refresh();
+        refreshProperty();
 
         try {
             try{
@@ -192,12 +221,8 @@ public class MatrimonyFunctions  {
         try {
             waitProperty(element);
             text = element.getText();
-        } catch (NoSuchElementException e) {
-            driver.navigate().refresh();
-            waitProperty(element);
-            text = element.getText();
         } catch (WebDriverException e) {
-            driver.navigate().refresh();
+            refreshProperty();
             waitProperty(element);
             text = element.getText();
         }
@@ -263,8 +288,6 @@ public class MatrimonyFunctions  {
         Actions action = new Actions(driver);
         try {
             action.moveToElement(ele).build().perform();
-        } catch (WebDriverException e) {
-            action.moveToElement(ele).build().perform();
         } catch (Exception e) {
             action.moveToElement(ele).build().perform();
         }
@@ -278,7 +301,7 @@ public class MatrimonyFunctions  {
                     .withTimeout(Duration.ofSeconds(9))
                     .until(ExpectedConditions.elementToBeClickable(element)).click();
         } catch (WebDriverException e) {
-            driver.navigate().refresh();
+            refreshProperty();
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             wait.until(ExpectedConditions.elementToBeClickable(element)).click();
         } catch (Throwable e) {
@@ -294,6 +317,7 @@ public class MatrimonyFunctions  {
             do {
                 waitProperty(nextButton2);
                 waitProperty(nextButton2);
+                readDataToExcel();
                 clickProperty(nextButton2);
                 pageLoad();
                 cliclCount++;
@@ -303,7 +327,7 @@ public class MatrimonyFunctions  {
         }
         catch (WebDriverException e) {
             try {
-                driver.navigate().refresh();
+                refreshProperty();
             } catch (Exception ex) {
                pageLoad();
                pageLoad();
@@ -331,6 +355,33 @@ public class MatrimonyFunctions  {
             }
         }
         System.out.println("Completed the task----->");
+    }
+
+    private void readDataToExcel() {
+
+        String nameTxt = getEleText(name);
+        String ageTxt = getEleText(age);
+        String castTxt = getEleText(cast);
+        String educationTxt = getEleText(education);
+        String locationTxt = getEleText(location);
+        String activityTxt = getEleText(activity);
+
+        List<ProfileData> list = new LinkedList<>();
+        list.add(new ProfileData(nameTxt,ageTxt,castTxt,educationTxt,locationTxt,activityTxt));
+        System.out.println(list);
+        Dp_data dp = new Dp_data();
+        dp.readBharathData(list);
+
+    }
+
+    private String getEleText(WebElement ele) {
+        String text = "";
+        try {
+             text = ele.getText();
+        } catch (Exception e) {
+            getEleText(ele);
+        }
+        return text;
     }
 
     private void closeWindow(int closeWin) {
