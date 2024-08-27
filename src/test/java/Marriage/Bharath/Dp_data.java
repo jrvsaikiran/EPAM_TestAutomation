@@ -14,7 +14,6 @@ public class Dp_data {
 
     private static XSSFWorkbook wb;
     private static XSSFSheet sheet;
-    private static int index = 0;
     private static  int i = 1;
 
     public void readBharathData(List<ProfileData> list){
@@ -33,10 +32,7 @@ public class Dp_data {
             h1.createCell(4).setCellValue("Location");
             h1.createCell(5).setCellValue("Activity");
 
-
             ProfileData profileData = list.get(0);
-//            index++;
-
             //create row data
 
             XSSFRow row = sheet.createRow(i);

@@ -379,7 +379,13 @@ public class MatrimonyFunctions  {
         try {
              text = ele.getText();
         } catch (Exception e) {
-            getEleText(ele);
+            try {
+                refreshProperty();
+                pageLoad();
+                text = ele.getText();
+            } catch (Exception ex) {
+                text = ele.getText();
+            }
         }
         return text;
     }
@@ -395,7 +401,6 @@ public class MatrimonyFunctions  {
                     driver.close();
                     pageLoad();
                     System.out.println("driver closed >>" + closeWin + "<< window title is:- "+currentUrl);
-
                 }
                 i++;
             }
