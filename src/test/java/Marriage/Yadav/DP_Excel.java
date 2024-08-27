@@ -1,6 +1,5 @@
-package Marriage.DP;
+package Marriage.Yadav;
 
-import Marriage.Yadav.CustomerData;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -50,7 +49,7 @@ public class DP_Excel {
 
 
         try {
-            FileOutputStream fis = new FileOutputStream("src/test/java/Marriage/DP/matahdata.xlsx");
+            FileOutputStream fis = new FileOutputStream("src/test/java/Marriage/Yadav/matahdata.xlsx");
             wb.write(fis);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("FileNotFoundException---->>>>" + e);

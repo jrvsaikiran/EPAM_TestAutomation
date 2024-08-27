@@ -1,6 +1,5 @@
 package Marriage.Yadav;
 
-import Marriage.DP.DP_Excel;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.json.JsonException;
@@ -287,11 +286,11 @@ public class YadavFumctions {
 
             LinkedHashMap<Integer,List<CustomerData>> map = new LinkedHashMap<>();
             map.put(i,list);
-            System.out.println(map);
-            List<CustomerData> customerData = map.get(i);
-            CustomerData customerData1 = customerData.get(0);
-            System.out.println(customerData1);
-            System.out.println(customerData1.getAge());
+//            System.out.println(map);
+//            List<CustomerData> customerData = map.get(i);
+//            CustomerData customerData1 = customerData.get(0);
+//            System.out.println(customerData1);
+//            System.out.println(customerData1.getAge());
             DP_Excel dp = new DP_Excel();
             dp.readData(map,i);
 
@@ -306,7 +305,7 @@ public class YadavFumctions {
         try {
              text = ele.getText();
         } catch (Exception e) {
-            text = ele.getText();
+            getEleTest(ele);
         }
         return text;
     }
@@ -344,9 +343,10 @@ public class YadavFumctions {
                     .until(ExpectedConditions.elementToBeClickable(element)).click();
 
         } catch (WebDriverException e) {
+            clickProperty(element);
 //            refreshProperty();
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
         } catch (Throwable e) {
             element.click();
         }
