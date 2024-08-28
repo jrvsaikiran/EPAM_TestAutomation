@@ -232,9 +232,7 @@ public class YadavFumctions {
                 wait(nextBtn);
                 actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
                 pageLoad();
-
                 actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
-
                 getDataToExcel(i);
                 clickProperty(nextBtn);
                 pageLoad();
@@ -281,8 +279,10 @@ public class YadavFumctions {
             WebElement activity = driver.findElement(By.xpath("(//span[starts-with(@id,'dispname')])["+i+"]/..//following-sibling::div[contains(@ng-if,'Online now')]"));
             String activityTxt = getEleTest(activity);
 
+            String profileNumber = profileId(i);
+
             List<CustomerData> list = new ArrayList<>();
-            list.add(new CustomerData(nameTxt,ageTxt,educationTxt,locationTxt,activityTxt));
+            list.add(new CustomerData(nameTxt,ageTxt,educationTxt,locationTxt,activityTxt,profileNumber));
 
             LinkedHashMap<Integer,List<CustomerData>> map = new LinkedHashMap<>();
             map.put(i,list);
@@ -299,7 +299,19 @@ public class YadavFumctions {
         }
     }
 
-   private String text;
+    private String profileId(int i) {
+        String eleTest;
+        if(i==1){
+            WebElement element = driver.findElement(By.xpath("//span[@id='oppositeMemberId']/.."));
+             eleTest = getEleTest(element);
+        }else {
+            WebElement element = driver.findElement(By.xpath("((//scroll-details[@ng-show='infMemberInfo'])["+(i-1)+"]//div[@class='fleft']//div)[1]"));
+             eleTest = getEleTest(element);
+        }
+        return eleTest;
+    }
+
+    private String text;
     private String getEleTest(WebElement ele){
 
         try {
