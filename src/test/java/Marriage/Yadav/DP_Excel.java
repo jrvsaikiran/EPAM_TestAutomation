@@ -21,7 +21,7 @@ public class DP_Excel {
         try {
             if (wb == null) {
                 wb = new XSSFWorkbook();
-                sheet = wb.createSheet("test");
+                sheet = wb.createSheet("test2");
             }
             //create headers
             XSSFRow h1 = sheet.createRow(0);

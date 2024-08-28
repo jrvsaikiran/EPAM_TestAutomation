@@ -88,7 +88,7 @@ public class YadavFumctions {
         try {
             clickProperty(skip_btn);
         } catch (TimeoutException e) {
-            windowHandle(1);
+            switchWindow(1);
         }
     }
 
@@ -156,7 +156,7 @@ public class YadavFumctions {
     public void firstPicClick() throws Exception {
         pageLoad();
         clickProperty(firstPhoto);
-        windowHandle(2);
+        switchWindow(2);
     }
 
     private static int iterations = 1;
@@ -314,9 +314,9 @@ public class YadavFumctions {
     private static int nextBtn_inPages = 1;
 
     private void handleBottomNextBtn() throws Exception {
-        driver.close();
-        windowHandle(1);
-        moveToEle(bottomNext_btn);
+        closeWindow(2);
+        switchWindow(1);
+//        moveToEle(bottomNext_btn);
         try {
             if (bottomNext_btn.isDisplayed()) {
                 moveToEle(bottomNext_btn);
@@ -389,7 +389,7 @@ public class YadavFumctions {
         }
     }
 
-    private void windowHandle(int stop) throws Exception {
+    private void switchWindow(int stop) throws Exception {
         try {
             int i = 1;
             Set<String> win = driver.getWindowHandles();
@@ -402,6 +402,25 @@ public class YadavFumctions {
             }
         } catch (Exception e) {
             throw new Exception("unable to handle window");
+        }
+    }
+
+    private void closeWindow(int closeWin) {
+        try {
+            int i = 1;
+            Set<String> win = driver.getWindowHandles();
+            for (String windowHandle : win) {
+                if (closeWin == i) {
+                    driver.switchTo().window(windowHandle);
+                    String currentUrl = driver.getTitle();
+                    driver.close();
+                    pageLoad();
+                    System.out.println("driver closed >>" + closeWin + "<< window title is:- "+currentUrl);
+                }
+                i++;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("unable to handle window " + e.getLocalizedMessage());
         }
     }
 
