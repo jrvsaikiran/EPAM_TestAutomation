@@ -16,6 +16,7 @@ import java.util.Set;
 public class MatrimonyFunctions  {
     WebDriver driver;
     private String totalRecords;
+    private  String startingRecordCount;
 
     public MatrimonyFunctions(WebDriver driver) {
         this.driver = driver;
@@ -186,7 +187,6 @@ public class MatrimonyFunctions  {
         }
         getRecordCount(recordCount);
         fixedLoopToClickNextBtn();
-//        getRecordCount(recordCount);
     }
 //    ===============================================================================================
     private static int pic = 2;
@@ -227,6 +227,7 @@ public class MatrimonyFunctions  {
             text = element.getText();
         }
         String[] split = text.split("/");
+         startingRecordCount = split[0];
         totalRecords = split[1];
         System.out.println(" total Records :-" + totalRecords + " & record list :- " + text);
     }
@@ -309,10 +310,10 @@ public class MatrimonyFunctions  {
         }
     }
 
-    private static int nextRec = pic;
-    private static int cliclCount = 2;
+    private static int startingCount;
     private void fixedLoopToClickNextBtn() throws Exception {
         final int allRec = Integer.parseInt(totalRecords);
+         startingCount = Integer.parseInt(startingRecordCount);
         try {
             do {
                 waitProperty(nextButton2);
@@ -320,10 +321,12 @@ public class MatrimonyFunctions  {
                 readDataToExcel();
                 clickProperty(nextButton2);
                 pageLoad();
-                cliclCount++;
-                nextRec++;
-                System.out.println("click count " + cliclCount);
-            } while (allRec>nextRec);
+                System.out.println("clicked account " + startingCount);
+                startingCount++;
+                if(!(allRec >startingCount)){
+                    getRecordCount(recordCount);
+                }
+            } while (allRec>startingCount);
         }
         catch (WebDriverException e) {
             try {
@@ -368,7 +371,7 @@ public class MatrimonyFunctions  {
 
         List<ProfileData> list = new LinkedList<>();
         list.add(new ProfileData(nameTxt,ageTxt,castTxt,educationTxt,locationTxt,activityTxt));
-        System.out.println(list);
+//        System.out.println(list);
         Dp_data dp = new Dp_data();
         dp.readBharathData(list);
 
