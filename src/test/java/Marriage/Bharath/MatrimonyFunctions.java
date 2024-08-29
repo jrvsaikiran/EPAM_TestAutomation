@@ -1,5 +1,7 @@
 package Marriage.Bharath;
 
+import Marriage.pdfExcelImg.Convert_Image_To_PDF;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -8,7 +10,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -109,6 +115,9 @@ public class MatrimonyFunctions  {
 
     @FindBy(xpath = "//ion-col[starts-with(@class,'matriid-lastlogin')]")
     WebElement activity;
+
+    @FindBy(xpath = "//ion-row[@class='ion-padding viewprofile-card md hydrated']")
+    WebElement profilePic;
 
     public void loginFunction() {
         try {
@@ -318,10 +327,11 @@ public class MatrimonyFunctions  {
             do {
                 waitProperty(nextButton2);
                 waitProperty(nextButton2);
-                readDataToExcel();
+                readDataToExcel();  //excel reader
                 clickProperty(nextButton2);
                 pageLoad();
-                System.out.println("clicked account " + startingCount);
+                System.out.println("clicked account " +startingCount);
+                Thread.sleep(100);
                 startingCount++;
                 if(!(allRec >startingCount)){
                     getRecordCount(recordCount);
@@ -369,12 +379,56 @@ public class MatrimonyFunctions  {
         String locationTxt = getEleText(location);
         String activityTxt = getEleText(activity);
 
+        screenShots(nameTxt);
+
         List<ProfileData> list = new LinkedList<>();
         list.add(new ProfileData(nameTxt,ageTxt,castTxt,educationTxt,locationTxt,activityTxt));
 //        System.out.println(list);
         Dp_data dp = new Dp_data();
-        dp.readBharathData(list);
+        dp.readBharathData(list, destinationOfImg_png);
 
+    }
+
+    private String destinationOfImg_png;
+   private String name_date_ofImg;
+    private void screenShots(String nameTxt) {
+        String dtTim;
+        try {
+             dtTim = getCurrentTimeDate();
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+//        File source = profilePic.getScreenshotAs(OutputType.FILE);
+        try {
+            File destination = new File("C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/Marriage/Bharath/Screenshots/"+ nameTxt +dtTim+".png");
+             destinationOfImg_png = String.valueOf(destination);
+             name_date_ofImg = nameTxt.replace(" ","");
+            FileUtils.copyFile(source,destination);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            Convert_Image_To_PDF pdf = new Convert_Image_To_PDF();
+            pdf.createPdfs(destinationOfImg_png, name_date_ofImg);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String getCurrentTimeDate() {
+        LocalDate date = LocalDate.now();
+        String s1 = String.valueOf(date);
+
+        LocalTime time = LocalTime.now();
+        String s = String.valueOf(time);
+        String[] split = s.split("\\.");
+        String s2 = split[0].replace(":", "-");
+
+        String dtTim = "_"+s1 +"_"+ s2;
+        return dtTim;
     }
 
     private String getEleText(WebElement ele) {
