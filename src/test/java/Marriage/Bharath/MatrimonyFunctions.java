@@ -404,7 +404,8 @@ public class MatrimonyFunctions  {
         try {
             File destination = new File("C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/Marriage/Bharath/Screenshots/"+ nameTxt +dtTim+".png");
              destinationOfImg_png = String.valueOf(destination);
-             name_date_ofImg = nameTxt.replace(" ","");
+
+             name_date_ofImg = nameTxt.replace(" ","")+dtTim.replace("-","");
             FileUtils.copyFile(source,destination);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -427,7 +428,7 @@ public class MatrimonyFunctions  {
         String[] split = s.split("\\.");
         String s2 = split[0].replace(":", "-");
 
-        String dtTim = "_"+s1 +"_"+ s2;
+        String dtTim = s1 + s2;
         return dtTim;
     }
 
