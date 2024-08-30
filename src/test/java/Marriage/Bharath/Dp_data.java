@@ -21,6 +21,7 @@ public class Dp_data {
     private static XSSFSheet sheet;
     private static  int i = 1;
     private static ProfileData profileData;
+    private static File file;
     public void readBharathData(List<ProfileData> list, String imageName){
 
         try {
@@ -59,9 +60,12 @@ public class Dp_data {
 
 
         try {
-            File file = new File("C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/target/ExcelReport");
-            file.mkdir();
-//            FileOutputStream fis = new FileOutputStream("src/test/java/Marriage/Bharath/bharathProfile.xlsx");
+            String excelFolder = "C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/target/ExcelReport";
+            if (file==null) {
+                file = new File(excelFolder);
+                file.mkdir();
+            }
+
             FileOutputStream fis = new FileOutputStream(file+"/profile.xlsx");
             wb.write(fis);
             System.out.println("Excel Written success");

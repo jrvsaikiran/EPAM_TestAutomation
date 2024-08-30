@@ -402,9 +402,9 @@ public class MatrimonyFunctions  {
         File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 //        File source = profilePic.getScreenshotAs(OutputType.FILE);
         try {
-            File destination = new File("C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/target/screenshots/"+ nameTxt +dtTim+".png");
+            String screenshotFolder = "C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/target/screenshots/";
+            File destination = new File(screenshotFolder+ nameTxt +dtTim+".png");
              destinationOfImg_png = String.valueOf(destination);
-
              name_date_ofImg = nameTxt.replace(" ","")+dtTim.replace("-","");
             FileUtils.copyFile(source,destination);
         } catch (IOException e) {
