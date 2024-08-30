@@ -1,5 +1,6 @@
 package Marriage.pdfExcelImg;
 
+import Marriage.Bharath.Dp_data;
 import Marriage.Bharath.FolderPaths;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -8,7 +9,8 @@ import java.io.*;
 
 public class ExcelToHtml {
     public  void htmlReport() {
-        String excelFilePath = FolderPaths.EXCEL+"/ExcelReport.xlsx";
+
+        String excelFilePath = Dp_data.excelReport;
         String htmlFilePath = FolderPaths.HTML+"/HtmlReport.html";
 
         try (Workbook workbook = new XSSFWorkbook(new FileInputStream(excelFilePath));

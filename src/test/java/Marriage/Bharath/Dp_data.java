@@ -22,6 +22,7 @@ public class Dp_data {
     private static  int i = 1;
     private static ProfileData profileData;
     private static File file;
+    public static String excelReport;
     public void readBharathData(List<ProfileData> list, String imageName){
 
         try {
@@ -64,8 +65,9 @@ public class Dp_data {
                 file = new File(FolderPaths.EXCEL);
                 file.mkdir();
             }
+             excelReport = file + "/ExcelReport.xlsx";
 
-            FileOutputStream fis = new FileOutputStream(file+"/ExcelReport.xlsx");
+            FileOutputStream fis = new FileOutputStream(excelReport);
             wb.write(fis);
             System.out.println("Excel Written success");
 
