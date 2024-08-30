@@ -8,6 +8,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,7 +59,10 @@ public class Dp_data {
 
 
         try {
-            FileOutputStream fis = new FileOutputStream("src/test/java/Marriage/Bharath/bharathProfile.xlsx");
+            File file = new File("C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/target/ExcelReport");
+            file.mkdir();
+//            FileOutputStream fis = new FileOutputStream("src/test/java/Marriage/Bharath/bharathProfile.xlsx");
+            FileOutputStream fis = new FileOutputStream(file+"/profile.xlsx");
             wb.write(fis);
             System.out.println("Excel Written success");
 

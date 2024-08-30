@@ -402,7 +402,7 @@ public class MatrimonyFunctions  {
         File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 //        File source = profilePic.getScreenshotAs(OutputType.FILE);
         try {
-            File destination = new File("C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/Marriage/Bharath/Screenshots/"+ nameTxt +dtTim+".png");
+            File destination = new File("C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/target/screenshots/"+ nameTxt +dtTim+".png");
              destinationOfImg_png = String.valueOf(destination);
 
              name_date_ofImg = nameTxt.replace(" ","")+dtTim.replace("-","");

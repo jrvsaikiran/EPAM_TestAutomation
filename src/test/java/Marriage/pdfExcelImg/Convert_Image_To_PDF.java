@@ -11,14 +11,26 @@ import com.itextpdf.layout.element.Image;
 //public  String pdfPath ;
 public class Convert_Image_To_PDF {
     public static String pdfPath;
+    private static  File file;
     public  void createPdfs(String destination, String imageName) throws IOException
     {
-        String currDir = "C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/Marriage/Bharath/PdfGenerated";
+        String currDir = "C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/target/pdfs";
 
+//        String currDir = "C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/Marriage/Bharath/pdfs";
         // Getting path of current working directory
         // to create the pdf file in the same directory of
         // the running java program
-          pdfPath = currDir + "/"+imageName+".pdf";
+
+        try {
+            if (file==null) {
+                file = new File(currDir);
+                file.mkdir();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        pdfPath = currDir +"/"+imageName+".pdf";
 
         // Creating path for the new pdf file
         PdfWriter writer = new PdfWriter(pdfPath);
