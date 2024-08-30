@@ -16,8 +16,15 @@ public class MatrimonyTesting {
         driver.get("https://www.bharatmatrimony.com/login/login.php");
         MatrimonyFunctions m = new MatrimonyFunctions(driver);
         m.loginFunction();
-        m.primeSelected(false);
-        m.selectTab("1");
+        if (System.getProperty("jenkins")=="true") {
+            m.primeSelected(Boolean.valueOf(System.getProperty("prime")));
+            m.selectTab(System.getProperty("tab"));
+        }else {
+//            m.primeSelected(Boolean.valueOf(System.getProperty("prime")));
+//            m.selectTab(System.getProperty("tab"));
+            m.primeSelected(true);
+            m.selectTab("3");
+        }
         m.checkImages();
         driver.quit();
 
