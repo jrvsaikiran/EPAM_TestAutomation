@@ -331,7 +331,6 @@ public class MatrimonyFunctions  {
                 clickProperty(nextButton2);
                 pageLoad();
                 System.out.println("clicked account " +startingRecordCount);
-                Thread.sleep(100);
                 startingRecordCount++;
                 if(!(allRec >startingRecordCount)){
                     getRecordCount(recordCount);
@@ -397,7 +396,7 @@ public class MatrimonyFunctions  {
         String dtTim;
         try {
              dtTim = getCurrentTimeDate();
-            Thread.sleep(1000);
+            Thread.sleep(100);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
