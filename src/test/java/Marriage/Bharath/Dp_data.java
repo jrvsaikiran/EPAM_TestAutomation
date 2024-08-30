@@ -60,13 +60,12 @@ public class Dp_data {
 
 
         try {
-            String excelFolder = "C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/target/ExcelReport";
             if (file==null) {
-                file = new File(excelFolder);
+                file = new File(FolderPaths.EXCEL);
                 file.mkdir();
             }
 
-            FileOutputStream fis = new FileOutputStream(file+"/profile.xlsx");
+            FileOutputStream fis = new FileOutputStream(file+"/ExcelReport.xlsx");
             wb.write(fis);
             System.out.println("Excel Written success");
 

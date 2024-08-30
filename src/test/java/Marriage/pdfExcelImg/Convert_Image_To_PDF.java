@@ -3,6 +3,7 @@ package Marriage.pdfExcelImg;
 import java.io.*;
 
 // importing itext library packages
+import Marriage.Bharath.FolderPaths;
 import com.itextpdf.io.image.*;
 import com.itextpdf.kernel.pdf.*;
 import com.itextpdf.layout.Document;
@@ -14,7 +15,7 @@ public class Convert_Image_To_PDF {
     private static  File file;
     public  void createPdfs(String destination, String imageName) throws IOException
     {
-        String currDir = "C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/target/pdfs";
+        String currDir = FolderPaths.PDF;
 
 //        String currDir = "C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/Marriage/Bharath/pdfs";
         // Getting path of current working directory

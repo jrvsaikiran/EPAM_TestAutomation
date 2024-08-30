@@ -1,6 +1,7 @@
 package Marriage.Bharath;
 
 import Marriage.pdfExcelImg.Convert_Image_To_PDF;
+import Marriage.pdfExcelImg.ExcelToHtml;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -367,6 +368,8 @@ public class MatrimonyFunctions  {
                 fixedLoopToClickNextBtn();
             }
         }
+        ExcelToHtml html = new ExcelToHtml();
+        html.htmlReport();      //generate html report
         System.out.println("Completed the task----->");
     }
 
@@ -402,7 +405,7 @@ public class MatrimonyFunctions  {
         File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
 //        File source = profilePic.getScreenshotAs(OutputType.FILE);
         try {
-            String screenshotFolder = "C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/target/screenshots/";
+            String screenshotFolder = FolderPaths.SCREENSHOTS;
             File destination = new File(screenshotFolder+ nameTxt +dtTim+".png");
              destinationOfImg_png = String.valueOf(destination);
              name_date_ofImg = nameTxt.replace(" ","")+dtTim.replace("-","");
