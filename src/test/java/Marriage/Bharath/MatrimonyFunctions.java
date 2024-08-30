@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Set;
 
 public class MatrimonyFunctions  {
-    WebDriver driver;
+    private static WebDriver driver;
     private String totalRecords;
-    private  String startingRecordCount;
+    private static int startingRecordCount;
 
     public MatrimonyFunctions(WebDriver driver) {
         this.driver = driver;
@@ -237,7 +237,8 @@ public class MatrimonyFunctions  {
             text = element.getText();
         }
         String[] split = text.split("/");
-         startingRecordCount = split[0];
+         String i = split[0];
+         startingRecordCount = Integer.parseInt(i);
         totalRecords = split[1];
         System.out.println(" total Records :-" + totalRecords + " & record list :- " + text);
     }
@@ -320,10 +321,8 @@ public class MatrimonyFunctions  {
         }
     }
 
-    private static int startingCount;
     private void fixedLoopToClickNextBtn() throws Exception {
         final int allRec = Integer.parseInt(totalRecords);
-         startingCount = Integer.parseInt(startingRecordCount);
         try {
             do {
                 waitProperty(nextButton2);
@@ -331,13 +330,13 @@ public class MatrimonyFunctions  {
                 readDataToExcel();  //excel reader
                 clickProperty(nextButton2);
                 pageLoad();
-                System.out.println("clicked account " +startingCount);
+                System.out.println("clicked account " +startingRecordCount);
                 Thread.sleep(100);
-                startingCount++;
-                if(!(allRec >startingCount)){
+                startingRecordCount++;
+                if(!(allRec >startingRecordCount)){
                     getRecordCount(recordCount);
                 }
-            } while (allRec>startingCount);
+            } while (allRec>startingRecordCount);
         }
         catch (WebDriverException e) {
             try {
