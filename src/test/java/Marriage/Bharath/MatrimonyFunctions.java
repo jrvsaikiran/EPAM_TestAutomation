@@ -23,7 +23,7 @@ import java.util.Set;
 
 public class MatrimonyFunctions  {
     private static WebDriver driver;
-    private String totalRecords;
+    protected static String totalRecords;
     private static int startingRecordCount;
 
     public MatrimonyFunctions(WebDriver driver) {
