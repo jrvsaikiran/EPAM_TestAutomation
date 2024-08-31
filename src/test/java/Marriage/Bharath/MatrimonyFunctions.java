@@ -3,6 +3,7 @@ package Marriage.Bharath;
 import Marriage.pdfExcelImg.Convert_Image_To_PDF;
 import Marriage.pdfExcelImg.ExcelToHtml;
 import org.apache.commons.io.FileUtils;
+import org.checkerframework.checker.units.qual.N;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -59,6 +60,9 @@ public class MatrimonyFunctions  {
 
     @FindBy(xpath = "//ion-button[@size='small']//following-sibling::ion-button")
     WebElement nextButton2;
+
+    @FindBy(xpath = "((//a[@class='remove-underline']//ion-img)/ancestor::app-match-card)[1]/../following-sibling::div[@class='paginate']//li[@class='pagination-next']/a")
+    WebElement NEXT_BTN_UnderPage;
 
     @FindBy(xpath = "//li[@class='pagination-next']//a")
     WebElement bottomNext_btn;
@@ -181,20 +185,23 @@ public class MatrimonyFunctions  {
         selectWindow(2);
         refreshProperty();
 
-        try {
             try{
                 clickProperty(nextButton2);
+                try {
+                    clickProperty(nextButton);
+                } catch (Exception exc) {
+                    clickProperty(nextButton2);
+                }
             } catch (Exception e) {
                 try {
                     clickProperty(nextButton);
-                } catch (Throwable ex) {
+                } catch (Exception ex) {
                     handleCheckImages();
                 }
             }
-        } catch (Exception e1) {
-            handleCheckImages();
 
-        }
+
+
         getRecordCount(recordCount);
         fixedLoopToClickNextBtn();
     }
@@ -209,20 +216,34 @@ public class MatrimonyFunctions  {
             selectWindow(2);
             waitProperty(nextButton2);
             nextButton2.isDisplayed();
-        } catch (WebDriverException e2) {
+        } catch (Exception e2) {
             handleCheckImages();
         }
     }
 
-    private void selectingPic(int i) {
+    private void selectingPic(int i) throws Exception {
+        WebElement element;
         try {
-            WebElement element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)[" + i + "]"));
+            element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)[" + i + "]"));
             moveToEle(element);
             element.click();
-        } catch (WebDriverException e) {
-            WebElement element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)[" + i + "]"));
+        } catch (Exception ee) {
+            element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)[" + i + "]"));
             moveToEle(element);
             element.click();
+            try {
+                element = driver.findElement(By.xpath("(//a[@class='remove-underline']//ion-img)[" + i + "]"));
+                moveToEle(element);
+                element.click();
+            } catch (Exception e) {
+                try {
+                    moveToEle(NEXT_BTN_UnderPage);
+                    clickProperty(NEXT_BTN_UnderPage);
+                    checkImages();
+                } catch (Exception ex) {
+                    throw new Exception("Next button is not displayed at bottom of page----->>>>");
+                }
+            }
         }
     }
 
