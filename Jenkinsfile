@@ -10,14 +10,14 @@ pipeline {
         }
         stage('run'){
             steps{
-                 bat 'mvn clean test'
+                 bat 'mvn clean test -Dtab=1 -Dprime=false  -Djenkins=true'
         }
         }
-        stage('reports'){
-            steps{
-                   publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/Reports', reportFiles: 'HtmlReport.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+//         stage('reports'){
+//             steps{
+//                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'target/Reports', reportFiles: 'HtmlReport.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
 //                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'reports', reportFiles: 'Automation.html', reportName: 'Declarative Extent Report', reportTitles: '', useWrapperFileDirectly: true])
-            }
-        }
+//             }
+//         }
     }
 }
