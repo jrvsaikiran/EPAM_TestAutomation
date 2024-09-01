@@ -47,6 +47,12 @@ public class YadavFumctions {
     @FindBy(xpath = "//a[normalize-space()='My Home']/..")
     WebElement home_tab;
 
+    @FindBy(xpath = "(//div[@id='topnav-login-menu']/div/div)[1]/a")
+    WebElement homeTab_mixed;
+
+    @FindBy(xpath = "(//div[@id='topnav-login-menu']/div/div)[2]/a")
+    WebElement matchesTab_mixed;
+
     @FindBy(xpath = "//a[normalize-space()='Matches']/..")
     WebElement matches_tab;
 
@@ -112,19 +118,39 @@ public class YadavFumctions {
 
     public void switchToSpecificTab(String str) throws Exception {
         pageLoad();
-        if (Integer.parseInt(str) <= 2) {
-            pageLoad();
-            moveToEle(home_tab);
-            moveToEle(home_tab);
-            moveToEle(home_tab);
-            pageLoad();
-        } else {
-            pageLoad();
-            moveToEle(matches_tab);
-            moveToEle(matches_tab);
-            moveToEle(matches_tab);
-            pageLoad();
+        if(System.getProperty("testng.xml").equalsIgnoreCase("yadav.xml")){
+            if (Integer.parseInt(str) <= 2) {
+                pageLoad();
+                moveToEle(home_tab);
+                moveToEle(home_tab);
+                moveToEle(home_tab);
+                pageLoad();
+            } else {
+                pageLoad();
+                moveToEle(matches_tab);
+                moveToEle(matches_tab);
+                moveToEle(matches_tab);
+                pageLoad();
+            }
+        } else if (System.getProperty("testng.xml").equalsIgnoreCase("mixed.xml")) {
+
         }
+        {
+            if (Integer.parseInt(str) <= 2) {
+                pageLoad();
+                moveToEle(homeTab_mixed);
+                moveToEle(homeTab_mixed);
+                moveToEle(homeTab_mixed);
+                pageLoad();
+            } else {
+                pageLoad();
+                moveToEle(matchesTab_mixed);
+                moveToEle(matchesTab_mixed);
+                moveToEle(matchesTab_mixed);
+                pageLoad();
+            }
+        }
+
         switch (str) {
             case "1":
                 clickProperty(viewedMyProfile);

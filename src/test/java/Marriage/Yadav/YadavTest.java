@@ -19,8 +19,14 @@ public class YadavTest {
         driver.get("https://www.yadavmatrimony.com/login/logout.php");
         YadavFumctions test = new YadavFumctions(driver);
         test.loginFunction();
-        test.selectPrime(false);
-        test.switchToSpecificTab("6");
+        if(System.getProperty("jenkins").equalsIgnoreCase("true")){
+            test.selectPrime(Boolean.valueOf(System.getProperty("prime")));
+            test.switchToSpecificTab(System.getProperty("tab"));
+        }else {
+            test.selectPrime(false);
+            test.switchToSpecificTab("6");
+        }
+
         test.firstPicClick();
         test.pageIterations();
         driver.quit();
@@ -36,15 +42,18 @@ public class YadavTest {
         MatrimonyFunctions m = new MatrimonyFunctions(driver);
         m.loginFunction();
          m.mixedProfiles();
-
         YadavFumctions test = new YadavFumctions(driver);
-        test.selectPrime(false);
+        if(System.getProperty("jenkins").equalsIgnoreCase("true")){
+            test.selectPrime(Boolean.valueOf(System.getProperty("prime")));
+            test.switchToSpecificTab(System.getProperty("tab"));
+        }else {
+            test.selectPrime(false);
+            test.switchToSpecificTab("6");
+        }
         test.firstPicClick();
         test.pageIterations();
         driver.quit();
 
-
-//        driver.quit();
 
     }
 

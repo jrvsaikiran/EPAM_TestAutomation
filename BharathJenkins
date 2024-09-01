@@ -10,7 +10,7 @@ pipeline {
         }
         stage('run'){
             steps{
-                 bat 'mvn clean test -Dtab=1 -Dprime=false  -Djenkins=true  -Dtestng.xml=bharath.xml'
+                 bat 'mvn clean test -Dtab=1 -Dprime=true  -Djenkins=true  -Dtestng.xml=bharath.xml'
         }
         }
 //         stage('reports'){
