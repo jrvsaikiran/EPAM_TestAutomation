@@ -181,8 +181,15 @@ public class YadavFumctions {
 
     public void firstPicClick() throws Exception {
         pageLoad();
-        clickProperty(firstPhoto);
-        switchWindow(2);
+        try {
+            if(firstPhoto.isDisplayed()){
+                clickProperty(firstPhoto);
+                switchWindow(2);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("No phots ara available for view------>>>>>>>");
+        }
+
     }
 
     private static int iterations = 1;

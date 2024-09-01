@@ -362,25 +362,35 @@ public class MatrimonyFunctions  {
             try {
                 refreshProperty();
             } catch (Exception ex) {
-               pageLoad();
-               pageLoad();
+                pageLoad();
+                pageLoad();
             }
             try {
-                while(primeMatches_btn.isDisplayed()){
+                while (primeMatches_btn.isDisplayed()) {
                     pageLoad();
                     closeWindow(2);
                     selectWindow(1);
                     pageLoad();
                     pageLoad();
 
-                    if(bottomNext_btn.isEnabled()){
-                        moveToEle(bottomNext_btn);
-                        clickProperty(bottomNext_btn);
-                        System.out.println("clicked bottom next button");
+                    try {
+                        if (bottomNext_btn.isEnabled()) {
+                            moveToEle(bottomNext_btn);
+                            clickProperty(bottomNext_btn);
+                            System.out.println("clicked bottom next button");
+                        }
+                    } catch (Exception ee) {
+                        try {
+                            if (bottomNext_btn.isEnabled()) {
+                                moveToEle(bottomNext_btn);
+                                clickProperty(bottomNext_btn);
+                                System.out.println("clicked bottom next button");
+                            }
+                        } catch (Exception e1) {
+                            throw new Exception("---->>>>> next button is not displayed");
+                        }
                     }
-                    else {
-                       throw new Exception("---->>>>> next button is not displayed");
-                    }
+
                     checkImages();
                 }
             } catch (NoSuchElementException ex) {
