@@ -1,14 +1,16 @@
 package Marriage.Yadav;
 
 import Marriage.Bharath.MatrimonyFunctions;
+import Marriage.Bharath.MatrimonyTesting;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 
 public class YadavTest {
+
+    public MatrimonyTesting par;
 
     @Test
     public void yadavMarriage() throws Exception {
@@ -19,9 +21,10 @@ public class YadavTest {
         driver.get("https://www.yadavmatrimony.com/login/logout.php");
         YadavFumctions test = new YadavFumctions(driver);
         test.loginFunction();
-        if(System.getProperty("jenkins").equalsIgnoreCase("true")){
-            test.selectPrime(Boolean.valueOf(System.getProperty("prime")));
-            test.switchToSpecificTab(System.getProperty("tab"));
+        par.getParameters();
+        if(par.getJenkins().equalsIgnoreCase("true")){
+            test.selectPrime(Boolean.valueOf(par.getPrime()));
+            test.switchToSpecificTab(par.getTab());
         }else {
             test.selectPrime(false);
             test.switchToSpecificTab("6");
@@ -42,10 +45,11 @@ public class YadavTest {
         MatrimonyFunctions m = new MatrimonyFunctions(driver);
         m.loginFunction();
          m.mixedProfiles();
+        par.getParameters();
         YadavFumctions test = new YadavFumctions(driver);
-        if(System.getProperty("jenkins").equalsIgnoreCase("true")){
-            test.selectPrime(Boolean.valueOf(System.getProperty("prime")));
-            test.switchToSpecificTab(System.getProperty("tab"));
+        if(par.getJenkins().equalsIgnoreCase("true")){
+            test.selectPrime(Boolean.valueOf(par.getPrime()));
+            test.switchToSpecificTab(par.getTab());
         }else {
             test.selectPrime(false);
             test.switchToSpecificTab("6");
