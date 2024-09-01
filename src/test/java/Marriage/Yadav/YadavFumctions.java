@@ -256,14 +256,16 @@ public class YadavFumctions {
             nextBtn = driver.findElement(By.xpath("(//button[@id='nxtproflink'])[" + i + "]"));
             if (nextBtn.isDisplayed()) {
                 wait(nextBtn);
-                actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
+                moveToEle(nextBtn);
+                moveToEle(nextBtn);
                 pageLoad();
-                actions.moveToElement(nextBtn).moveToElement(nextBtn).build().perform();
+                pageLoad();
+                moveToEle(nextBtn);
+                moveToEle(nextBtn);
                 getDataToExcel(i);
                 clickProperty(nextBtn);
                 pageLoad();
                 pageLoad();
-
             }
 
         } catch (WebDriverException e) {
@@ -467,7 +469,7 @@ public class YadavFumctions {
         try {
             action.moveToElement(ele).build().perform();
         } catch (JsonException e2){
-            refreshProperty();
+
             pageLoad();
             action.moveToElement(ele).build().perform();
             moveToEle(ele);
