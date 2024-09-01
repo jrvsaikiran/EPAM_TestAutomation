@@ -3,6 +3,7 @@ package Marriage.Yadav;
 import Marriage.Bharath.MatrimonyFunctions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
@@ -23,6 +24,28 @@ public class YadavTest {
         test.firstPicClick();
         test.pageIterations();
         driver.quit();
+    }
+
+    @Test
+    public void mixed() throws Exception {
+        WebDriverManager.chromedriver().setup();
+        ChromeOptions chromeOptions = getChromeOptions();
+        WebDriver driver = new ChromeDriver(chromeOptions);
+        driver.manage().window().maximize();
+        driver.get("https://www.bharatmatrimony.com/login/login.php");
+        MatrimonyFunctions m = new MatrimonyFunctions(driver);
+        m.loginFunction();
+         m.mixedProfiles();
+
+        YadavFumctions test = new YadavFumctions(driver);
+        test.selectPrime(false);
+        test.firstPicClick();
+        test.pageIterations();
+        driver.quit();
+
+
+//        driver.quit();
+
     }
 
     private static ChromeOptions getChromeOptions() {

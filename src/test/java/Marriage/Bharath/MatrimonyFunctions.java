@@ -121,8 +121,8 @@ public class MatrimonyFunctions  {
     @FindBy(xpath = "//ion-col[starts-with(@class,'matriid-lastlogin')]")
     WebElement activity;
 
-    @FindBy(xpath = "//ion-row[@class='ion-padding viewprofile-card md hydrated']")
-    WebElement profilePic;
+    @FindBy(xpath = "(//div[@class='swiper-wrapper'])[7]/../../following-sibling::ion-col//ion-button")
+    public WebElement Expolre_matches_yadav_Profile;
 
     public void loginFunction() {
         try {
@@ -525,4 +525,27 @@ public class MatrimonyFunctions  {
         }
     }
 
+    public void mixedProfiles() {
+        try {
+            moveToEle(Expolre_matches_yadav_Profile);
+            moveToEle(Expolre_matches_yadav_Profile);
+            moveToEle(Expolre_matches_yadav_Profile);
+            moveToEle(Expolre_matches_yadav_Profile);
+            clickProperty(Expolre_matches_yadav_Profile);
+            try {
+                pageLoad();
+                pageLoad();
+                closeWindow(1);
+                selectWindow(1);
+                refreshProperty();
+                pageLoad();
+                pageLoad();
+            } catch (Exception e) {
+                pageLoad();
+                pageLoad();
+            }
+        } catch (Exception e) {
+            mixedProfiles();
+        }
+    }
 }
