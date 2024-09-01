@@ -3,7 +3,6 @@ package Marriage.Bharath;
 import Marriage.pdfExcelImg.Convert_Image_To_PDF;
 import Marriage.pdfExcelImg.ExcelToHtml;
 import org.apache.commons.io.FileUtils;
-import org.checkerframework.checker.units.qual.N;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
@@ -21,12 +20,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public class MatrimonyFunctions  {
+public class BharathFunctions {
     private static WebDriver driver;
     protected static String totalRecords;
     private static int startingRecordCount;
 
-    public MatrimonyFunctions(WebDriver driver) {
+    public BharathFunctions(WebDriver driver) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
@@ -558,4 +557,6 @@ public class MatrimonyFunctions  {
             mixedProfiles();
         }
     }
+
+
 }

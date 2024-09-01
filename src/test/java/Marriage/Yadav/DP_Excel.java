@@ -1,7 +1,7 @@
 package Marriage.Yadav;
 
 import Marriage.Bharath.FolderPaths;
-import Marriage.Bharath.MatrimonyTesting;
+import Marriage.pdfExcelImg.Parameters;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,8 +20,9 @@ public class DP_Excel {
     private static int rowCount = 1;
     private static File file;
     private static String excelReport;
-    public void readData(LinkedHashMap<Integer, List<CustomerData>> map, int i) {
 
+
+    public void readData(LinkedHashMap<Integer, List<CustomerData>> map, int i, Parameters par) {
         try {
             if (wb == null) {
                 wb = new XSSFWorkbook();
@@ -53,17 +54,20 @@ public class DP_Excel {
             throw new RuntimeException(e);
         }
 
-        MatrimonyTesting par = new MatrimonyTesting();
-
         try {
             if (file==null) {
                 file = new File(FolderPaths.EXCEL);
                 file.mkdir();
             }
-            if(par.getTestngXml().equalsIgnoreCase("mixed.xml")){
-                excelReport = file + "/MixedExcelReport.xlsx";
-            }else {
-                excelReport = file + "/YadavExcelReport.xlsx";
+            try {
+
+                if(par.getTestngXml().equalsIgnoreCase("mixed.xml")){
+                    excelReport = file + "/MixedExcelReport.xlsx";
+                }else {
+                    excelReport = file + "/YadavExcelReport.xlsx";
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
 
 

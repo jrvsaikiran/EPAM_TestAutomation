@@ -1,35 +1,30 @@
 package Marriage.Bharath;
 
+import Marriage.pdfExcelImg.Parameters;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import lombok.Data;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.Test;
 
-@Data
-public class MatrimonyTesting {
-    private String jenkins;
-    private String prime ;
-    private String tab;
-    private String testngXml;
 
-
+public class BharathTesting {
 
     @Test
-    public void dryRun() throws Exception {
+    public void bharath() throws Exception {
 
         WebDriverManager.chromedriver().setup();
         ChromeOptions chromeOptions = getChromeOptions();
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
         driver.get("https://www.bharatmatrimony.com/login/login.php");
-        MatrimonyFunctions m = new MatrimonyFunctions(driver);
+        BharathFunctions m = new BharathFunctions(driver);
         m.loginFunction();
-        getParameters();
-        if (getJenkins().equalsIgnoreCase("true")) {
-            m.primeSelected(Boolean.valueOf(getPrime()));
-            m.selectTab(getTab());
+        Parameters p = new Parameters();
+        p.getParameters();
+        if (p.getJenkins().equalsIgnoreCase("true")) {
+            m.primeSelected(Boolean.valueOf(p.getPrime()));
+            m.selectTab(p.getTab());
         }else {
             m.primeSelected(true);
             m.selectTab("3");
@@ -52,18 +47,7 @@ public class MatrimonyTesting {
         return chromeOptions;
     }
 
-    public void getParameters(){
-        setJenkins(System.getProperty("jenkins"));
-        setPrime(System.getProperty("prime"));
-        setTab(System.getProperty("tab"));
-        setTestngXml(System.getProperty("testng.xml"));
 
-
-        System.out.println("Tab -------->"+getTab());
-        System.out.println("Prime ------>"+getPrime());
-        System.out.println("Jenkins ---->"+getJenkins());
-        System.out.println("Testng.xml ->"+ getTestngXml());
-    }
 
 
 }

@@ -1,5 +1,6 @@
 package Marriage.Yadav;
 
+import Marriage.pdfExcelImg.Parameters;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.json.JsonException;
@@ -17,6 +18,7 @@ import java.util.Set;
 
 public class YadavFumctions {
     private WebDriver driver;
+    public static Parameters par;
 
     public YadavFumctions(WebDriver driver) {
         this.driver = driver;
@@ -327,7 +329,7 @@ public class YadavFumctions {
 //            System.out.println(customerData1);
 //            System.out.println(customerData1.getAge());
             DP_Excel dp = new DP_Excel();
-            dp.readData(map,i);
+            dp.readData(map,i,par);
 
         } catch (Exception e) {
             getDataToExcel(i);
@@ -490,4 +492,17 @@ public class YadavFumctions {
     }
 
 
+    public void mavenParameters(YadavFumctions test) throws Exception {
+
+         par = new Parameters();
+        par.getParameters();
+
+        if (par.getJenkins().equalsIgnoreCase("true")) {
+            test.selectPrime(Boolean.valueOf(par.getPrime()));
+            test.switchToSpecificTab(par.getTab());
+        } else {
+            test.selectPrime(false);
+            test.switchToSpecificTab("6");
+        }
+    }
 }

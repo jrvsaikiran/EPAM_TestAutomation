@@ -1,7 +1,6 @@
 package Marriage.Yadav;
 
-import Marriage.Bharath.MatrimonyFunctions;
-import Marriage.Bharath.MatrimonyTesting;
+import Marriage.Bharath.BharathFunctions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,18 +18,10 @@ public class YadavTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
         driver.get("https://www.yadavmatrimony.com/login/logout.php");
+
         YadavFumctions test = new YadavFumctions(driver);
         test.loginFunction();
-        MatrimonyTesting par = new MatrimonyTesting();
-        par.getParameters();
-        if(par.getJenkins().equalsIgnoreCase("true")){
-            test.selectPrime(Boolean.valueOf(par.getPrime()));
-            test.switchToSpecificTab(par.getTab());
-        }else {
-            test.selectPrime(false);
-            test.switchToSpecificTab("6");
-        }
-
+        test.mavenParameters(test);
         test.firstPicClick();
         test.pageIterations();
         driver.quit();
@@ -43,20 +34,12 @@ public class YadavTest {
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
         driver.get("https://www.bharatmatrimony.com/login/login.php");
-        MatrimonyFunctions m = new MatrimonyFunctions(driver);
+        BharathFunctions m = new BharathFunctions(driver);
         m.loginFunction();
-         m.mixedProfiles();
+        m.mixedProfiles();
 
-        MatrimonyTesting par = new MatrimonyTesting();
-        par.getParameters();
         YadavFumctions test = new YadavFumctions(driver);
-        if(par.getJenkins().equalsIgnoreCase("true")){
-            test.selectPrime(Boolean.valueOf(par.getPrime()));
-            test.switchToSpecificTab(par.getTab());
-        }else {
-            test.selectPrime(false);
-            test.switchToSpecificTab("6");
-        }
+        test.mavenParameters(test);
         test.firstPicClick();
         test.pageIterations();
         driver.quit();

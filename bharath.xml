@@ -4,7 +4,7 @@
     <test verbose="2" preserve-order="true"
           name="C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/Marriage/Bharath/MatrimonyTesting.java">
         <classes>
-            <class name="Marriage.Bharath.MatrimonyTesting">
+            <class name="Marriage.Bharath.BharathTesting">
                 <methods>
                     <include name="dryRun"/>
                 </methods>

@@ -32,7 +32,7 @@ public class Dp_data {
             }
             //create headers
             XSSFRow h1 = sheet.createRow(0);
-            h1.createCell(0).setCellValue("Name & Records "+MatrimonyFunctions.totalRecords);
+            h1.createCell(0).setCellValue("Name & Records "+ BharathFunctions.totalRecords);
             h1.createCell(1).setCellValue("Age");
             h1.createCell(2).setCellValue("Cast");
             h1.createCell(3).setCellValue("Education");
