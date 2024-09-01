@@ -1,9 +1,11 @@
 package Marriage.Yadav;
 
+import Marriage.Bharath.FolderPaths;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,7 +17,8 @@ public class DP_Excel {
     private static XSSFWorkbook wb;
     private static XSSFSheet sheet;
     private static int rowCount = 1;
-
+    private static File file;
+    private static String excelReport;
     public void readData(LinkedHashMap<Integer, List<CustomerData>> map, int i) {
 
         try {
@@ -51,7 +54,13 @@ public class DP_Excel {
 
 
         try {
-            FileOutputStream fis = new FileOutputStream("src/test/java/Marriage/Yadav/matahdata.xlsx");
+            if (file==null) {
+                file = new File(FolderPaths.EXCEL);
+                file.mkdir();
+            }
+            excelReport = file + "/YadavExcelReport.xlsx";
+
+            FileOutputStream fis = new FileOutputStream(excelReport);
             wb.write(fis);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("FileNotFoundException---->>>>" + e);
