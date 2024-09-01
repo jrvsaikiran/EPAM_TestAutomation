@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 public class YadavTest {
 
-    public MatrimonyTesting par;
+
 
     @Test
     public void yadavMarriage() throws Exception {
@@ -21,6 +21,7 @@ public class YadavTest {
         driver.get("https://www.yadavmatrimony.com/login/logout.php");
         YadavFumctions test = new YadavFumctions(driver);
         test.loginFunction();
+        MatrimonyTesting par = new MatrimonyTesting();
         par.getParameters();
         if(par.getJenkins().equalsIgnoreCase("true")){
             test.selectPrime(Boolean.valueOf(par.getPrime()));
@@ -45,6 +46,8 @@ public class YadavTest {
         MatrimonyFunctions m = new MatrimonyFunctions(driver);
         m.loginFunction();
          m.mixedProfiles();
+
+        MatrimonyTesting par = new MatrimonyTesting();
         par.getParameters();
         YadavFumctions test = new YadavFumctions(driver);
         if(par.getJenkins().equalsIgnoreCase("true")){

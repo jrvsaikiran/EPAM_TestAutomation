@@ -12,7 +12,7 @@ public class MatrimonyTesting {
     private String jenkins;
     private String prime ;
     private String tab;
-    private String testng;
+    private String testngXml;
 
 
 
@@ -56,13 +56,13 @@ public class MatrimonyTesting {
         setJenkins(System.getProperty("jenkins"));
         setPrime(System.getProperty("prime"));
         setTab(System.getProperty("tab"));
-        setTestng(System.getProperty("testng.xml"));
+        setTestngXml(System.getProperty("testng.xml"));
 
 
         System.out.println("Tab -------->"+getTab());
         System.out.println("Prime ------>"+getPrime());
         System.out.println("Jenkins ---->"+getJenkins());
-        System.out.println("Testng.xml ->"+getTestng());
+        System.out.println("Testng.xml ->"+ getTestngXml());
     }
 
 

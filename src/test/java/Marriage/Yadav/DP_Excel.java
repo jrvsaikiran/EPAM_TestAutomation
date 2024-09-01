@@ -1,6 +1,7 @@
 package Marriage.Yadav;
 
 import Marriage.Bharath.FolderPaths;
+import Marriage.Bharath.MatrimonyTesting;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -52,13 +53,19 @@ public class DP_Excel {
             throw new RuntimeException(e);
         }
 
+        MatrimonyTesting par = new MatrimonyTesting();
 
         try {
             if (file==null) {
                 file = new File(FolderPaths.EXCEL);
                 file.mkdir();
             }
-            excelReport = file + "/YadavExcelReport.xlsx";
+            if(par.getTestngXml().equalsIgnoreCase("mixed.xml")){
+                excelReport = file + "/MixedExcelReport.xlsx";
+            }else {
+                excelReport = file + "/YadavExcelReport.xlsx";
+            }
+
 
             FileOutputStream fis = new FileOutputStream(excelReport);
             wb.write(fis);
