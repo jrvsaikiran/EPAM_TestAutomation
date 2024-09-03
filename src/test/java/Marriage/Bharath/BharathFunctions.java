@@ -200,8 +200,9 @@ public class BharathFunctions {
             }
 
 
-
-        getRecordCount(recordCount);
+        if (totalRecords==null) {
+            getRecordCount(recordCount);
+        }
         fixedLoopToClickNextBtn();
     }
 //    ===============================================================================================
@@ -260,7 +261,24 @@ public class BharathFunctions {
          String i = split[0];
          startingRecordCount = Integer.parseInt(i);
         totalRecords = split[1];
-        System.out.println(" total Records :-" + totalRecords + " & record list :- " + text);
+        System.out.println("Total Records :-" + totalRecords + " & record list :- " + text);
+    }
+
+    private void getRecordCount_End(WebElement element) {
+        String text;
+        try {
+            waitProperty(element);
+            text = element.getText();
+        } catch (WebDriverException e) {
+            refreshProperty();
+            waitProperty(element);
+            text = element.getText();
+        }
+        String[] split = text.split("/");
+        String i = split[0];
+       Integer startingRecordCount = Integer.parseInt(i);
+        String totalRecords = split[1];
+        System.out.println("Total Records :-" + totalRecords + ", startingRecordCount:-"+startingRecordCount+" & record list :- " + text);
     }
 
 
@@ -348,12 +366,15 @@ public class BharathFunctions {
                 waitProperty(nextButton2);
                 waitProperty(nextButton2);
                 readDataToExcel();  //excel reader
+                pageLoad();
                 clickProperty(nextButton2);
+                pageLoad();
+                pageLoad();
                 pageLoad();
                 System.out.println("clicked account " +startingRecordCount);
                 startingRecordCount++;
                 if(!(allRec >startingRecordCount)){
-                    getRecordCount(recordCount);
+                    getRecordCount_End(recordCount);
                 }
             } while (allRec>startingRecordCount);
         }
@@ -396,6 +417,7 @@ public class BharathFunctions {
                 fixedLoopToClickNextBtn();
             }
         }
+
         ExcelToHtml html = new ExcelToHtml();
         html.htmlReport();      //generate html report
         System.out.println("Completed the task----->");

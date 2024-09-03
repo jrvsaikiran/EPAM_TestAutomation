@@ -31,16 +31,15 @@ public class Dp_data {
                 sheet = wb.createSheet("bharathData");
             }
             //create headers
-            XSSFRow h1 = sheet.createRow(0);
-            h1.createCell(0).setCellValue("Name & Records "+ BharathFunctions.totalRecords);
-            h1.createCell(1).setCellValue("Age");
-            h1.createCell(2).setCellValue("Cast");
-            h1.createCell(3).setCellValue("Education");
-            h1.createCell(4).setCellValue("Location");
-            h1.createCell(5).setCellValue("Activity");
-            h1.createCell(6).setCellValue("Hyper Links pdfs");
-
-
+            XSSFRow header = sheet.createRow(0);
+            header.createCell(0).setCellValue("Name");
+            header.createCell(1).setCellValue("Age");
+            header.createCell(2).setCellValue("Cast");
+            header.createCell(3).setCellValue("Education");
+            header.createCell(4).setCellValue("Location");
+            header.createCell(5).setCellValue("Activity");
+            header.createCell(6).setCellValue("Hyper Links pdfs");
+            header.createCell(7).setCellValue("Records- "+ BharathFunctions.totalRecords);
 
              profileData = list.get(0);
             //create row data
@@ -52,6 +51,7 @@ public class Dp_data {
             row.createCell(3).setCellValue(profileData.getEducation());
             row.createCell(4).setCellValue(profileData.getLocation());
             row.createCell(5).setCellValue(profileData.getActivity());
+
 
             hyperLinkCreation(row,imageName);
 
