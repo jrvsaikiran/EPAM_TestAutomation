@@ -1,6 +1,5 @@
 package Marriage.Bharath;
 
-import Marriage.pdfExcelImg.Parameters;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -20,15 +19,8 @@ public class BharathTesting {
         driver.get("https://www.bharatmatrimony.com/login/login.php");
         BharathFunctions m = new BharathFunctions(driver);
         m.loginFunction();
-        Parameters p = new Parameters();
-        p.getParameters();
-        if (p.getJenkins().equalsIgnoreCase("true")) {
-            m.primeSelected(Boolean.valueOf(p.getPrime()));
-            m.selectTab(p.getTab());
-        }else {
-            m.primeSelected(true);
-            m.selectTab("3");
-        }
+        m.mavenParams();
+
         m.checkImages();
         driver.quit();
 

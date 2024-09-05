@@ -2,6 +2,7 @@ package Marriage.Bharath;
 
 import Marriage.pdfExcelImg.Convert_Image_To_PDF;
 import Marriage.pdfExcelImg.ExcelToHtml;
+import Marriage.pdfExcelImg.Parameters;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -581,4 +582,15 @@ public class BharathFunctions {
     }
 
 
+    public void mavenParams() throws Exception {
+        Parameters p = new Parameters();
+        p.getParameters();
+        if (p.getJenkins().equalsIgnoreCase("true")) {
+            primeSelected(Boolean.valueOf(p.getPrime()));
+            selectTab(p.getTab());
+        }else {
+            primeSelected(true);
+            selectTab("3");
+        }
+    }
 }
