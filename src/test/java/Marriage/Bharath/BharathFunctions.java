@@ -372,6 +372,9 @@ public class BharathFunctions {
                 pageLoad();
                 pageLoad();
                 pageLoad();
+                pageLoad();
+                pageLoad();
+                pageLoad();
                 System.out.println("clicked account " +startingRecordCount);
                 startingRecordCount++;
                 if(!(allRec >startingRecordCount)){

@@ -2,11 +2,11 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true"
-          name="C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/Marriage/Bharath/MatrimonyTesting.java">
+          name="C:/Users/rajavenkatasaikiran_/IdeaProjects/TestAutomation/src/test/java/Marriage/Bharath/BharathTesting.java">
         <classes>
             <class name="Marriage.Bharath.BharathTesting">
                 <methods>
-                    <include name="dryRun"/>
+                    <include name="bharath"/>
                 </methods>
             </class>
         </classes>
