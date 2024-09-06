@@ -121,7 +121,7 @@ public class BharathFunctions {
     @FindBy(xpath = "//ion-col[starts-with(@class,'matriid-lastlogin')]")
     WebElement activity;
 
-    @FindBy(xpath = "(//div[@class='swiper-wrapper'])[7]/../../following-sibling::ion-col//ion-button")
+    @FindBy(xpath = "(//div[@class='swiper-wrapper'])[6]/../../following-sibling::ion-col//ion-button")
     public WebElement Expolre_matches_yadav_Profile;
 
     public void loginFunction() {
