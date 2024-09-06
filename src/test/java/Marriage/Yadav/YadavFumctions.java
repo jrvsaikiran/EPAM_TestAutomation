@@ -189,7 +189,25 @@ public class YadavFumctions {
                 switchWindow(2);
             }
         } catch (Exception e) {
-            throw new RuntimeException("No phots ara available for view------>>>>>>>");
+            try {
+                pageLoad();
+                pageLoad();
+                if(firstPhoto.isDisplayed()){
+                    clickProperty(firstPhoto);
+                    switchWindow(2);
+                }
+            }catch (Exception e2){
+                try {
+                    pageLoad();
+                    if(firstPhoto.isDisplayed()){
+                        clickProperty(firstPhoto);
+                        switchWindow(2);
+                    }
+                }catch (Exception e3){
+                    throw new RuntimeException("No phots ara available for view------>>>>>>>");
+                }
+            }
+
         }
 
     }
