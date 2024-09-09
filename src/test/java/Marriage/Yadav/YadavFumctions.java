@@ -85,6 +85,9 @@ public class YadavFumctions {
     @FindBy(xpath = "//div[@id='prime_div']//span[@id='prime']")
     WebElement prime_btn;
 
+    @FindBy(xpath = "//div[@id='SurveyPopupClose']")
+    WebElement cancleSurvey;
+
     public void loginFunction() throws Exception {
         pageLoad();
         send(username, "9440741024");
@@ -215,6 +218,14 @@ public class YadavFumctions {
     private static int iterations = 1;
 
     public void pageIterations() throws Exception {
+        try {
+            if(cancleSurvey.isDisplayed()){
+                clickProperty(cancleSurvey);
+            }
+        }catch (Exception ee){
+            pageLoad();
+            pageLoad();
+        }
         pageLoad();
         pageLoad();
         nextIteration(1);
