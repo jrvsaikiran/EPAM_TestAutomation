@@ -369,9 +369,7 @@ public class BharathFunctions {
                 readDataToExcel();  //excel reader
                 pageLoad();
                 clickProperty(nextButton2);
-                pageLoad();
-                pageLoad();
-                pageLoad();
+                Thread.sleep(2000);
                 pageLoad();
                 pageLoad();
                 pageLoad();

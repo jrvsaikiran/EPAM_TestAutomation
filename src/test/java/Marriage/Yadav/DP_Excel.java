@@ -26,7 +26,7 @@ public class DP_Excel {
         try {
             if (wb == null) {
                 wb = new XSSFWorkbook();
-                sheet = wb.createSheet("yadav");
+                sheet = wb.createSheet(par.getTestngXml());
             }
             //create headers
             XSSFRow h1 = sheet.createRow(0);
