@@ -308,7 +308,7 @@ public class YadavFumctions {
                 moveToEle(nextBtn);
                 getDataToExcel(i);
                 clickProperty(nextBtn);
-                Thread.sleep(1500);
+                Thread.sleep(2000);
                 pageLoad();
                 pageLoad();
             }
@@ -354,9 +354,18 @@ public class YadavFumctions {
 
             String profileNumber = profileId(i);
 
+            WebElement cast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+i+"]/..//ul/li)[3]/div/span[starts-with(@class,'input-data')]"));
+            String castTxt = getEleTest(cast);
+
+
+            WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+i+"]/..//ul/li)[2]/div/span[starts-with(@class,'input-data')]"));
+            String subCastTxt = getEleTest(subCast);
+
+
+            String finalCast = castTxt +"<<>>"+ subCastTxt;
 
             List<CustomerData> list = new ArrayList<>();
-            list.add(new CustomerData(nameTxt,ageTxt,educationTxt,locationTxt,activityTxt,profileNumber));
+            list.add(new CustomerData(nameTxt,ageTxt,educationTxt,locationTxt,activityTxt,profileNumber,finalCast));
 
             LinkedHashMap<Integer,List<CustomerData>> map = new LinkedHashMap<>();
             map.put(i,list);

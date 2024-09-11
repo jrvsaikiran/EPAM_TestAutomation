@@ -42,6 +42,7 @@ public class Yadav_DataProvider {
             h1.createCell(4).setCellValue("Activity");
             h1.createCell(5).setCellValue("Profile Number");
             h1.createCell(6).setCellValue("Hyper Links pdfs");
+            h1.createCell(7).setCellValue("Cast");
 
             List<CustomerData> customerData = map.get(i);
              data = customerData.get(0);
@@ -55,6 +56,7 @@ public class Yadav_DataProvider {
             row.createCell(3).setCellValue(data.getLocation());
             row.createCell(4).setCellValue(data.getActivity());
             row.createCell(5).setCellValue(data.getProfileNumber());
+            row.createCell(7).setCellValue(data.getFinalCast());
 
             hyperLinkCreation(row,imageName);
         } catch (Exception e) {
