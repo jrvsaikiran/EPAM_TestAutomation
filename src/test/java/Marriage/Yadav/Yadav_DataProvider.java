@@ -1,7 +1,11 @@
 package Marriage.Yadav;
 
 import Marriage.Bharath.FolderPaths;
+import Marriage.pdfExcelImg.Convert_Image_To_PDF;
 import Marriage.pdfExcelImg.Parameters;
+import org.apache.poi.common.usermodel.HyperlinkType;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -20,9 +24,10 @@ public class Yadav_DataProvider {
     private static int rowCount = 1;
     private static File file;
     private static String excelReport;
+    private static CustomerData data;
 
 
-    public void readData(LinkedHashMap<Integer, List<CustomerData>> map, int i, Parameters par) {
+    public void readData(LinkedHashMap<Integer, List<CustomerData>> map, int i, Parameters par, String imageName) {
         try {
             if (wb == null) {
                 wb = new XSSFWorkbook();
@@ -36,9 +41,10 @@ public class Yadav_DataProvider {
             h1.createCell(3).setCellValue("Location");
             h1.createCell(4).setCellValue("Activity");
             h1.createCell(5).setCellValue("Profile Number");
+            h1.createCell(6).setCellValue("Hyper Links pdfs");
 
             List<CustomerData> customerData = map.get(i);
-            CustomerData data = customerData.get(0);
+             data = customerData.get(0);
 
             //create row data
             XSSFRow row = sheet.createRow(rowCount);
@@ -50,6 +56,7 @@ public class Yadav_DataProvider {
             row.createCell(4).setCellValue(data.getActivity());
             row.createCell(5).setCellValue(data.getProfileNumber());
 
+            hyperLinkCreation(row,imageName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -79,6 +86,27 @@ public class Yadav_DataProvider {
             throw new RuntimeException("IOException----->>>" + e);
         }
 
+        System.out.println("Excel Written success");
 
+    }
+    private static void hyperLinkCreation(XSSFRow row, String imageName) {
+        XSSFCell cell = row.createCell(6);
+        cell.setCellValue(data.getName());
+        CreationHelper createHelper = wb.getCreationHelper();
+        Hyperlink link = createHelper.createHyperlink(HyperlinkType.URL);
+        String pdfPath = Convert_Image_To_PDF.pdfPath;
+//        System.out.println(pdfPath);
+        link.setAddress(pdfPath);  // Path to the PDF file
+        cell.setHyperlink(link);
+        cell.setCellStyle(createHyperlinkStyle(wb));
+    }
+
+    private static CellStyle createHyperlinkStyle(Workbook workbook) {
+        Font font = workbook.createFont();
+        font.setUnderline(Font.U_SINGLE);
+        font.setColor(IndexedColors.BLUE.getIndex());
+        CellStyle style = workbook.createCellStyle();
+        style.setFont(font);
+        return style;
     }
 }

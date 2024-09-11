@@ -366,7 +366,7 @@ public class YadavFumctions {
 //            System.out.println(customerData1);
 //            System.out.println(customerData1.getAge());
             Yadav_DataProvider dp = new Yadav_DataProvider();
-            dp.readData(map,i,par);
+            dp.readData(map,i,par,destinationOfImg_png);
 
         } catch (Exception e) {
             getDataToExcel(i);
