@@ -94,7 +94,7 @@ public class YadavFumctions {
         send(password, "9440741024");
         clickProperty(login_btn);
         pageLoad();
-        clickProperty(account_btn);
+//        clickProperty(account_btn);
         pageLoad();
         try {
             clickProperty(skip_btn);
@@ -411,22 +411,23 @@ public class YadavFumctions {
 
 
     private void clickProperty(WebElement element) {
-
         try {
-
             FluentWait<WebDriver> fluentWait = new FluentWait<>(driver);
             fluentWait.ignoring(WebDriverException.class)
                     .pollingEvery(Duration.ofSeconds(1))
                     .withTimeout(Duration.ofSeconds(9))
                     .until(ExpectedConditions.elementToBeClickable(element)).click();
-
         } catch (WebDriverException e) {
-            clickProperty(element);
-//            refreshProperty();
-//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//            wait.until(ExpectedConditions.elementToBeClickable(element)).click();
-        } catch (Throwable e) {
-            element.click();
+            try {
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+                wait.until(ExpectedConditions.elementToBeClickable(element)).click();
+            } catch (Exception ex) {
+                FluentWait<WebDriver> fluentWait = new FluentWait<>(driver);
+                fluentWait.ignoring(WebDriverException.class)
+                        .pollingEvery(Duration.ofSeconds(2))
+                        .withTimeout(Duration.ofSeconds(9))
+                        .until(ExpectedConditions.elementToBeClickable(element)).click();
+            }
         }
     }
 
