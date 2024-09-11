@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.List;
 
 
-public class Dp_data {
+public class Bharath_DataProvider {
 
     private static XSSFWorkbook wb;
     private static XSSFSheet sheet;

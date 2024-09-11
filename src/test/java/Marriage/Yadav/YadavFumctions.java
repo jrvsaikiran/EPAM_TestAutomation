@@ -1,6 +1,9 @@
 package Marriage.Yadav;
 
+import Marriage.Bharath.FolderPaths;
+import Marriage.pdfExcelImg.Convert_Image_To_PDF;
 import Marriage.pdfExcelImg.Parameters;
+import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.json.JsonException;
@@ -10,7 +13,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -346,6 +353,7 @@ public class YadavFumctions {
             String activityTxt = getEleTest(activity);
 
             String profileNumber = profileId(i);
+            screenShots(nameTxt);
 
             List<CustomerData> list = new ArrayList<>();
             list.add(new CustomerData(nameTxt,ageTxt,educationTxt,locationTxt,activityTxt,profileNumber));
@@ -357,12 +365,53 @@ public class YadavFumctions {
 //            CustomerData customerData1 = customerData.get(0);
 //            System.out.println(customerData1);
 //            System.out.println(customerData1.getAge());
-            DP_Excel dp = new DP_Excel();
+            Yadav_DataProvider dp = new Yadav_DataProvider();
             dp.readData(map,i,par);
 
         } catch (Exception e) {
             getDataToExcel(i);
         }
+    }
+    private String destinationOfImg_png;
+    private String name_date_ofImg;
+    private void screenShots(String nameTxt) {
+        String dtTim;
+        try {
+            dtTim = getCurrentTimeDate();
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        try {
+            String screenshotFolder = FolderPaths.SCREENSHOTS;
+            File destination = new File(screenshotFolder+ nameTxt +dtTim+".png");
+            destinationOfImg_png = String.valueOf(destination);
+            name_date_ofImg = nameTxt.replace(" ","")+dtTim.replace("-","");
+            FileUtils.copyFile(source,destination);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            Convert_Image_To_PDF pdf = new Convert_Image_To_PDF();
+            pdf.createPdfs(destinationOfImg_png, name_date_ofImg);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private static String getCurrentTimeDate() {
+        LocalDate date = LocalDate.now();
+        String s1 = String.valueOf(date);
+
+        LocalTime time = LocalTime.now();
+        String s = String.valueOf(time);
+        String[] split = s.split("\\.");
+        String s2 = split[0].replace(":", "-");
+
+        String dtTim = s1 + s2;
+        return dtTim;
     }
 
     private String profileId(int i) {

@@ -439,7 +439,7 @@ public class BharathFunctions {
         List<ProfileData> list = new LinkedList<>();
         list.add(new ProfileData(nameTxt,ageTxt,castTxt,educationTxt,locationTxt,activityTxt));
 //        System.out.println(list);
-        Dp_data dp = new Dp_data();
+        Bharath_DataProvider dp = new Bharath_DataProvider();
         dp.readBharathData(list, destinationOfImg_png);
 
     }
@@ -455,7 +455,6 @@ public class BharathFunctions {
             throw new RuntimeException(e);
         }
         File source = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
-//        File source = profilePic.getScreenshotAs(OutputType.FILE);
         try {
             String screenshotFolder = FolderPaths.SCREENSHOTS;
             File destination = new File(screenshotFolder+ nameTxt +dtTim+".png");

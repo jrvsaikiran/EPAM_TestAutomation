@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class DP_Excel {
+public class Yadav_DataProvider {
 
     private static XSSFWorkbook wb;
     private static XSSFSheet sheet;
