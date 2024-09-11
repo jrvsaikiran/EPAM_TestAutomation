@@ -475,7 +475,15 @@ public class YadavFumctions {
                 System.out.println("Clicked Bottom NEXT button:- " + nextBtn_inPages);
             }
         } catch (NoSuchElementException e) {
-            throw new Exception("Next button is not displayed");
+            try {
+                if (bottomNext_btn.isDisplayed()) {
+                    moveToEle(bottomNext_btn);
+                    clickProperty(bottomNext_btn);
+                    System.out.println("Clicked Bottom NEXT button:- " + nextBtn_inPages);
+                }
+            } catch (Exception ex) {
+                throw new Exception("Next button is not displayed");
+            }
         } catch (Exception e) {
             handleBottomNextBtn();
         }
