@@ -90,7 +90,7 @@ public class YadavFumctions {
 
     public void loginFunction() throws Exception {
         pageLoad();
-        send(username, "9440741024");
+        send(username, "YDV972623");
         send(password, "9440741024");
         clickProperty(login_btn);
         pageLoad();
