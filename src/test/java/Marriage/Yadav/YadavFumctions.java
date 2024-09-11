@@ -292,7 +292,6 @@ public class YadavFumctions {
     }
 
     private void loop(int i) throws Exception {
-        Actions actions = new Actions(driver);
         WebElement nextBtn = null;
         pageLoad();
         pageLoad();
@@ -309,6 +308,7 @@ public class YadavFumctions {
                 moveToEle(nextBtn);
                 getDataToExcel(i);
                 clickProperty(nextBtn);
+                Thread.sleep(1500);
                 pageLoad();
                 pageLoad();
             }
@@ -353,7 +353,7 @@ public class YadavFumctions {
             String activityTxt = getEleTest(activity);
 
             String profileNumber = profileId(i);
-            screenShots(nameTxt);
+
 
             List<CustomerData> list = new ArrayList<>();
             list.add(new CustomerData(nameTxt,ageTxt,educationTxt,locationTxt,activityTxt,profileNumber));
@@ -365,6 +365,7 @@ public class YadavFumctions {
 //            CustomerData customerData1 = customerData.get(0);
 //            System.out.println(customerData1);
 //            System.out.println(customerData1.getAge());
+            screenShots(nameTxt); //take screenshot
             Yadav_DataProvider dp = new Yadav_DataProvider();
             dp.readData(map,i,par,destinationOfImg_png);
 
