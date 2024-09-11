@@ -354,15 +354,21 @@ public class YadavFumctions {
 
             String profileNumber = profileId(i);
 
-            WebElement cast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+i+"]/..//ul/li)[3]/div/span[starts-with(@class,'input-data')]"));
-            String castTxt = getEleTest(cast);
+            String finalCast ;
 
+            if(par.getTestngXml().equalsIgnoreCase("mixed.xml")){
+                WebElement cast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+i+"]/..//ul/li)[3]/div/span[starts-with(@class,'input-data')]"));
+                String castTxt = getEleTest(cast);
 
-            WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+i+"]/..//ul/li)[2]/div/span[starts-with(@class,'input-data')]"));
-            String subCastTxt = getEleTest(subCast);
+                WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+i+"]/..//ul/li)[2]/div/span[starts-with(@class,'input-data')]"));
+                String subCastTxt = getEleTest(subCast);
 
+                 finalCast = castTxt +"<<>>"+ subCastTxt;
+            }else {
+                WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+i+"]/..//ul/li)[1]/div/span[starts-with(@class,'input-data')]"));
+                finalCast = getEleTest(subCast);
+            }
 
-            String finalCast = castTxt +"<<>>"+ subCastTxt;
 
             List<CustomerData> list = new ArrayList<>();
             list.add(new CustomerData(nameTxt,ageTxt,educationTxt,locationTxt,activityTxt,profileNumber,finalCast));
@@ -442,7 +448,15 @@ public class YadavFumctions {
         try {
              text = ele.getText();
         } catch (Exception e) {
-            getEleTest(ele);
+           try {
+               text = ele.getText();
+           }catch (Exception e1) {
+               try {
+                   text = ele.getText();
+               } catch (Exception ex) {
+                   text = ele.getText();
+               }
+           }
         }
         return text;
     }
