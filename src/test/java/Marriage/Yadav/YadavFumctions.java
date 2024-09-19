@@ -50,6 +50,9 @@ public class YadavFumctions {
     @FindBy(xpath = "(//div[@id='hide_no_result'])[1]")
     WebElement firstPhoto;
 
+    @FindBy(xpath = "//div[starts-with(text(),'Currently there are')]")
+    WebElement validate_firstPhoto;
+
     @FindBy(xpath = "//button[@id='nxtlink']")
     WebElement bottomPageNext_btn;
 
@@ -193,33 +196,19 @@ public class YadavFumctions {
 
     public void firstPicClick() throws Exception {
         pageLoad();
-        try {
-            if(firstPhoto.isDisplayed()){
-                clickProperty(firstPhoto);
-                switchWindow(2);
-            }
-        } catch (Exception e) {
+        boolean displayed = isBottonDisplayed(validate_firstPhoto);
+        if (displayed) {
+            throw new Exception("No photos are displayed in the page--->>>>");
+        } else {
             try {
-                pageLoad();
-                pageLoad();
                 if(firstPhoto.isDisplayed()){
                     clickProperty(firstPhoto);
                     switchWindow(2);
                 }
-            }catch (Exception e2){
-                try {
-                    pageLoad();
-                    if(firstPhoto.isDisplayed()){
-                        clickProperty(firstPhoto);
-                        switchWindow(2);
-                    }
-                }catch (Exception e3){
-                    throw new RuntimeException("No phots ara available for view------>>>>>>>");
-                }
+            } catch (Exception e) {
+                firstPicClick();
             }
-
         }
-
     }
 
     private static int iterations = 1;
@@ -259,7 +248,7 @@ public class YadavFumctions {
     }
     private void bottomNextButton() {
         try {
-            if (isBottomPageNextBtnDisplayed()) {
+            if (isBottonDisplayed(bottomPageNext_btn)) {
                 clickProperty(bottomPageNext_btn);
                 pageLoad();
                 System.out.println(" clicked BOTTOM NEXT button:- " + iterations);
@@ -278,15 +267,16 @@ public class YadavFumctions {
             loop(i);
             System.out.println("click count:-" + j++);
             i++;
-        } while (!isBottomPageNextBtnDisplayed());
+        } while (!isBottonDisplayed(bottomPageNext_btn));
     }
 
-    private boolean isBottomPageNextBtnDisplayed() {
+    private boolean isBottonDisplayed(WebElement ele) {
         boolean displayed = false;
         try {
-            displayed = bottomPageNext_btn.isDisplayed();
+            displayed = ele.isDisplayed();
         } catch (Exception e) {
-            isBottomPageNextBtnDisplayed();
+            return displayed;
+//            isBottonDisplayed(ele);
         }
         return displayed;
     }
