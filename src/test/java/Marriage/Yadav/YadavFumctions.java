@@ -357,7 +357,7 @@ public class YadavFumctions {
             dp.readData(map,i,par,destinationOfImg_png);
 
             Yadav_dataBase sql = new Yadav_dataBase();
-            sql.insert(map,i);
+            sql.insert(map,i,par);
 
         } catch (Exception e) {
             throw new Exception("--------->>>>>>>>>>"+e.getLocalizedMessage());

@@ -1,5 +1,7 @@
 package Marriage.Yadav;
 
+import Marriage.pdfExcelImg.Parameters;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,7 +17,7 @@ public class Yadav_dataBase {
     private static int record = 1;
     private String name;
 
-    public void insert(LinkedHashMap<Integer, List<CustomerData>> map, int i) {
+    public void insert(LinkedHashMap<Integer, List<CustomerData>> map, int i, Parameters par) {
 
         List<CustomerData> customerData = map.get(i);
         data = customerData.get(0);
@@ -26,7 +28,7 @@ public class Yadav_dataBase {
         String location = data.getLocation().replaceAll("[^a-zA-Z0-9]+", "").trim();
         String activity = data.getActivity().replaceAll("[^a-zA-Z0-9]+", "").trim();
         String profileNumber = data.getProfileNumber().replaceAll("[^a-zA-Z0-9]+", "").trim();
-        String cast = data.getFinalCast().replaceAll("[^a-zA-Z0-9]+", "").trim();
+        String cast = data.getFinalCast().trim();
         String date = timeMethod();
         try {
             if (con == null) {
@@ -41,32 +43,67 @@ public class Yadav_dataBase {
         try {
             Statement statement = con.createStatement();
 
-            try {
-                String insert = "INSERT INTO" + " `jrvdb`.`yadavprofiles`" +
-                        "(`name`, `age`, `education`, `location`, `activity`, `profilenumber`, `cast`,`date`)" +
-                        " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
-                        "'" + education + "', " + "'" + location + "', " +
-                        "'" + activity + "', " + "'" + profileNumber + "', " + "'" + cast + "', " + "'" + date + "'); ";
+            if(par.getTestngXml().equalsIgnoreCase("yadav.xml")){
+                yadavDataBaseInsert(age, education, location, activity, profileNumber, cast, date, statement);
 
-                statement.executeUpdate(insert);
-
-            } catch (Exception e) {
-                name = name + date;
-                String insert2 = "INSERT INTO" + " `jrvdb`.`yadavprofiles`" +
-                        "(`name`, `age`, `education`, `location`, `activity`, `profilenumber`, `cast`,`date`)" +
-                        " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
-                        "'" + education + "', " + "'" + location + "', " +
-                        "'" + activity + "', " + "'" + profileNumber + "', " + "'" + cast + "', " + "'" + date + "'); ";
-
-                statement.executeUpdate(insert2);
+            } else if (par.getTestngXml().equalsIgnoreCase("mixed.xml")) {
+                mixedDataBaseInsert(age, education, location, activity, profileNumber, cast, date, statement);
+            }else {
+                throw new RuntimeException("Unsupported testng xml"+par.getTestngXml());
             }
-            System.out.println("Successfully Inserted " + record + " records");
-            record++;
 
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void yadavDataBaseInsert(String age, String education, String location, String activity, String profileNumber, String cast, String date, Statement statement) throws SQLException {
+        try {
+            String insert = "INSERT INTO" + " `jrvdb`.`yadavprofiles`" +
+                    "(`name`, `age`, `education`, `location`, `activity`, `profilenumber`, `cast`,`date`)" +
+                    " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
+                    "'" + education + "', " + "'" + location + "', " +
+                    "'" + activity + "', " + "'" + profileNumber + "', " + "'" + cast + "', " + "'" + date + "'); ";
+
+            statement.executeUpdate(insert);
+
+        } catch (Exception e) {
+            name = name + date;
+            String insert2 = "INSERT INTO" + " `jrvdb`.`yadavprofiles`" +
+                    "(`name`, `age`, `education`, `location`, `activity`, `profilenumber`, `cast`,`date`)" +
+                    " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
+                    "'" + education + "', " + "'" + location + "', " +
+                    "'" + activity + "', " + "'" + profileNumber + "', " + "'" + cast + "', " + "'" + date + "'); ";
+
+            statement.executeUpdate(insert2);
+        }
+        System.out.println("Successfully Inserted " + record + " records");
+        record++;
+    }
+
+    private void mixedDataBaseInsert(String age, String education, String location, String activity, String profileNumber, String cast, String date, Statement statement) throws SQLException {
+        try {
+            String insert = "INSERT INTO" + " `jrvdb`.`mixedprofiles`" +
+                    "(`name`, `age`, `education`, `location`, `activity`, `profilenumber`, `cast`,`date`)" +
+                    " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
+                    "'" + education + "', " + "'" + location + "', " +
+                    "'" + activity + "', " + "'" + profileNumber + "', " + "'" + cast + "', " + "'" + date + "'); ";
+
+            statement.executeUpdate(insert);
+
+        } catch (Exception e) {
+            name = name + date;
+            String insert2 = "INSERT INTO" + " `jrvdb`.`mixedprofiles`" +
+                    "(`name`, `age`, `education`, `location`, `activity`, `profilenumber`, `cast`,`date`)" +
+                    " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
+                    "'" + education + "', " + "'" + location + "', " +
+                    "'" + activity + "', " + "'" + profileNumber + "', " + "'" + cast + "', " + "'" + date + "'); ";
+
+            statement.executeUpdate(insert2);
+        }
+        System.out.println("Successfully Inserted " + record + " records");
+        record++;
     }
 
     private String timeMethod() {
