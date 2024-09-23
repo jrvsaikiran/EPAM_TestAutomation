@@ -1,13 +1,11 @@
-package Marriage.pdfExcelImg;
-
-import Marriage.Bharath.ProfileData;
+package Marriage.Bharath;
 
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-public class BaseMysql {
+public class Bharath_dataBase {
 
     private static Connection con;
     private static int i=1;
@@ -15,7 +13,7 @@ public class BaseMysql {
 
     public  void insert(List<ProfileData> list) {
         ProfileData profileData = list.get(0);
-         name = profileData.getName().trim().replaceAll("[^a-zA-Z0-9]+", "").trim();
+         name = profileData.getName().trim();
         String age = profileData.getAge().trim().replaceAll("[^a-zA-Z0-9]+","").trim();
         String cast = profileData.getCast().trim().replaceAll("[^a-zA-Z0-9]+","").trim();
         String education = profileData.getEducation().trim().replaceAll("[^a-zA-Z0-9]+","").trim();

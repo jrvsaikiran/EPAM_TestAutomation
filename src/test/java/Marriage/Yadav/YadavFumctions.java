@@ -324,7 +324,7 @@ public class YadavFumctions {
 
     }
 
-    private void getDataToExcel(int i) {
+    private void getDataToExcel(int i) throws Exception {
 
         try {
             WebElement name = driver.findElement(By.xpath("(//span[starts-with(@id,'dispname')])["+i+"]"));
@@ -344,40 +344,49 @@ public class YadavFumctions {
 
             String profileNumber = profileId(i);
 
-            String finalCast ;
-
-            if(par.getTestngXml().equalsIgnoreCase("mixed.xml")){
-                WebElement cast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+i+"]/..//ul/li)[3]/div/span[starts-with(@class,'input-data')]"));
-                String castTxt = getEleTest(cast);
-
-                WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+i+"]/..//ul/li)[2]/div/span[starts-with(@class,'input-data')]"));
-                String subCastTxt = getEleTest(subCast);
-
-                 finalCast = castTxt +"<<>>"+ subCastTxt;
-            }else {
-                WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+i+"]/..//ul/li)[1]/div/span[starts-with(@class,'input-data')]"));
-                finalCast = getEleTest(subCast);
-            }
-
+            String finalCast = getcastType(i);
 
             List<CustomerData> list = new ArrayList<>();
             list.add(new CustomerData(nameTxt,ageTxt,educationTxt,locationTxt,activityTxt,profileNumber,finalCast));
 
             LinkedHashMap<Integer,List<CustomerData>> map = new LinkedHashMap<>();
             map.put(i,list);
-//            System.out.println(map);
-//            List<CustomerData> customerData = map.get(i);
-//            CustomerData customerData1 = customerData.get(0);
-//            System.out.println(customerData1);
-//            System.out.println(customerData1.getAge());
             screenShots(nameTxt); //take screenshot
+
             Yadav_DataProvider dp = new Yadav_DataProvider();
             dp.readData(map,i,par,destinationOfImg_png);
 
+            Yadav_dataBase sql = new Yadav_dataBase();
+            sql.insert(map,i);
+
         } catch (Exception e) {
-            getDataToExcel(i);
+            throw new Exception("--------->>>>>>>>>>"+e.getLocalizedMessage());
         }
     }
+
+    private String getcastType(int i) {
+        String finalCast ="";
+
+        try {
+            if(par.getTestngXml().equalsIgnoreCase("mixed.xml")){
+                WebElement cast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[3]/div/span[starts-with(@class,'input-data')]"));
+                String castTxt = getEleTest(cast);
+
+                WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[2]/div/span[starts-with(@class,'input-data')]"));
+                String subCastTxt = getEleTest(subCast);
+
+                 finalCast = castTxt +"<<>>"+ subCastTxt;
+            }else {
+                WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[1]/div/span[starts-with(@class,'input-data')]"));
+                finalCast = getEleTest(subCast);
+            }
+        } catch (Exception e) {
+            pageLoad();
+            return finalCast;
+        }
+        return finalCast;
+    }
+
     private String destinationOfImg_png;
     private String name_date_ofImg;
     private void screenShots(String nameTxt) {
