@@ -369,20 +369,34 @@ public class YadavFumctions {
 
         try {
             if(par.getTestngXml().equalsIgnoreCase("mixed.xml")){
-                WebElement cast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[3]/div/span[starts-with(@class,'input-data')]"));
-                String castTxt = getEleTest(cast);
+                String castTxt = "";
+                try {
+                    WebElement cast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[3]/div/span[starts-with(@class,'input-data')]"));
+                    castTxt = getEleTest(cast);
+                } catch (Exception e) {
+                    return castTxt;
+                }
 
-                WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[2]/div/span[starts-with(@class,'input-data')]"));
-                String subCastTxt = getEleTest(subCast);
+                String subCastTxt = "";
+                try {
+                    WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[2]/div/span[starts-with(@class,'input-data')]"));
+                    subCastTxt = getEleTest(subCast);
+                } catch (Exception e) {
+                    return subCastTxt;
+                }
 
-                 finalCast = castTxt +"<<>>"+ subCastTxt;
+                finalCast = castTxt +"<<>>"+ subCastTxt;
             }else {
-                WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[1]/div/span[starts-with(@class,'input-data')]"));
-                finalCast = getEleTest(subCast);
+                try {
+                    WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[1]/div/span[starts-with(@class,'input-data')]"));
+                    finalCast = getEleTest(subCast);
+                } catch (Exception e) {
+                    return finalCast;
+                }
             }
         } catch (Exception e) {
             pageLoad();
-            return finalCast;
+
         }
         return finalCast;
     }
