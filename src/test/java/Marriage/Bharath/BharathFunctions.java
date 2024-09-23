@@ -1,5 +1,6 @@
 package Marriage.Bharath;
 
+import Marriage.pdfExcelImg.BaseMysql;
 import Marriage.pdfExcelImg.Convert_Image_To_PDF;
 import Marriage.pdfExcelImg.ExcelToHtml;
 import Marriage.pdfExcelImg.Parameters;
@@ -441,6 +442,8 @@ public class BharathFunctions {
 //        System.out.println(list);
         Bharath_DataProvider dp = new Bharath_DataProvider();
         dp.readBharathData(list, destinationOfImg_png);
+        BaseMysql sql = new BaseMysql();
+        sql.insert(list);
 
     }
 

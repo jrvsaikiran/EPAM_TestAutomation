@@ -13,11 +13,6 @@ public class BaseMysql {
     private static int i=1;
     private String name;
 
-//    public static void main(String[] arg) {
-//        mysqlDb();
-//        insert();
-//    }
-
     public  void insert(List<ProfileData> list) {
         ProfileData profileData = list.get(0);
          name = profileData.getName().trim().replaceAll("[^a-zA-Z0-9]+", "").trim();
@@ -39,37 +34,30 @@ public class BaseMysql {
         }
         try {
             Statement statement = con.createStatement();
-            //            String insert = """
-//                  INSERT INTO `jrvdb`.`bharathprofiles` (`name`, `age`, `cast`, `education`, `location`, `activity`)
-//                VALUES ('raja1', '89', 'yad', 'mth', 'ggj', 'yaa');
-//                  \s""";
-
-            String insert = "INSERT INTO" + " `jrvdb`.`bharathprofiles`" +
-                    "(`name`, `age`, `cast`, `education`, `location`, `activity`, `date`)" +
-                    " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
-                    "'" +cast + "', " + "'" + education+ "', " +
-                    "'" + location + "', " + "'" + activity + "', " + "'" + date + "'); ";
-            String insert1 = "INSERT INTO" + " `jrvdb`.`bharathprofiles`" +
-                    "(`name`)" +
-                    " VALUES " + "(" + "'" + profileData.getName().trim() +"'"+");";
 
             try {
-                int record = statement.executeUpdate(insert);
-                System.out.println("Successfully Inserted " + record + " records");
+                String insert = "INSERT INTO" + " `jrvdb`.`bharathprofiles`" +
+                        "(`name`, `age`, `cast`, `education`, `location`, `activity`, `date`)" +
+                        " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
+                        "'" +cast + "', " + "'" + education+ "', " +
+                        "'" + location + "', " + "'" + activity + "', " + "'" + date + "'); ";
+
+                 statement.executeUpdate(insert);
+
             } catch (Exception e) {
 
-                name = name + i;
+                name = name + date;
                 String insert2 = "INSERT INTO" + " `jrvdb`.`bharathprofiles`" +
                         "(`name`, `age`, `cast`, `education`, `location`, `activity`)" +
                         " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
                         "'" +cast + "', " + "'" + education+ "', " +
                         "'" + location + "', " + "'" + activity + "', " + "'" + date + "'); ";
-                int record = statement.executeUpdate(insert2);
-                System.out.println("Successfully Inserted " + record + " records");
+
+                statement.executeUpdate(insert2);
+            }finally {
+                System.out.println("Successfully Inserted " + i + " records");
                 i++;
-
             }
-
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
