@@ -421,7 +421,7 @@ public class BharathFunctions {
         }
 
         ExcelToHtml html = new ExcelToHtml();
-        html.htmlReport();      //generate html report
+//        html.htmlReport();      //generate html report
         System.out.println("Completed the task----->");
     }
 
@@ -434,15 +434,16 @@ public class BharathFunctions {
         String locationTxt = getEleText(location);
         String activityTxt = getEleText(activity);
 
-        screenShots(nameTxt);
+//        screenShots(nameTxt);     //screenshots
 
         List<ProfileData> list = new LinkedList<>();
         list.add(new ProfileData(nameTxt,ageTxt,castTxt,educationTxt,locationTxt,activityTxt));
 //        System.out.println(list);
         Bharath_DataProvider dp = new Bharath_DataProvider();
-        dp.readBharathData(list, destinationOfImg_png);
+//        dp.readBharathData(list, destinationOfImg_png);   //excel write
+
         Bharath_dataBase sql = new Bharath_dataBase();
-        sql.insert(list);
+        sql.insert(list);       //data base sql
 
     }
 

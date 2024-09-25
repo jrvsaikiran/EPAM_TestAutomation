@@ -315,11 +315,11 @@ public class YadavFumctions {
                 firstPicClick();
                 pageIterations();
             }
-            loop(i);
+//            loop(i);
         } catch (Error ee) {
-            loop(i);
+            throw new Exception("ERROR--->>>>>>");
         } catch (Exception e3) {
-            loop(i);
+            throw new Exception("Exception in loop--->>>>> " + e3);
         }
 
     }
@@ -351,13 +351,13 @@ public class YadavFumctions {
 
             LinkedHashMap<Integer,List<CustomerData>> map = new LinkedHashMap<>();
             map.put(i,list);
-            screenShots(nameTxt); //take screenshot
+//            screenShots(nameTxt); //take screenshot
 
             Yadav_DataProvider dp = new Yadav_DataProvider();
-            dp.readData(map,i,par,destinationOfImg_png);
+//            dp.readData(map,i,par,destinationOfImg_png);      //excel write
 
             Yadav_dataBase sql = new Yadav_dataBase();
-            sql.insert(map,i,par);
+            sql.insert(map,i,par);      //data base sql
 
         } catch (Exception e) {
             throw new Exception("--------->>>>>>>>>>"+e.getLocalizedMessage());
@@ -457,9 +457,9 @@ public class YadavFumctions {
         return eleTest;
     }
 
-    private String text;
-    private String getEleTest(WebElement ele){
 
+    private String getEleTest(WebElement ele){
+         String text;
         try {
              text = ele.getText();
         } catch (Exception e) {
@@ -469,7 +469,7 @@ public class YadavFumctions {
                try {
                    text = ele.getText();
                } catch (Exception ex) {
-                   text = ele.getText();
+                   text = "null";
                }
            }
         }

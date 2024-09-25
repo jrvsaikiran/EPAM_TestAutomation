@@ -24,7 +24,14 @@ public class Yadav_dataBase {
 
         name = data.getName().trim();
         String age = data.getAge().trim();
-        String education = data.getEducation().trim();
+
+        String education;
+        if (data.getEducation().contains("'") || data.getEducation().contains("\"")) {
+            education = data.getEducation().replaceAll("['|\"]","").trim();
+        }else {
+            education = data.getEducation().trim();
+        }
+
         String location = data.getLocation().trim();
         String activity = data.getActivity().trim();
         String profileNumber = data.getProfileNumber().trim();
