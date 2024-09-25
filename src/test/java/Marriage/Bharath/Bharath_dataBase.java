@@ -10,15 +10,23 @@ public class Bharath_dataBase {
     private static Connection con;
     private static int i=1;
     private String name;
+    private String age;
 
     public  void insert(List<ProfileData> list) {
         ProfileData profileData = list.get(0);
          name = profileData.getName().trim();
-        String age = profileData.getAge().trim().replaceAll("[^a-zA-Z0-9]+","").trim();
-        String cast = profileData.getCast().trim().replaceAll("[^a-zA-Z0-9]+","").trim();
-        String education = profileData.getEducation().trim().replaceAll("[^a-zA-Z0-9]+","").trim();
-        String location = profileData.getLocation().trim().replaceAll("[^a-zA-Z0-9]+","").trim();
-        String activity = profileData.getActivity().trim().replaceAll("[^a-zA-Z0-9]+","").trim();
+
+         if(profileData.getAge().contains("'")){
+              age = profileData.getAge().replaceAll("[']","ft ").trim();
+         }
+        if(age.contains("\"")){
+            age = age.replaceAll("\"","in");
+        }
+
+        String cast = profileData.getCast().trim();
+        String education = profileData.getEducation().replaceAll("[\\t\\n\\r]+","").trim();
+        String location = profileData.getLocation().trim();
+        String activity = profileData.getActivity().trim();
         String date = timeMethod();
 
         try {

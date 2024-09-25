@@ -133,7 +133,7 @@ public class YadavFumctions {
 
     public void switchToSpecificTab(String str) throws Exception {
         pageLoad();
-        if(System.getProperty("testng.xml").equalsIgnoreCase("yadav.xml")){
+        if(System.getProperty("testng.xml").equalsIgnoreCase("yadav1.xml")){
             if (Integer.parseInt(str) <= 2) {
                 pageLoad();
                 moveToEle(home_tab);
@@ -147,7 +147,7 @@ public class YadavFumctions {
                 moveToEle(matches_tab);
                 pageLoad();
             }
-        } else if (System.getProperty("testng.xml").equalsIgnoreCase("mixed.xml")) {
+        } else if (System.getProperty("testng.xml").equalsIgnoreCase("mixed.xml") || System.getProperty("testng.xml").equalsIgnoreCase("yadav.xml")) {
 
         }
         {
@@ -369,20 +369,22 @@ public class YadavFumctions {
 
         try {
             if(par.getTestngXml().equalsIgnoreCase("mixed.xml")){
-                String castTxt = "";
+                String castTxt;
                 try {
                     WebElement cast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[3]/div/span[starts-with(@class,'input-data')]"));
                     castTxt = getEleTest(cast);
                 } catch (Exception e) {
-                    return castTxt;
+                    pageLoad();
+                    castTxt = "";
                 }
 
-                String subCastTxt = "";
+                String subCastTxt;
                 try {
                     WebElement subCast = driver.findElement(By.xpath("((//div[normalize-space()='Religious Information'])["+ i +"]/..//ul/li)[2]/div/span[starts-with(@class,'input-data')]"));
                     subCastTxt = getEleTest(subCast);
                 } catch (Exception e) {
-                    return subCastTxt;
+                    pageLoad();
+                    subCastTxt = "";
                 }
 
                 finalCast = castTxt +"<<>>"+ subCastTxt;

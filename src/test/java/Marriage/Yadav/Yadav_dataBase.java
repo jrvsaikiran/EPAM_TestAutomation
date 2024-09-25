@@ -23,11 +23,11 @@ public class Yadav_dataBase {
         data = customerData.get(0);
 
         name = data.getName().trim();
-        String age = data.getAge().replaceAll("[^a-zA-Z0-9]+", "").trim();
-        String education = data.getEducation().replaceAll("[^a-zA-Z0-9]+", "").trim();
-        String location = data.getLocation().replaceAll("[^a-zA-Z0-9]+", "").trim();
-        String activity = data.getActivity().replaceAll("[^a-zA-Z0-9]+", "").trim();
-        String profileNumber = data.getProfileNumber().replaceAll("[^a-zA-Z0-9]+", "").trim();
+        String age = data.getAge().trim();
+        String education = data.getEducation().trim();
+        String location = data.getLocation().trim();
+        String activity = data.getActivity().trim();
+        String profileNumber = data.getProfileNumber().trim();
         String cast = data.getFinalCast().trim();
         String date = timeMethod();
         try {
