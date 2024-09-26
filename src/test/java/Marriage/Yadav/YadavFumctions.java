@@ -206,7 +206,17 @@ public class YadavFumctions {
                     switchWindow(2);
                 }
             } catch (Exception e) {
-                firstPicClick();
+                try {
+                    if(firstPhoto.isDisplayed()){
+                        clickProperty(firstPhoto);
+                        switchWindow(2);
+                    }
+                } catch (Exception ex) {
+                    if(firstPhoto.isDisplayed()){
+                        clickProperty(firstPhoto);
+                        switchWindow(2);
+                    }
+                }
             }
         }
     }
