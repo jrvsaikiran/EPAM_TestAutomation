@@ -85,7 +85,7 @@ public class S4_F {
 
         ChromeOptions options = new ChromeOptions();
         options.setBrowserVersion("117");
-//        driver = new ChromeDriver(options);
+        driver = new ChromeDriver(options);
         driver.get("https://www.facebook.com/r.php?locale=en_US");
     }
 
