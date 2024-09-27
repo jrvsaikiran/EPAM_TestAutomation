@@ -16,10 +16,23 @@ public class EXcellReader  {
     @Test
     public void getDataOfExcel(){
         List<LinkedHashMap<String, String>> excel = excel();
+
+        Collections.sort(excel, (o1, o2) -> o2.get("name").compareTo(o1.get("name")));
+
         for (LinkedHashMap<String, String> row : excel) {
             System.out.println(row);
         }
-//        System.out.println(excel.get(0));
+
+        System.out.println("=============================================");
+
+        Collections.sort(excel, (o1, o2) -> o2.get("age").compareTo(o1.get("age")));
+
+        for (LinkedHashMap<String, String> row : excel) {
+            System.out.println(row);
+        }
+
+
+
 
     }
 
