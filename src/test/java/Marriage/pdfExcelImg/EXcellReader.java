@@ -14,12 +14,16 @@ public class EXcellReader  {
 
 
     @Test
-    public void metgh(){
-        List<HashMap<String, String>> excel = excel();
-        System.out.println(excel.get(0));
+    public void getDataOfExcel(){
+        List<LinkedHashMap<String, String>> excel = excel();
+        for (LinkedHashMap<String, String> row : excel) {
+            System.out.println(row);
+        }
+//        System.out.println(excel.get(0));
+
     }
 
-    public List<HashMap<String, String>> excel() {
+    public List<LinkedHashMap<String, String>> excel() {
         try {
             FileInputStream fis = new FileInputStream("src/test/java/Marriage/pdfExcelImg/Book1.xlsx");
             XSSFWorkbook wb = new XSSFWorkbook(fis);
@@ -29,7 +33,7 @@ public class EXcellReader  {
 
             List<String> keys = new ArrayList<>();
             LinkedHashMap<String,String> hashmap;
-            List<HashMap<String, String>> list = new ArrayList<>();
+            List<LinkedHashMap<String, String>> list = new ArrayList<>();
 
             DataFormatter df = new DataFormatter();
             for (int i = 0; i < totalRows; i++) {
