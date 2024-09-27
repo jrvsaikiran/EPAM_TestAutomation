@@ -9,31 +9,45 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Consumer;
 
 public class EXcellReader  {
 
 
     @Test
-    public void getDataOfExcel(){
+    public void sortByKeys_Values(){
         List<LinkedHashMap<String, String>> excel = excel();
+        Consumer<List<LinkedHashMap<String, String>>> function = (e)-> {
+            for (LinkedHashMap<String, String> row : e) {
+                Set<Map.Entry<String, String>> entries = row.entrySet();
+                for (Map.Entry<String, String> entry : entries) {
+                    if(entry.getValue().contains("Software")){
+                        System.out.println(entry.getValue());
+//                        System.out.println(entries);
+                    }
+                }
+            }
+        };
+        function.accept(excel);
 
-        Collections.sort(excel, (o1, o2) -> o2.get("name").compareTo(o1.get("name")));
+    }
 
-        for (LinkedHashMap<String, String> row : excel) {
-            System.out.println(row);
-        }
-
-        System.out.println("=============================================");
-
+    @Test
+    private void sortByAge() {
+        List<LinkedHashMap<String, String>> excel = excel();
         Collections.sort(excel, (o1, o2) -> o2.get("age").compareTo(o1.get("age")));
-
         for (LinkedHashMap<String, String> row : excel) {
             System.out.println(row);
         }
+    }
 
-
-
-
+    @Test
+    private void sortByName() {
+        List<LinkedHashMap<String, String>> excel = excel();
+        Collections.sort(excel, (o1, o2) -> o2.get("name").compareTo(o1.get("name")));
+        for (LinkedHashMap<String, String> row : excel) {
+            System.out.println(row);
+        }
     }
 
     public List<LinkedHashMap<String, String>> excel() {
@@ -72,9 +86,5 @@ public class EXcellReader  {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
     }
-
-
 }
