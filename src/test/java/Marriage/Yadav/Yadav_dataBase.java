@@ -16,26 +16,28 @@ public class Yadav_dataBase {
     private static CustomerData data;
     private static int record = 1;
     private String name;
+    private String insert;
 
     public void insert(LinkedHashMap<Integer, List<CustomerData>> map, int i, Parameters par) {
 
         List<CustomerData> customerData = map.get(i);
         data = customerData.get(0);
 
-        name = data.getName().trim();
-        String age = data.getAge().trim();
+        name = getTrim(data.getName().trim());
+        String age = getTrim(data.getAge().trim());
 
-        String education;
-        if (data.getEducation().contains("'") || data.getEducation().contains("\"")) {
-            education = data.getEducation().replaceAll("['|\"]","").trim();
-        }else {
-            education = data.getEducation().trim();
-        }
+        String education = getTrim(data.getEducation().trim());
+//        String education;
+//        if (data.getEducation().contains("'") || data.getEducation().contains("\"")) {
+//            education = data.getEducation().replaceAll("['|\"]","").trim();
+//        }else {
+//            education = data.getEducation().trim();
+//        }
 
-        String location = data.getLocation().trim();
-        String activity = data.getActivity().trim();
-        String profileNumber = data.getProfileNumber().trim();
-        String cast = data.getFinalCast().trim();
+        String location = getTrim(data.getLocation().trim());
+        String activity = getTrim(data.getActivity().trim());
+        String profileNumber = getTrim(data.getProfileNumber().trim());
+        String cast = getTrim(data.getFinalCast().trim());
         String date = timeMethod();
         try {
             if (con == null) {
@@ -62,10 +64,12 @@ public class Yadav_dataBase {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private void yadavDataBaseInsert(String age, String education, String location, String activity, String profileNumber, String cast, String date, Statement statement) throws SQLException {
+    private void yadavDataBaseInsert(String age, String education, String location, String activity, String profileNumber, String cast, String date, Statement statement) throws Exception {
         try {
             String insert = "INSERT INTO" + " `jrvdb`.`yadavprofiles`" +
                     "(`name`, `age`, `education`, `location`, `activity`, `profilenumber`, `cast`,`date`)" +
@@ -76,22 +80,15 @@ public class Yadav_dataBase {
             statement.executeUpdate(insert);
 
         } catch (Exception e) {
-            name = name + date;
-            String insert2 = "INSERT INTO" + " `jrvdb`.`yadavprofiles`" +
-                    "(`name`, `age`, `education`, `location`, `activity`, `profilenumber`, `cast`,`date`)" +
-                    " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
-                    "'" + education + "', " + "'" + location + "', " +
-                    "'" + activity + "', " + "'" + profileNumber + "', " + "'" + cast + "', " + "'" + date + "'); ";
-
-            statement.executeUpdate(insert2);
+            throw new Exception("unable to insert db query ---->>>>"+insert+"---->>>"+e.getLocalizedMessage());
         }
         System.out.println("Successfully Inserted " + record + " records");
         record++;
     }
 
-    private void mixedDataBaseInsert(String age, String education, String location, String activity, String profileNumber, String cast, String date, Statement statement) throws SQLException {
+    private void mixedDataBaseInsert(String age, String education, String location, String activity, String profileNumber, String cast, String date, Statement statement) throws Exception {
         try {
-            String insert = "INSERT INTO" + " `jrvdb`.`mixedprofiles`" +
+             insert = "INSERT INTO" + " `jrvdb`.`mixedprofiles`" +
                     "(`name`, `age`, `education`, `location`, `activity`, `profilenumber`, `cast`,`date`)" +
                     " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
                     "'" + education + "', " + "'" + location + "', " +
@@ -100,17 +97,24 @@ public class Yadav_dataBase {
             statement.executeUpdate(insert);
 
         } catch (Exception e) {
-            name = name + date;
-            String insert2 = "INSERT INTO" + " `jrvdb`.`mixedprofiles`" +
-                    "(`name`, `age`, `education`, `location`, `activity`, `profilenumber`, `cast`,`date`)" +
-                    " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
-                    "'" + education + "', " + "'" + location + "', " +
-                    "'" + activity + "', " + "'" + profileNumber + "', " + "'" + cast + "', " + "'" + date + "'); ";
-
-            statement.executeUpdate(insert2);
+            throw new Exception("unable to insert db query ---->>>>"+insert+"---->>>"+e.getLocalizedMessage());
         }
         System.out.println("Successfully Inserted " + record + " records");
         record++;
+    }
+
+
+    private  String getTrim(String str) {
+
+        try {
+            if(str.contains("'")) {
+                return str.replaceAll("'","").trim();
+            }else {
+                return str.trim();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private String timeMethod() {
