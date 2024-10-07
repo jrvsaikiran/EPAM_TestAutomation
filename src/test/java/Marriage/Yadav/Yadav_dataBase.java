@@ -25,20 +25,13 @@ public class Yadav_dataBase {
 
         name = getTrim(data.getName().trim());
         String age = getTrim(data.getAge().trim());
-
         String education = getTrim(data.getEducation().trim());
-//        String education;
-//        if (data.getEducation().contains("'") || data.getEducation().contains("\"")) {
-//            education = data.getEducation().replaceAll("['|\"]","").trim();
-//        }else {
-//            education = data.getEducation().trim();
-//        }
-
         String location = getTrim(data.getLocation().trim());
         String activity = getTrim(data.getActivity().trim());
         String profileNumber = getTrim(data.getProfileNumber().trim());
         String cast = getTrim(data.getFinalCast().trim());
         String date = timeMethod();
+
         try {
             if (con == null) {
                 con = DriverManager.getConnection(
@@ -107,8 +100,8 @@ public class Yadav_dataBase {
     private  String getTrim(String str) {
 
         try {
-            if(str.contains("'")) {
-                return str.replaceAll("'","").trim();
+            if(str.contains("'") || str.contains("\"")) {
+                return str.replaceAll("['|\"]","").trim();
             }else {
                 return str.trim();
             }
@@ -119,12 +112,10 @@ public class Yadav_dataBase {
 
     private String timeMethod() {
         LocalDate date = LocalDate.now();
-        String s1 = String.valueOf(date);
 
         LocalTime time = LocalTime.now();
         String s = String.valueOf(time);
         String[] split = s.split("\\.");
-        String s2 = split[0].replace(":", "-");
-        return s1 + " " + s2;
+        return date + " " + split[0];
     }
 }
