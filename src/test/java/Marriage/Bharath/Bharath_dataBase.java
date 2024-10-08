@@ -9,12 +9,12 @@ public class Bharath_dataBase {
 
     private static Connection con;
     private static int i=1;
-    private String name;
     private String age;
+    private String insert;
 
     public  void insert(List<ProfileData> list) {
         ProfileData profileData = list.get(0);
-         name = profileData.getName().trim();
+         String name = profileData.getName().trim();
 
          if(profileData.getAge().contains("'")){
               age = profileData.getAge().replaceAll("[']","ft ").trim();
@@ -42,7 +42,7 @@ public class Bharath_dataBase {
             Statement statement = con.createStatement();
 
             try {
-                String insert = "INSERT INTO" + " `jrvdb`.`bharathprofiles`" +
+                 insert = "INSERT INTO" + " `jrvdb`.`bharathprofiles`" +
                         "(`name`, `age`, `cast`, `education`, `location`, `activity`, `date`)" +
                         " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
                         "'" +cast + "', " + "'" + education+ "', " +
@@ -51,21 +51,11 @@ public class Bharath_dataBase {
                  statement.executeUpdate(insert);
 
             } catch (Exception e) {
-
-                name = name + date;
-                String insert2 = "INSERT INTO" + " `jrvdb`.`bharathprofiles`" +
-                        "(`name`, `age`, `cast`, `education`, `location`, `activity`)" +
-                        " VALUES " + "(" + "'" + name + "', " + "'" + age + "', " +
-                        "'" +cast + "', " + "'" + education+ "', " +
-                        "'" + location + "', " + "'" + activity + "', " + "'" + date + "'); ";
-
-                statement.executeUpdate(insert2);
-            }finally {
+                throw new Exception("unable to insert db query ---->>>>"+insert+"---->>>"+e.getLocalizedMessage());
+            }
                 System.out.println("Successfully Inserted " + i + " records");
                 i++;
-            }
-
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
