@@ -47,6 +47,9 @@ public class YadavFumctions {
     @FindBy(xpath = "//a[starts-with(text(),'Skip')]")
     WebElement skip_btn;
 
+    @FindBy(xpath = "//*[@class='logo-title']")
+    WebElement header;
+
     @FindBy(xpath = "(//div[@id='hide_no_result'])[1]")
     WebElement firstPhoto;
 
@@ -108,6 +111,12 @@ public class YadavFumctions {
         pageLoad();
         try {
             clickProperty(skip_btn);
+            try {
+                clickProperty(header);
+            } catch (Exception e) {
+                clickProperty(header);
+            }
+            refreshProperty();
         } catch (TimeoutException e) {
             switchWindow(1);
         }

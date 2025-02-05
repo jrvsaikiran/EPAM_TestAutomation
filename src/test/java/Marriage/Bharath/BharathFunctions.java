@@ -40,6 +40,9 @@ public class BharathFunctions {
     @FindBy(xpath = "//a[starts-with(text(),'Skip')]")
     WebElement skiptoMyHome;
 
+    @FindBy(xpath = "//div[@class='logobox']//a//img")
+    WebElement head;
+
     @FindBy(xpath = "//ion-button[starts-with(@class,'prime-button')]")
     WebElement primeMatches_btn;
 
@@ -100,7 +103,7 @@ public class BharathFunctions {
     @FindBy(xpath = "//span[normalize-space()='Looking For You']")
     WebElement lookForYou_Tab;
 
-    @FindBy(xpath = "//span[@class='ng-star-inserted']//span[contains(text(),'/')]")
+    @FindBy(xpath = "//span[(text()='All Matches')]//span")
     WebElement recordCount;
 
     @FindBy(xpath = "//ion-col[starts-with(@class,'profile-name')]")
@@ -142,12 +145,26 @@ public class BharathFunctions {
         while (flag);
         clickProperty(login);
         try {
+            Thread.sleep(3000);
+            refreshProperty();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        try {
             if(skiptoMyHome.isDisplayed()){
                 clickProperty(skiptoMyHome);
             }
         } catch (Exception e) {
             pageLoad();
         }
+        try {
+            if(head.isDisplayed()){
+                clickProperty(head);
+            }
+        } catch (Exception e) {
+            pageLoad();
+        }
+
         waitProperty(matches);
     }
 

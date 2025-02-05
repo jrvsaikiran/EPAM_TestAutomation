@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.annotations.Test;
 
 
@@ -13,10 +14,12 @@ public class BharathTesting {
     public void bharath() throws Exception {
 
         WebDriverManager.chromedriver().setup();
-        ChromeOptions chromeOptions = getChromeOptions();
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setBrowserVersion("131.0.6778.205");
         WebDriver driver = new ChromeDriver(chromeOptions);
         driver.manage().window().maximize();
-        driver.get("https://www.bharatmatrimony.com/login/login.php");
+//        driver.get("https://www.bharatmatrimony.com/login/login.php");
+        driver.get("https://www.telugumatrimony.com/login/");
         BharathFunctions m = new BharathFunctions(driver);
         m.loginFunction();
         m.mavenParams();
